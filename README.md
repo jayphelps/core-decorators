@@ -13,6 +13,7 @@ class Parent {
 class Child extends Parent {
   @override
   kickDog() {}
-  // SyntaxError: Foo#kickDog has two parameters but Bar#kickDog has none
+  // SyntaxError: Parent#kickDog has two parameters but Child#kickDog has none
+  //   > Parent#kickDog(first, second)
 }
 ```
