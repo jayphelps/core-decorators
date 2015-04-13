@@ -76,7 +76,7 @@ function checkDescriptors(parent, child, reportor) {
   }
 }
 
-function override(klass, key, descriptor) {
+export function override(klass, key, descriptor) {
   const superKlass = Object.getPrototypeOf(klass);
   const superDescriptor = Object.getOwnPropertyDescriptor(superKlass, key);
   const reportor = new SyntaxErrorReporter(key, superKlass, klass);
