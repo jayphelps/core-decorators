@@ -6,11 +6,11 @@ The idea is these decorators would be used to ensure code sanity, but would be r
 ```js
 import { override } from 'core-decorators';
 
-class Foo {
+class Parent {
   kickDog(first, second) {}
 }
 
-class Bar {
+class Child extends Parent {
   @override
   kickDog() {}
   // SyntaxError: Foo#kickDog has two parameters but Bar#kickDog has none
