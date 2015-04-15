@@ -60,3 +60,24 @@ person.kickDogHarder();
 //     See http://humanesociety.org/issues/abuse_neglect/ for more details.
 //
 ```
+
+### @suppressWarnings
+
+```js
+import { suppressWarnings } from 'core-decorators';
+
+class Person {
+  @deprecated
+  kickDog() {}
+  
+  @suppressWarnings
+  kickDogWithoutWarning() {
+    this.kickDog();
+  }
+}
+
+let person = new Person();
+
+person.kickDogWithoutWarning();
+// no warning is logged
+```
