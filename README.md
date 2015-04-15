@@ -22,6 +22,7 @@ class Child extends Parent {
   @override
   kickDogs() {}
   // SyntaxError: No descriptor matching Child#kickDogs() was found on the prototype chain.
+  //
   //   Did you mean "kickDog"?
 }
 ```
