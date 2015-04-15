@@ -4,7 +4,7 @@ const DEFAULT_MSG = 'This function will be removed in future versions.';
 
 function handleDescriptor(target, key, descriptor, [msg = DEFAULT_MSG, options = {}]) {
   if (typeof descriptor.value !== 'function') {
-    throw new SyntaxError('Only functions can be @deprecated');
+    throw new SyntaxError('Only functions can be marked as deprecated');
   }
   
   const methodSignature = `${target.constructor.name}#${key}`;
@@ -22,6 +22,6 @@ function handleDescriptor(target, key, descriptor, [msg = DEFAULT_MSG, options =
   };
 }
 
-export default function deprecated() {
+export default function deprecate() {
   return decorate(handleDescriptor, arguments);
 }

@@ -1,5 +1,5 @@
 # core-decorators.js
-Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecated, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html).
+Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html).
 
 The idea is these decorators would be used to ensure code sanity, but would be removed in production builds via a Babel plugin.
 
@@ -34,21 +34,21 @@ class Child extends Parent {
 }
 ```
 
-### @deprecated (alias: @deprecate)
+### @deprecate (alias: @deprecated)
 
 Calls `console.warn()` with a deprecation message. Provide a custom message to override the default one. You can also provide an options hash with a `url`, for further reading.
 
 ```js
-import { deprecated } from 'core-decorators';
+import { deprecate } from 'core-decorators';
 
 class Person {
-  @deprecated
+  @deprecate
   kickDog() {}
 
-  @deprecated('We stopped animal abuse')
+  @deprecate('We stopped animal abuse')
   kickDogHard() {}
  
-  @deprecated('We stopped animal abuse', { url: 'http://humanesociety.org/issues/abuse_neglect/' })
+  @deprecate('We stopped animal abuse', { url: 'http://humanesociety.org/issues/abuse_neglect/' })
   kickDogHarder() {}
 }
 
