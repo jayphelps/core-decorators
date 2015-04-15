@@ -34,7 +34,7 @@ class Child extends Parent {
 }
 ```
 
-### @deprecated
+### @deprecated (alias: @deprecate)
 
 Calls `console.warn()` with a deprecation message. Provide a custom message to override the default one. You can also provide an options hash with a `url`, for further reading.
 
