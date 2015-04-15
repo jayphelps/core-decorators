@@ -3,6 +3,9 @@ Library of ES7 decorators inspired by languages that come with built-ins like @â
 
 The idea is these decorators would be used to ensure code sanity, but would be removed in production builds via a Babel plugin.
 
+
+### @override
+
 ```js
 import { override } from 'core-decorators';
 
@@ -25,4 +28,35 @@ class Child extends Parent {
   //
   //   Did you mean "kickDog"?
 }
+```
+
+### @deprecated
+
+```js
+import { deprecated } from 'core-decorators';
+
+class Person {
+  @deprecated
+  kickDog() {}
+
+  @deprecated('We stopped animal abuse')
+  kickDogHard() {}
+ 
+  @deprecated('We stopped animal abuse', { url: 'http://humanesociety.org/issues/abuse_neglect/' })
+  kickDogHarder() {}
+}
+
+let person = new Person();
+
+person.kickDog();
+// DEPRECATION Person#kickDog: This function is deprecated and will be removed in future versions.
+
+person.kickDogHard();
+// DEPRECATION Person#kickDogHard: We stopped animal abuse
+
+person.kickDogHarder();
+// DEPRECATION Person#kickDogHarder: We stopped animal abuse
+//
+//     See http://humanesociety.org/issues/abuse_neglect/ for more details.
+//
 ```
