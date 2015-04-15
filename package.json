@@ -1,8 +1,8 @@
 {
   "name": "core-decorators",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Library of ES7 decorators inspired by languages that come with built-ins like @override, @deprecated, etc",
-  "main": "src/index.js",
+  "main": "src/core-decorators/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

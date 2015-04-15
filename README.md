@@ -49,7 +49,7 @@ class Person {
 let person = new Person();
 
 person.kickDog();
-// DEPRECATION Person#kickDog: This function is deprecated and will be removed in future versions.
+// DEPRECATION Person#kickDog: This function will be removed in future versions.
 
 person.kickDogHard();
 // DEPRECATION Person#kickDogHard: We stopped animal abuse

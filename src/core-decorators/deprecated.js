@@ -1,4 +1,4 @@
-const DEFAULT_MSG = 'This function is deprecated and will be removed in future versions.';
+const DEFAULT_MSG = 'This function will be removed in future versions.';
 
 function isDescriptor(desc) {
   if (!desc || !desc.hasOwnProperty) {
