@@ -92,6 +92,10 @@ person.kickDogWithoutWarning();
 // no warning is logged
 ```
 
+### @memoize
+
+Initial implementation included, likely slow. WIP.
+
 ## Disclaimer
 Please don't kick dogs. It's not nice.
 
