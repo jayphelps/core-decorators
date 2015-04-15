@@ -81,3 +81,8 @@ let person = new Person();
 person.kickDogWithoutWarning();
 // no warning is logged
 ```
+
+## Disclaimer
+Please don't kick dogs. It's not nice.
+
+![adorable dog](https://cloud.githubusercontent.com/assets/762949/7152487/b0fec1ce-e2f1-11e4-9207-93fb1422381c.gif)
