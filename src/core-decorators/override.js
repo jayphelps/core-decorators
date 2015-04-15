@@ -1,3 +1,5 @@
+import { decorate } from './private/utils';
+
 const GENERIC_FUNCTION_ERROR = '{child} does not properly override {parent}';
 const FUNCTION_REGEXP = /^function ([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)?(\([^\)]*\))[\s\S]+$/;
 
@@ -219,7 +221,7 @@ function findPossibleAlternatives(superKlass, key) {
   return null;
 }
 
-export default function override(klass, key, descriptor) {
+function handleDescriptor(target, key, descriptor) {
   descriptor.key = key;
   const superKlass = Object.getPrototypeOf(klass);
   const superDescriptor = Object.getOwnPropertyDescriptor(superKlass, key);
@@ -234,4 +236,8 @@ export default function override(klass, key, descriptor) {
   checkDescriptors(superDescriptor, descriptor, reporter);
   
   return descriptor;
+}
+
+export default function override() {
+  return decorate(handleDescriptor, arguments);
 }

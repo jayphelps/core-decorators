@@ -1,20 +1,6 @@
-const DEFAULT_MSG = 'This function will be removed in future versions.';
+import { decorate } from './private/utils';
 
-function isDescriptor(desc) {
-  if (!desc || !desc.hasOwnProperty) {
-    return false;
-  }
-  
-  const keys = ['value', 'get', 'set'];
-  
-  for (const key of keys) {
-    if (desc.hasOwnProperty(key)) {
-      return true;
-    }
-  }
-  
-  return false;
-}
+const DEFAULT_MSG = 'This function will be removed in future versions.';
 
 function handleDescriptor(target, key, descriptor, [msg = DEFAULT_MSG, options = {}]) {
   if (typeof descriptor.value !== 'function') {
@@ -36,12 +22,6 @@ function handleDescriptor(target, key, descriptor, [msg = DEFAULT_MSG, options =
   };
 }
 
-export default function deprecated(...entryArgs) {
-  if (isDescriptor(entryArgs[entryArgs.length - 1])) {
-    return handleDescriptor(...entryArgs, []);
-  } else {
-    return function () {
-      return handleDescriptor(...arguments, entryArgs);
-    };
-  }
+export default function deprecated() {
+  return decorate(handleDescriptor, arguments);
 }
