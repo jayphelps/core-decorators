@@ -1,5 +1,5 @@
 # core-decorators.js
-Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecated, etc
+Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecated, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html).
 
 The idea is these decorators would be used to ensure code sanity, but would be removed in production builds via a Babel plugin.
 
