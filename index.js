@@ -219,7 +219,7 @@ function findPossibleAlternatives(superKlass, key) {
   return null;
 }
 
-function override(klass, key, descriptor) {
+export function override(klass, key, descriptor) {
   descriptor.key = key;
   const superKlass = Object.getPrototypeOf(klass);
   const superDescriptor = Object.getOwnPropertyDescriptor(superKlass, key);
