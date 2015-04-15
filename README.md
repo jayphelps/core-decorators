@@ -13,7 +13,15 @@ class Parent {
 class Child extends Parent {
   @override
   kickDog() {}
-  // SyntaxError: Parent#kickDog has two parameters but Child#kickDog has none
-  //   > Parent#kickDog(first, second)
+  // SyntaxError: Child#kickDog() does not properly override Parent#kickDog(first, second)
+}
+
+// or
+
+class Child extends Parent {
+  @override
+  kickDogs() {}
+  // SyntaxError: No descriptor matching Child#kickDogs() was found on the prototype chain.
+  //   Did you mean "kickDog"?
 }
 ```
