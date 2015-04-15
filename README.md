@@ -6,6 +6,10 @@ The idea is these decorators would be used to ensure code sanity, but would be r
 
 ### @override
 
+Checks that the marked method indeed overrides a function with the same signature somewhere on the prototype chain.
+
+Works with methods and getters/setters. Will ensure name, parameter count, as well as descriptor type (accessor/data). Provides a suggestion if it finds a method with a similar signature, including slight misspellings.
+
 ```js
 import { override } from 'core-decorators';
 
@@ -31,6 +35,8 @@ class Child extends Parent {
 ```
 
 ### @deprecated
+
+Calls `console.warn()` with a deprecation message. Provide a custom message to override the default one. You can also provide an options hash with a `url`, for further reading.
 
 ```js
 import { deprecated } from 'core-decorators';
@@ -62,6 +68,10 @@ person.kickDogHarder();
 ```
 
 ### @suppressWarnings
+
+Suppresses any JavaScript `console.warn()` call while the decorated function is called. (i.e. on the stack)
+
+Will _not_ suppress warnings triggered in any async code within.
 
 ```js
 import { suppressWarnings } from 'core-decorators';
