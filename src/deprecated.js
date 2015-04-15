@@ -17,7 +17,7 @@ function handleDescriptor(target, key, descriptor, [msg = DEFAULT_MSG, options =
     ...descriptor,
     value: function deprecationWrapper() {
       console.warn(`DEPRECATION ${methodSignature}: ${msg}`);
-      return descriptor.value(...arguments);
+      return descriptor.value.apply(this, arguments);
     }
   };
 }
