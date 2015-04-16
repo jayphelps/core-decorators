@@ -21,6 +21,24 @@ lady.gender = 'male';
 
 ```
 
+### @nonenumerable
+
+Marks a property or method as not being enumerable.
+
+```js
+import { readonly } from 'core-decorators';
+
+class Woman {
+  @readonly
+  gender = 'female';
+}
+
+var lady = new Woman();
+lady.gender = 'male';
+// Cannot assign to read only property 'gender' of [object Object]
+
+```
+
 ### @override
 
 Checks that the marked method indeed overrides a function with the same signature somewhere on the prototype chain.
