@@ -3,6 +3,23 @@ Library of ES7 decorators inspired by languages that come with built-ins like @â
 
 The idea is these decorators would be used to ensure code sanity, but would be removed in production builds via a Babel plugin.
 
+### @readonly
+
+Marks a property or method as not being writable.
+
+```js
+import { readonly } from 'core-decorators';
+
+class Woman {
+  @readonly
+  gender = 'female';
+}
+
+var lady = new Woman();
+lady.gender = 'male';
+// Cannot assign to read only property 'gender' of [object Object]
+
+```
 
 ### @override
 
