@@ -1,7 +1,7 @@
 # core-decorators.js
 Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html).
 
-The idea is these decorators would be used to ensure code sanity, but would be removed in production builds via a Babel plugin.
+The idea is these decorators would be used to ensure code sanity, but would be removed in production builds via a Babel plugin. As this library grows, some decorators that you might actually want to _keep_ in production builds will likely be added, in which case the hypothetical babel plugin would let you choose which decorators to remove/keep.
 
 ### @readonly
 
