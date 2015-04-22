@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PS3="core-decorators: which module format? "
+options=("ES6+" "AMD" "CJS" "Globals")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "ES6+")
+            echo "you chose choice 1"
+            ;;
+        "AMD")
+            echo "you chose choice 2"
+            ;;
+        "CJS")
+            echo "you chose choice 3"
+            ;;
+        "Globals")
+            echo "you chose choice 4"
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo "Invalid option, please enter 1, 2, 3, or 4";;
+    esac
+done
