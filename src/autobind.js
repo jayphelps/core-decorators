@@ -4,7 +4,7 @@ function bind(fn, context) {
   if (fn.bind) {
     return fn.bind(context);
   } else {
-    return function () {
+    return function __autobind__() {
       return fn.apply(context, arguments);
     };
   }
