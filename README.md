@@ -1,8 +1,6 @@
 # core-decorators.js
 Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html).
 
-The idea is these decorators would be used to ensure code sanity, but would be removed in production builds via a Babel plugin. As this library grows, some decorators that you might actually want to _keep_ in production builds will likely be added, in which case a _hypothetical_ babel plugin would let you choose which decorators to remove/keep for production builds, to increase runtime performance.
-
 ### @readonly
 
 Marks a property or method as not being writable.
@@ -107,6 +105,27 @@ let person = new Person();
 
 person.kickDogWithoutWarning();
 // no warning is logged
+```
+
+### @autobind
+
+Forces invocations of this function to always have `this` refer to the class intance, even if the function is passed around or would otherwise lose it's `this` context. e.g. `var fn = context.method;`
+
+```js
+import { autobind } from 'core-decorators';
+
+class Person {
+  @autobind
+  getPerson() {
+  	return this;
+  }
+}
+
+let person = new Person();
+let getPerson = person.getPerson;
+
+getPerson() === person;
+// true
 ```
 
 ### @memoize
