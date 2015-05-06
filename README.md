@@ -1,5 +1,5 @@
 # core-decorators.js
-Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html).
+Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html). Note that unlike Java annotations, decorators are functions which are applied at runtime.
 
 ### @readonly
 
@@ -109,7 +109,7 @@ person.kickDogWithoutWarning();
 
 ### @autobind
 
-Forces invocations of this function to always have `this` refer to the class intance, even if the function is passed around or would otherwise lose it's `this` context. e.g. `var fn = context.method;`
+Forces invocations of this function to always have `this` refer to the class instance, even if the function is passed around or would otherwise lose its `this` context. e.g. `var fn = context.method;`
 
 ```js
 import { autobind } from 'core-decorators';
