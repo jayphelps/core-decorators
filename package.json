@@ -4,7 +4,7 @@
   "description": "Library of ES7 decorators inspired by languages that come with built-ins like @override, @deprecated, etc",
   "main": "src/core-decorators.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require babel/register 'src/**/*.spec.js'"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,10 @@
   "bugs": {
     "url": "https://github.com/jayphelps/core-decorators.js/issues"
   },
-  "homepage": "https://github.com/jayphelps/core-decorators.js"
+  "homepage": "https://github.com/jayphelps/core-decorators.js",
+  "devDependencies": {
+    "babel": "^5.2.16",
+    "mocha": "^2.2.4",
+    "must": "^0.12.0"
+  }
 }
