@@ -10,24 +10,33 @@ function bind(fn, context) {
   }
 }
 
-function handleDescriptor(target, key, { value as fn }) {
+function handleDescriptor(target, key, { value: fn }) {
   if (typeof fn !== 'function') {
     throw new SyntaxError(`@autobind can only be used on functions, not: ${fn}`);
   }
 
-  let boundFn = null;
-  
   return {
     configurable: true,
     get() {
-      if (boundFn === null) {
-        boundFn = bind(fn, this);  
-      }
-
-      return boundFn;
+      return (this[key] = bind(fn, this));
     },
     set(newValue) {
-      boundFn = newValue;
+      if (this === target) {
+        // New value directly set on the prototype.
+        delete this[key];
+        this[key] = newValue;
+      } else {
+        // New value set on a child object.
+
+        // Cannot use assignment because it will call the setter on the
+        // prototype.
+        Object.defineProperty(this, key, {
+          configurable: true,
+          enumerable: true,
+          value: newValue,
+          writable: true
+        });
+      }
     }
   };
 }
