@@ -1,0 +1,19 @@
+# http://EditorConfig.org
+
+# Top-most EditorConfig file.
+root = true
+
+# Common config.
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespaces = true
+
+# JavaScript
+#
+# Two spaces seems to be the standard most common style, at least in
+# Node.js (http://nodeguide.com/style.html#tabs-vs-spaces).
+[*.js]
+indent_size = 2
+indent_style = space
