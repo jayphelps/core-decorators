@@ -10,7 +10,7 @@ function bind(fn, context) {
   }
 }
 
-function handleDescriptor(target, key, { value as fn }) {
+function handleDescriptor(target, key, { value: fn }) {
   if (typeof fn !== 'function') {
     throw new SyntaxError(`@autobind can only be used on functions, not: ${fn}`);
   }
