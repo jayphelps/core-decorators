@@ -132,6 +132,56 @@ getPerson() === person;
 
 Initial implementation included, likely slow. WIP.
 
+
+### @useTrait(trait)
+
+Merge all members of a [trait](https://en.wikipedia.org/wiki/Trait_%28computer_programming%29) into a class.
+
+It is a form of multiple inheritance used to help code reuse.
+
+```javascript
+// A trait can be declared as a plain object.
+const Moveable = {
+  move (x, y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+
+// Or as class which can also declares static members.
+class Resizeable {
+  static get PI () {
+    return Math.PI;
+  }
+
+  resize (width, height) {
+    this.width = width;
+    this.height = height;
+  }
+}
+
+@useTrait(Moveable)
+@useTrait(Resizeable)
+class Rectangle {
+  constructor () {
+    this.x = 0;
+    this.y = 0;
+    this.width = 1;
+    this.height = 1;
+  }
+}
+
+Rectangle.PI;
+// 3.141592653589793
+
+const rectangle = new Rectangle();
+// {x: 0, y: 0, width: 1, height: 1}
+
+rectangle.move(-5, -2);
+rectangle.resize(10, 4);
+// {x: -5, y: -2, width: 10, height: 4}
+```
+
 ## Disclaimer
 Please don't kick dogs. It's not nice.
 
