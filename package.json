@@ -2,9 +2,11 @@
   "name": "core-decorators",
   "version": "0.0.13",
   "description": "Library of ES7 decorators inspired by languages that come with built-ins like @override, @deprecated, etc",
-  "main": "src/core-decorators.js",
+  "main": "lib/core-decorators.js",
+  "files": ["lib"],
   "scripts": {
-    "test": "mocha --require babel/register 'src/**/*.spec.js'"
+    "build": "babel --stage 0 --out-dir lib src",
+    "test": "mocha --require babel/polyfill 'lib/**/*.spec.js'"
   },
   "repository": {
     "type": "git",
