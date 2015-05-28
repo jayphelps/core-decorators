@@ -28,8 +28,8 @@
   },
   "homepage": "https://github.com/jayphelps/core-decorators.js",
   "devDependencies": {
-    "babel": "^5.2.16",
-    "mocha": "^2.2.4",
+    "babel": "^5.4.7",
+    "mocha": "^2.2.5",
     "must": "^0.12.0"
   }
 }
