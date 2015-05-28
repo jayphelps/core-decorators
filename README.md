@@ -1,4 +1,4 @@
-# core-decorators.js
+# core-decorators.js [![Build Status](https://travis-ci.org/jayphelps/core-decorators.js.svg?branch=master)](https://travis-ci.org/jayphelps/core-decorators.js)
 Library of ES7 decorators inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html). Note that unlike Java annotations, decorators are functions which are applied at runtime.
 
 ### @readonly
@@ -62,7 +62,7 @@ class Person {
 
   @deprecate('We stopped animal abuse')
   kickDogHard() {}
- 
+
   @deprecate('We stopped animal abuse', { url: 'http://humanesociety.org/issues/abuse_neglect/' })
   kickDogHarder() {}
 }
@@ -94,7 +94,7 @@ import { suppressWarnings } from 'core-decorators';
 class Person {
   @deprecated
   kickDog() {}
-  
+
   @suppressWarnings
   kickDogWithoutWarning() {
     this.kickDog();
