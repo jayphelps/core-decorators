@@ -3,7 +3,7 @@
   "version": "0.0.13",
   "description": "Library of ES7 decorators inspired by languages that come with built-ins like @override, @deprecated, etc",
   "main": "lib/core-decorators.js",
-  "files": ["lib"],
+  "files": ["lib", "src", "README.md", "LICENSE"],
   "scripts": {
     "build": "babel --stage 0 --out-dir lib src",
     "test": "mocha --require babel/polyfill 'lib/**/*.spec.js'"
