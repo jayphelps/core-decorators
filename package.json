@@ -6,7 +6,7 @@
   "files": ["lib", "src", "README.md", "LICENSE"],
   "scripts": {
     "build": "babel --stage 0 --out-dir lib src",
-    "test": "mocha --require babel/polyfill 'lib/**/*.spec.js'"
+    "test": "npm run build && mocha --require babel/polyfill 'lib/**/*.spec.js'"
   },
   "repository": {
     "type": "git",
