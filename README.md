@@ -13,10 +13,44 @@ This form could be consumed by any ES2016 (ES7) transpiler that supports decorat
 _*note that the compiled code is intentionally not checked into this repo_
 
 ## Decorators
-[@readonly](#readonly)
-[@override](#override)
-[@override](#override)
+
+* [@autobind](#autobind)
+* [@readonly](#readonly)
+* [@override](#override)
+* [@deprecate](#deprecate-alias-deprecated)
+* [@suppressWarnings](#suppresswarnings)
+* [@memoize](#memoize)
+
+##### Proposed (not implemented, PRs welcome!):
+* @mixin
+* @instrument/profile
+* @debounce
+* @throttle
+* @private
+* @nonenumerable
+
 ## Docs
+
+### @autobind
+
+Forces invocations of this function to always have `this` refer to the class instance, even if the function is passed around or would otherwise lose its `this` context. e.g. `var fn = context.method;`
+
+```js
+import { autobind } from 'core-decorators';
+
+class Person {
+  @autobind
+  getPerson() {
+  	return this;
+  }
+}
+
+let person = new Person();
+let getPerson = person.getPerson;
+
+getPerson() === person;
+// true
+```
 
 ### @readonly
 
@@ -122,27 +156,6 @@ let person = new Person();
 
 person.kickDogWithoutWarning();
 // no warning is logged
-```
-
-### @autobind
-
-Forces invocations of this function to always have `this` refer to the class instance, even if the function is passed around or would otherwise lose its `this` context. e.g. `var fn = context.method;`
-
-```js
-import { autobind } from 'core-decorators';
-
-class Person {
-  @autobind
-  getPerson() {
-  	return this;
-  }
-}
-
-let person = new Person();
-let getPerson = person.getPerson;
-
-getPerson() === person;
-// true
 ```
 
 ### @memoize
