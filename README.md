@@ -12,6 +12,12 @@ This form could be consumed by any ES2016 (ES7) transpiler that supports decorat
 
 _*note that the compiled code is intentionally not checked into this repo_
 
+## Decorators
+[@readonly](#readonly)
+[@override](#override)
+[@override](#override)
+## Docs
+
 ### @readonly
 
 Marks a property or method as not being writable.
