@@ -8,7 +8,7 @@ A version compiled to ES5 in CJS format is published to npm as [`core-decorators
 npm install core-decorators --save
 ```
 
-This form could be consumed by any ES2016 (ES7) transpiler that supports decorators like [babel.js](https://babeljs.io/) with `babel --optional es7.decorators --optional es7.objectRestSpread` or `babel --stage 1` or using the recent iterations of TypeScript.
+This form could be consumed by any ES2016 (ES7) transpiler that supports decorators like [babel.js](https://babeljs.io/) with `babel --optional es7.decorators,es7.objectRestSpread` or `babel --stage 1` or using the recent iterations of TypeScript.
 
 _*note that the compiled code is intentionally not checked into this repo_
 
