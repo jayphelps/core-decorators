@@ -1,3 +1,5 @@
+import { decorate } from './private/utils';
+
 function suppressedWarningNoop() {
   // Warnings are currently suppressed via @suppressWarnings
 }
