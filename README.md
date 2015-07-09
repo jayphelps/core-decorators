@@ -59,14 +59,14 @@ Marks a property or method as not being writable.
 ```js
 import { readonly } from 'core-decorators';
 
-class Hobbit {
+class Meal {
   @readonly
-  name = 'Bilbo Baggins';
+  entree = 'steak';
 }
 
-var bilbo = new Hobbit();
-bilbo.name = 'Frodo Baggins';
-// Cannot assign to read only property 'name' of [object Object]
+var dinner = new Meal();
+dinner.entree = 'salmon';
+// Cannot assign to read only property 'entree' of [object Object]
 
 ```
 
@@ -80,23 +80,23 @@ Works with methods and getters/setters. Will ensure name, parameter count, as we
 import { override } from 'core-decorators';
 
 class Parent {
-  kickDog(first, second) {}
+  speak(first, second) {}
 }
 
 class Child extends Parent {
   @override
-  kickDog() {}
-  // SyntaxError: Child#kickDog() does not properly override Parent#kickDog(first, second)
+  speak() {}
+  // SyntaxError: Child#speak() does not properly override Parent#speak(first, second)
 }
 
 // or
 
 class Child extends Parent {
   @override
-  kickDogs() {}
-  // SyntaxError: No descriptor matching Child#kickDogs() was found on the prototype chain.
+  speaks() {}
+  // SyntaxError: No descriptor matching Child#speaks() was found on the prototype chain.
   //
-  //   Did you mean "kickDog"?
+  //   Did you mean "speak"?
 }
 ```
 
@@ -109,27 +109,27 @@ import { deprecate } from 'core-decorators';
 
 class Person {
   @deprecate
-  kickDog() {}
+  facepalm() {}
 
-  @deprecate('We stopped animal abuse')
-  kickDogHard() {}
+  @deprecate('We stopped facepalming')
+  facepalmHard() {}
 
-  @deprecate('We stopped animal abuse', { url: 'http://humanesociety.org/issues/abuse_neglect/' })
-  kickDogHarder() {}
+  @deprecate('We stopped facepalming', { url: 'http://knowyourmeme.com/memes/facepalm' })
+  facepalmHarder() {}
 }
 
 let person = new Person();
 
-person.kickDog();
-// DEPRECATION Person#kickDog: This function will be removed in future versions.
+person.facepalm();
+// DEPRECATION Person#facepalm: This function will be removed in future versions.
 
-person.kickDogHard();
-// DEPRECATION Person#kickDogHard: We stopped animal abuse
+person.facepalmHard();
+// DEPRECATION Person#facepalmHard: We stopped facepalming
 
-person.kickDogHarder();
-// DEPRECATION Person#kickDogHarder: We stopped animal abuse
+person.facepalmHarder();
+// DEPRECATION Person#facepalmHarder: We stopped facepalming
 //
-//     See http://humanesociety.org/issues/abuse_neglect/ for more details.
+//     See http://knowyourmeme.com/memes/facepalm for more details.
 //
 ```
 
@@ -144,25 +144,20 @@ import { suppressWarnings } from 'core-decorators';
 
 class Person {
   @deprecated
-  kickDog() {}
+  facepalm() {}
 
   @suppressWarnings
-  kickDogWithoutWarning() {
-    this.kickDog();
+  facepalmWithoutWarning() {
+    this.facepalm();
   }
 }
 
 let person = new Person();
 
-person.kickDogWithoutWarning();
+person.facepalmWithoutWarning();
 // no warning is logged
 ```
 
 ### @memoize
 
 Initial implementation included, likely slow. WIP.
-
-## Disclaimer
-Please don't kick dogs. It's not nice.
-
-![adorable dog](https://cloud.githubusercontent.com/assets/762949/7152487/b0fec1ce-e2f1-11e4-9207-93fb1422381c.gif)
