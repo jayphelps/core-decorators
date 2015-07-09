@@ -59,14 +59,14 @@ Marks a property or method as not being writable.
 ```js
 import { readonly } from 'core-decorators';
 
-class Woman {
+class Hobbit {
   @readonly
-  gender = 'female';
+  name = 'Bilbo Baggins';
 }
 
-var lady = new Woman();
-lady.gender = 'male';
-// Cannot assign to read only property 'gender' of [object Object]
+var bilbo = new Hobbit();
+bilbo.name = 'Frodo Baggins';
+// Cannot assign to read only property 'name' of [object Object]
 
 ```
 
