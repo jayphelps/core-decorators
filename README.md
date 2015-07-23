@@ -20,6 +20,8 @@ _*note that the compiled code is intentionally not checked into this repo_
 * [@deprecate](#deprecate-alias-deprecated)
 * [@suppressWarnings](#suppresswarnings)
 * [@memoize](#memoize)
+* [@nonenumerable](#nonenumerable)
+* [@nonconfigurable](#nonconfigurable)
 
 ##### Proposed (not implemented, PRs welcome!):
 * @mixin
@@ -27,7 +29,6 @@ _*note that the compiled code is intentionally not checked into this repo_
 * @debounce
 * @throttle
 * @private
-* @nonenumerable
 
 ## Docs
 
@@ -156,6 +157,52 @@ let person = new Person();
 
 person.facepalmWithoutWarning();
 // no warning is logged
+```
+
+### @nonenumerable
+
+Marks a property or method as not being enumerable.
+
+```js
+import { nonenumerable } from 'core-decorators';
+
+class Meal {
+  entree = 'steak';
+  
+  @nonenumerable
+  cost = 20.99;
+}
+
+var dinner = new Meal();
+for (var key in dinner) {
+  key;
+  // "entree" only, not "cost"
+}
+
+Object.keys(dinner);
+// ["entree"]
+
+```
+
+### @nonconfigurable
+
+Marks a property or method as not being writable.
+
+```js
+import { nonconfigurable } from 'core-decorators';
+
+class Meal {
+  @nonconfigurable
+  entree = 'steak';
+}
+
+var dinner = new Meal();
+
+Object.defineProperty(dinner, 'entree', {
+  enumerable: false
+});
+// Cannot redefine property: entree
+
 ```
 
 ### @memoize
