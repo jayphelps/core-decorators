@@ -203,11 +203,11 @@ function checkDescriptors(parent, child, reporter) {
 }
 
 const suggestionTransforms = [
-  (key) => key.toLowerCase(),
-  (key) => key.toUpperCase(),
-  (key) => key + 's',
-  (key) => key.slice(0, -1),
-  (key) => key.slice(1, key.length),
+  key => key.toLowerCase(),
+  key => key.toUpperCase(),
+  key => key + 's',
+  key => key.slice(0, -1),
+  key => key.slice(1, key.length),
 ];
 
 function findPossibleAlternatives(superKlass, key) {
