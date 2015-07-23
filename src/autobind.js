@@ -41,6 +41,6 @@ function handleDescriptor(target, key, { value: fn }) {
   };
 }
 
-export default function autobind() {
-  return decorate(handleDescriptor, arguments);
+export default function autobind(...args) {
+  return decorate(handleDescriptor, args);
 }

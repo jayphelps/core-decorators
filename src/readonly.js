@@ -5,6 +5,6 @@ function handleDescriptor(target, key, descriptor) {
   return descriptor;
 }
 
-export default function readonly() {
-  return decorate(handleDescriptor, arguments);
+export default function readonly(...args) {
+  return decorate(handleDescriptor, args);
 }

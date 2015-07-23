@@ -1,6 +1,6 @@
 {
   "name": "core-decorators",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Library of ES7 decorators inspired by languages that come with built-ins like @override, @deprecated, etc",
   "main": "lib/core-decorators.js",
   "files": ["lib", "src", "README.md", "LICENSE"],

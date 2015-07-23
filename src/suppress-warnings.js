@@ -21,6 +21,6 @@ function handleDescriptor(target, key, descriptor, warningTypes) {
   };
 }
 
-export default function suppressWarnings() {
-  return decorate(handleDescriptor, arguments);
+export default function suppressWarnings(...args) {
+  return decorate(handleDescriptor, args);
 }

@@ -63,6 +63,6 @@ function handleDescriptor(target, key, descriptor) {
   };
 }
 
-export default function memoize() {
-  return decorate(handleDescriptor, arguments);
+export default function memoize(...args) {
+  return decorate(handleDescriptor, args);
 }

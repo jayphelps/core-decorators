@@ -238,6 +238,6 @@ function handleDescriptor(target, key, descriptor) {
   return descriptor;
 }
 
-export default function override() {
-  return decorate(handleDescriptor, arguments);
+export default function override(...args) {
+  return decorate(handleDescriptor, args);
 }
