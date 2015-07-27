@@ -22,6 +22,6 @@ function handleDescriptor(target, key, descriptor, [msg = DEFAULT_MSG, options =
   };
 }
 
-export default function deprecate(args) {
-  return decorate(handleDescriptor, ...args);
+export default function deprecate(...args) {
+  return decorate(handleDescriptor, args);
 }
