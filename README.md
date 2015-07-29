@@ -18,6 +18,7 @@ _*note that the compiled code is intentionally not checked into this repo_
 * [@readonly](#readonly)
 * [@override](#override)
 * [@deprecate](#deprecate-alias-deprecated)
+* [@debounce](#debounce)
 * [@suppressWarnings](#suppresswarnings)
 * [@memoize](#memoize)
 * [@nonenumerable](#nonenumerable)
@@ -26,7 +27,6 @@ _*note that the compiled code is intentionally not checked into this repo_
 ##### Proposed (not implemented, PRs welcome!):
 * @mixin
 * @instrument/profile
-* @debounce
 * @throttle
 * @private
 
@@ -132,6 +132,26 @@ person.facepalmHarder();
 //
 //     See http://knowyourmeme.com/memes/facepalm for more details.
 //
+```
+
+### @debounce
+
+Creates a new debounced function which will be invoked after `wait` milliseconds since the time it was invoked. Default timeout is 300 ms.
+
+Optional boolean second argument allows to trigger function on the leading instead of the trailing edge of the wait interval. Implementation is insired by similar method from [UnderscoreJS](http://underscorejs.org/#debounce).
+
+```js
+import { deprecate } from 'core-decorators';
+
+class Editor {
+  
+  content = '';
+
+  @debounce(500)
+  updateContent(content) {
+    this.content = content;
+  }
+}
 ```
 
 ### @suppressWarnings
