@@ -1,5 +1,4 @@
-import expect from 'must';
-
+import { default as chai, expect } from 'chai';
 import debounce from './debounce';
 
 // ===================================================================
@@ -25,17 +24,17 @@ describe('debounce', function () {
 
   let editor;
 
-  beforeEach(function() {
+  beforeEach(function () {
     editor = new Editor();
   });
 
   it('invokes function only once', function (done) {
 
     editor.updateCounter1();
-    expect(editor.counter).to.equal(0);
+    editor.counter.should.equal(0);
 
     setTimeout(() => {
-      expect(editor.counter).to.equal(1);
+      editor.counter.should.equal(1);
       done();
     }, 600);
   });
@@ -43,10 +42,11 @@ describe('debounce', function () {
   it('invokes function immediately and only once if "immediate" option is true', function (done) {
 
     editor.updateCounter2();
-    expect(editor.counter).to.equal(1);
+    editor.counter.should.equal(1);
 
+    // should still be 1 because 600ms hasn't yet passed
     setTimeout(() => {
-      expect(editor.counter).to.equal(1);
+      editor.counter.should.equal(1);
       done();
     }, 400);
   });
