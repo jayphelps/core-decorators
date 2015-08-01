@@ -1,10 +1,7 @@
-import { default as chai, expect } from 'chai';
+import chai from 'chai';
 import debounce from './debounce';
 
-// ===================================================================
-
 class Editor {
-
   counter = 0;
 
   @debounce(500)
@@ -18,10 +15,7 @@ class Editor {
   }
 }
 
-// ===================================================================
-
 describe('debounce', function () {
-
   let editor;
 
   beforeEach(function () {
@@ -29,7 +23,6 @@ describe('debounce', function () {
   });
 
   it('invokes function only once', function (done) {
-
     editor.updateCounter1();
     editor.counter.should.equal(0);
 
@@ -40,15 +33,29 @@ describe('debounce', function () {
   });
 
   it('invokes function immediately and only once if "immediate" option is true', function (done) {
-
     editor.updateCounter2();
     editor.counter.should.equal(1);
 
     // should still be 1 because 600ms hasn't yet passed
     setTimeout(() => {
       editor.counter.should.equal(1);
-      done();
     }, 400);
+
+    setTimeout(() => {
+      editor.counter.should.equal(1);
+      done();
+    }, 600); 
   });
 
-})
+  it('Separate instances do not share timers', function (done) {
+    let editor2 = new Editor();
+    editor.updateCounter1();
+    editor2.updateCounter1();
+
+    setTimeout(() => {
+      editor.counter.should.equal(1);
+      editor2.counter.should.equal(1);
+      done();
+    }, 600);
+  });
+});

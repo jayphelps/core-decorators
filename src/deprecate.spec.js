@@ -1,4 +1,4 @@
-import { default as chai, expect } from 'chai';
+import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import deprecate from './deprecate';

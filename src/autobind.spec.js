@@ -1,4 +1,4 @@
-import { default as chai, expect } from 'chai';
+import chai from 'chai';
 import autobind from './autobind';
 
 chai.should();

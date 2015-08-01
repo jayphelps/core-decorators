@@ -1,35 +1,34 @@
-import { decorate } from './private/utils';
+import { decorate, metaFor } from './private/utils';
 
 const DEFAULT_TIMEOUT = 300;
 
 function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, immediate = false]) {
+  const callback = descriptor.value;
 
-  if (typeof descriptor.value !== 'function') {
+  if (typeof callback !== 'function') {
     throw new SyntaxError('Only functions can be debounced');
   }
 
   return {
     ...descriptor,
-    value: function() {
+    value() {
+      const { debounceTimeoutIds } = metaFor(this);
+      const timeout = debounceTimeoutIds[key];
+      const callNow = immediate && !timeout;
 
-      var timeout;
+      clearTimeout(timeout);
 
-      return function () {
+      debounceTimeoutIds[key] = setTimeout(() => {
+        delete debounceTimeoutIds[key];
+        if (!immediate) {
+          callback.apply(this, arguments);
+        }
+      }, wait);
 
-          var func = descriptor.value;
-          var args = arguments;
-          var callNow = immediate && !timeout;
-
-          clearTimeout(timeout);
-
-          timeout = setTimeout(() => {
-            timeout = null;
-            if (!immediate) func.apply(this, args);
-          }, wait);
-
-          if (callNow) func.apply(this, args);
-      };
-    }()
+      if (callNow) {
+        callback.apply(this, arguments);
+      }
+    }
   };
 }
 

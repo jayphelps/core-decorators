@@ -42,10 +42,11 @@ function handleDescriptor(target, key, descriptor) {
   
   return {
     ...descriptor,
-    [wrapKey]: function memoizeWrapper() {
+    [wrapKey]: function memoizeWrapper(...args) {
       let signature = '0';
       
-      for (const arg of arguments) {
+      for (let i = 0, l = args.length; i < l; i++) {
+        let arg = args[i];
         let argRef = toObject(primativeRefCache, arg);
         let argKey = argumentCache.get(argRef);
         
