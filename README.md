@@ -141,7 +141,7 @@ Creates a new debounced function which will be invoked after `wait` milliseconds
 Optional boolean second argument allows to trigger function on the leading instead of the trailing edge of the wait interval. Implementation is insired by similar method from [UnderscoreJS](http://underscorejs.org/#debounce).
 
 ```js
-import { deprecate } from 'core-decorators';
+import { debounce } from 'core-decorators';
 
 class Editor {
   
