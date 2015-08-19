@@ -28,6 +28,7 @@ _*note that the compiled code is intentionally not checked into this repo_
 * @mixin
 * @instrument/profile
 * @throttle
+* @assertArguments(arg1 => arg1, arg2 => arg2)
 * @private
 
 ## Docs
