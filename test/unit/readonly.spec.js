@@ -1,6 +1,5 @@
 import chai from 'chai';
-import readonly from './readonly';
-
+import readonly from '../../lib/readonly';
 
 describe('readonly', function () {
   class Foo {

@@ -10,8 +10,8 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "babel --stage 0 --out-dir lib src",
-    "test": "npm run build && mocha --require babel/polyfill 'lib/**/*.spec.js'"
+    "build": "babel --out-dir lib src",
+    "test": "npm run build && mocha --compilers js:babel/register --require babel/polyfill 'test/**/*.spec.js'"
   },
   "repository": {
     "type": "git",

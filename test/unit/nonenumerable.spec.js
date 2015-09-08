@@ -1,5 +1,5 @@
 import chai from 'chai';
-import nonenumerable from './nonenumerable';
+import nonenumerable from '../../lib/nonenumerable';
 
 function enumerable (target, key, descriptor){
   descriptor.enumerable = true;

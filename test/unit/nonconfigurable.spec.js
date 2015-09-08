@@ -1,5 +1,5 @@
 import chai from 'chai';
-import nonconfigurable from './nonconfigurable';
+import nonconfigurable from '../../lib/nonconfigurable';
 
 
 describe('nonconfigurable', function () {

@@ -1,5 +1,5 @@
 import chai from 'chai';
-import autobind from './autobind';
+import autobind from '../../lib/autobind';
 
 chai.should();
 

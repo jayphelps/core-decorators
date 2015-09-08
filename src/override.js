@@ -1,4 +1,4 @@
-import { decorate } from './private/utils';
+  import { decorate } from './private/utils';
 
 const GENERIC_FUNCTION_ERROR = '{child} does not properly override {parent}';
 const FUNCTION_REGEXP = /^function ([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)?(\([^\)]*\))[\s\S]+$/;
@@ -223,9 +223,9 @@ function findPossibleAlternatives(superKlass, key) {
 
 function handleDescriptor(target, key, descriptor) {
   descriptor.key = key;
-  const superKlass = Object.getPrototypeOf(klass);
+  const superKlass = Object.getPrototypeOf(target);
   const superDescriptor = Object.getOwnPropertyDescriptor(superKlass, key);
-  const reporter = new SyntaxErrorReporter(superKlass, klass, superDescriptor, descriptor);
+  const reporter = new SyntaxErrorReporter(superKlass, target, superDescriptor, descriptor);
   
   if (superDescriptor === undefined) {
     const suggestedKey = findPossibleAlternatives(superKlass, key);

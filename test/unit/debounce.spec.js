@@ -1,5 +1,5 @@
 import chai from 'chai';
-import debounce from './debounce';
+import debounce from '../../lib/debounce';
 
 class Editor {
   counter = 0;
