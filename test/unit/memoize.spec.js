@@ -1,6 +1,6 @@
 import chai from 'chai';
 import { stub } from 'sinon';
-import memoize from './memoize';
+import memoize from '../../lib/memoize';
 
 describe('memoize', function () {
   var Foo, work, run;

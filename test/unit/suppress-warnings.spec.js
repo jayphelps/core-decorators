@@ -1,10 +1,10 @@
 import chai from 'chai';
 import { spy } from 'sinon';
-import suppressWarnings from './suppress-warnings';
+import suppressWarnings from '../../lib/suppress-warnings';
 
 const CONSOLE_WARN = console.warn;
 
-describe('suppressWarnings', function () {
+describe('@suppressWarnings', function () {
   class Foo {
     @suppressWarnings
     suppressed(){
