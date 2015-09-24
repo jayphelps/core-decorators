@@ -28,7 +28,7 @@ _*note that the compiled code is intentionally not checked into this repo_
 * [@nonconfigurable](#nonconfigurable)
 
 ##### For Classes
-* [@mixin](#mixin)
+* [@mixin](#mixin-alias-mixins)
 
 
 ##### Proposed (not implemented, PRs welcome!):
