@@ -239,7 +239,7 @@ Initial implementation included, likely slow. WIP.
 
 ### @mixin (alias: @mixins)
 
-Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are applied in the order they are passed, but do **not** overload descriptors originally on the class, included those inherited traditionally.
+Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are applied in the order they are passed, but do **not** overload descriptors originally on the class, including those inherited traditionally.
 
 ```js
 import { mixin } from 'core-decorators';
