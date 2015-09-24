@@ -6,7 +6,7 @@ class Parent {
 }
 
 describe('override', function () {
-  it('Throws error when signature does not match', function () {
+  it('throws error when signature does not match', function () {
     (function () {
       class Child extends Parent {
         @override
@@ -15,7 +15,7 @@ describe('override', function () {
     }).should.throw('Child#speak() does not properly override Parent#speak(first, second)');
   });
 
-  it('Throws error when no is matching name is found', function () {
+  it('throws error when no is matching name is found', function () {
     (function () {
       class Child extends Parent {
         @override
@@ -24,7 +24,7 @@ describe('override', function () {
     }).should.throw('No descriptor matching Child#wow() was found on the prototype chain.');
   });
 
-  it('Throws error when no is matching name is found but suggests a closely named method if exists', function () {
+  it('throws error when no is matching name is found but suggests a closely named method if exists', function () {
     (function () {
       class Child extends Parent {
         @override
@@ -33,7 +33,7 @@ describe('override', function () {
     }).should.throw('No descriptor matching Child#speaks() was found on the prototype chain.\n\n  Did you mean "speak"?');
   });
 
-  it('Does not throw an error when signatures match', function () {
+  it('does not throw an error when signatures match', function () {
     (function () {
       class Child extends Parent {
         @override

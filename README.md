@@ -14,6 +14,7 @@ _*note that the compiled code is intentionally not checked into this repo_
 
 ## Decorators
 
+##### For Methods
 * [@autobind](#autobind)
 * [@readonly](#readonly)
 * [@override](#override)
@@ -23,6 +24,10 @@ _*note that the compiled code is intentionally not checked into this repo_
 * [@memoize](#memoize)
 * [@nonenumerable](#nonenumerable)
 * [@nonconfigurable](#nonconfigurable)
+
+##### For Classes
+* [@mixin](#mixin)
+
 
 ##### Proposed (not implemented, PRs welcome!):
 * @mixin
@@ -229,3 +234,34 @@ Object.defineProperty(dinner, 'entree', {
 ### @memoize
 
 Initial implementation included, likely slow. WIP.
+
+### @mixin (alias: @mixins)
+
+Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are applied in the order they are passed, but do **not** overload descriptors originally on the class, included those inherited traditionally.
+
+```js
+import { mixin } from 'core-decorators';
+
+const SingerMixin = {
+  sing(sound) {
+    alert(sound);
+  }
+};
+
+const FlyMixin = {
+  fly() {}
+  land() {}
+};
+
+@mixin(SingerMixin, FlyMixin)
+class Bird {
+  singMatingCall() {
+  	this.sing('tweet tweet');
+  }
+}
+
+var bird = new Bird();
+bird.singMatingCall();
+// alerts "tweet tweet"
+
+```

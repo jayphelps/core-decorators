@@ -1,8 +1,6 @@
 import chai from 'chai';
 import autobind from '../../lib/autobind';
 
-chai.should();
-
 class Foo {
   @autobind
   getFoo () {

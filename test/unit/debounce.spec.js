@@ -47,7 +47,7 @@ describe('debounce', function () {
     }, 600); 
   });
 
-  it('Separate instances do not share timers', function (done) {
+  it('separate instances do not share timers', function (done) {
     let editor2 = new Editor();
     editor.updateCounter1();
     editor2.updateCounter1();
