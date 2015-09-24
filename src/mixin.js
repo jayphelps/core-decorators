@@ -1,4 +1,6 @@
-const { getOwnPropertyDescriptors, defineProperty } = Object;
+import { getOwnPropertyDescriptors } from './private/utils';
+
+const { defineProperty } = Object;
 
 function handleClass(target, mixins) {
   if (!mixins.length) {

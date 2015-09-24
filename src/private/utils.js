@@ -1,3 +1,6 @@
+const { defineProperty, getOwnPropertyDescriptor,
+        getOwnPropertyNames, getOwnPropertySymbols } = Object;
+        
 export function isDescriptor(desc) {
   if (!desc || !desc.hasOwnProperty) {
     return false;
@@ -28,8 +31,6 @@ class Meta {
   debounceTimeoutIds = {};
 }
 
-const { defineProperty } = Object;
-
 export function metaFor(obj) {
   if (obj.hasOwnProperty('__core_decorators__') === false) {
     defineProperty(obj, '__core_decorators__', {
@@ -39,4 +40,22 @@ export function metaFor(obj) {
   }
 
   return obj.__core_decorators__;
+}
+
+const getOwnKeys = getOwnPropertySymbols
+    ? function (object) {
+        return getOwnPropertyNames(object)
+          .concat(getOwnPropertySymbols(object));
+      }
+    : getOwnPropertyNames;
+  
+
+export function getOwnPropertyDescriptors(obj) {
+  const descs = {};
+  
+  getOwnKeys(obj).forEach(
+    key => (descs[key] = getOwnPropertyDescriptor(obj, key))
+  );
+
+  return descs;
 }
