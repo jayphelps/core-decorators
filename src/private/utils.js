@@ -31,15 +31,19 @@ class Meta {
   debounceTimeoutIds = {};
 }
 
+const META_KEY = (typeof Symbol === 'function')
+  ? Symbol('__core_decorators__')
+  : '__core_decorators__';
+
 export function metaFor(obj) {
-  if (obj.hasOwnProperty('__core_decorators__') === false) {
-    defineProperty(obj, '__core_decorators__', {
+  if (obj.hasOwnProperty(META_KEY) === false) {
+    defineProperty(obj, META_KEY, {
       // Defaults: NOT enumerable, configurable, or writable
       value: new Meta()
     });
   }
 
-  return obj.__core_decorators__;
+  return obj[META_KEY];
 }
 
 const getOwnKeys = getOwnPropertySymbols
