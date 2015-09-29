@@ -34,6 +34,8 @@ function metaForDescriptor(descriptor) {
 }
 
 function handleDescriptor(target, key, descriptor) {
+  console.warn('DEPRECATION: @memoize is deprecated and will be removed shortly.');
+
   const { fn, wrapKey } = metaForDescriptor(descriptor);
   const argumentCache = new WeakMap();
   const signatureCache = Object.create(null);

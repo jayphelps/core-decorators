@@ -23,7 +23,6 @@ _*note that the compiled code is intentionally not checked into this repo_
 * [@deprecate](#deprecate-alias-deprecated)
 * [@debounce](#debounce)
 * [@suppressWarnings](#suppresswarnings)
-* [@memoize](#memoize)
 * [@nonenumerable](#nonenumerable)
 * [@nonconfigurable](#nonconfigurable)
 
@@ -232,10 +231,6 @@ Object.defineProperty(dinner, 'entree', {
 // Cannot redefine property: entree
 
 ```
-
-### @memoize
-
-Initial implementation included, likely slow. WIP.
 
 ### @mixin (alias: @mixins)
 
