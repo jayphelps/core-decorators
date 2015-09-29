@@ -56,7 +56,7 @@ describe('autobind', function () {
     desc.enumerable.should.equal(false);
   });
 
-  it('sets the correct instance descriptor options', function () {
+  it('sets the correct instance descriptor options when bound', function () {
     const foo = new Foo();
     const { getFoo } = foo;
     const desc = Object.getOwnPropertyDescriptor(foo, 'getFoo');
@@ -65,6 +65,19 @@ describe('autobind', function () {
     desc.enumerable.should.equal(false);
     desc.writable.should.equal(true);
     desc.value.should.equal(getFoo);
+  });
+
+  it('sets the correct instance descriptor options when reassigned outside', function () {
+    const noop = function () {};
+    const foo = new Foo();
+    const ret = foo.getFoo = noop;
+    const desc = Object.getOwnPropertyDescriptor(foo, 'getFoo');
+
+    ret.should.equal(noop);
+    desc.configurable.should.equal(true);
+    desc.enumerable.should.equal(true);
+    desc.writable.should.equal(true);
+    desc.value.should.equal(noop);
   });
 
   it('works with multiple instances of the same class', function () {

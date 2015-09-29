@@ -61,13 +61,24 @@ function handleDescriptor(target, key, { value: fn }) {
         return getBoundSuper(this, fn);
       }
 
-      return (this[key] = bind(fn, this));
+      const boundFn = bind(fn, this);
+
+      Object.defineProperty(this, key, {
+        configurable: true,
+        writable: true,
+        // NOT enumerable when it's a bound method
+        enumerable: false,
+        value: boundFn
+      });
+
+      return boundFn;
     },
     set(newValue) {
       Object.defineProperty(this, key, {
         configurable: true,
         writable: true,
-        enumerable: false,
+        // IS enumerable when reassigned by the outside word
+        enumerable: true,
         value: newValue
       });
     }
