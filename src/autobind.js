@@ -81,6 +81,8 @@ function handleDescriptor(target, key, { value: fn }) {
         enumerable: true,
         value: newValue
       });
+
+      return newValue;
     }
   };
 }
