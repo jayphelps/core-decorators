@@ -46,6 +46,8 @@ function handleDescriptor(target, key, { value: fn }) {
 
   return {
     configurable: true,
+    enumerable: false,
+
     get() {
       // This happens if someone accesses the
       // property directly on the prototype
@@ -64,9 +66,9 @@ function handleDescriptor(target, key, { value: fn }) {
     set(newValue) {
       Object.defineProperty(this, key, {
         configurable: true,
-        enumerable: true,
-        value: newValue,
-        writable: true
+        writable: true,
+        enumerable: false,
+        value: newValue
       });
     }
   };

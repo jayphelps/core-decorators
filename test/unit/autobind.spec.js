@@ -49,6 +49,24 @@ describe('autobind', function () {
     getFoo().should.equal(foo);
   });
 
+  it('sets the correct prototype descriptor options', function () {
+    const desc = Object.getOwnPropertyDescriptor(Foo.prototype, 'getFoo');
+
+    desc.configurable.should.equal(true);
+    desc.enumerable.should.equal(false);
+  });
+
+  it('sets the correct instance descriptor options', function () {
+    const foo = new Foo();
+    const { getFoo } = foo;
+    const desc = Object.getOwnPropertyDescriptor(foo, 'getFoo');
+
+    desc.configurable.should.equal(true);
+    desc.enumerable.should.equal(false);
+    desc.writable.should.equal(true);
+    desc.value.should.equal(getFoo);
+  });
+
   it('works with multiple instances of the same class', function () {
     const foo1 = new Foo();
     const foo2 = new Foo();
