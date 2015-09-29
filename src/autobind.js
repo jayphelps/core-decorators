@@ -49,7 +49,7 @@ function handleDescriptor(target, key, { value: fn }) {
     get() {
       // This happens if someone accesses the
       // property directly on the prototype
-      if (this === constructor.prototype) {
+      if (this === target) {
         return fn;
       }
 
