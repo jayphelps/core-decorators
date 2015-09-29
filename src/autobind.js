@@ -10,33 +10,64 @@ function bind(fn, context) {
   }
 }
 
+let mapStore;
+
+function getBoundSuper(obj, fn) {
+  if (typeof WeakMap === 'undefined') {
+    throw new Error(
+      `Using @autobind on ${fn.name}() requires WeakMap support due to its use of super.${fn.name}()
+      See https://github.com/jayphelps/core-decorators.js/issues/20`
+    );
+  }
+
+  if (!mapStore) {
+     mapStore = new WeakMap();
+  }
+
+  if (mapStore.has(obj) === false) {
+    mapStore.set(obj, new WeakMap());
+  }
+
+  const superStore = mapStore.get(obj);
+
+  if (superStore.has(fn) === false) {
+    superStore.set(fn, bind(fn, obj));
+  }
+
+  return superStore.get(fn);
+}
+
 function handleDescriptor(target, key, { value: fn }) {
   if (typeof fn !== 'function') {
     throw new SyntaxError(`@autobind can only be used on functions, not: ${fn}`);
   }
 
+  const { constructor } = target;
+
   return {
     configurable: true,
     get() {
+      // This happens if someone accesses the
+      // property directly on the prototype
+      if (this === constructor.prototype) {
+        return fn;
+      }
+
+      // This is a confusing case where you have an autobound method calling
+      // super.sameMethod() which is also autobound and so on.
+      if (this.constructor !== constructor && this.constructor.prototype.hasOwnProperty(key)) {
+        return getBoundSuper(this, fn);
+      }
+
       return (this[key] = bind(fn, this));
     },
     set(newValue) {
-      if (this === target) {
-        // New value directly set on the prototype.
-        delete this[key];
-        this[key] = newValue;
-      } else {
-        // New value set on a child object.
-
-        // Cannot use assignment because it will call the setter on the
-        // prototype.
-        Object.defineProperty(this, key, {
-          configurable: true,
-          enumerable: true,
-          value: newValue,
-          writable: true
-        });
-      }
+      Object.defineProperty(this, key, {
+        configurable: true,
+        enumerable: true,
+        value: newValue,
+        writable: true
+      });
     }
   };
 }

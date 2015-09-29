@@ -1,14 +1,47 @@
 import chai from 'chai';
 import autobind from '../../lib/autobind';
 
-class Foo {
-  @autobind
-  getFoo () {
-    return this;
-  }
-}
+const root = (typeof window !== 'undefined') ? window : global;
 
 describe('autobind', function () {
+  let Foo;
+  let Bar;
+  let barCount;
+
+  beforeEach(function () {
+    Foo = class Foo {
+      @autobind
+      getFoo() {
+        return this;
+      }
+
+      getFooAgain() {
+        return this;
+      }
+    }
+
+    barCount = 0;
+
+    Bar = class Bar extends Foo {
+      @autobind
+      getFoo() {
+        const foo = super.getFoo();
+        barCount++;
+        return foo;
+      }
+
+      getSuperMethod() {
+        return super.getFoo;
+      }
+    }
+  });
+
+  afterEach(function () {
+    Foo = null;
+    Bar = null;
+    barCount = null;
+  });
+
   it('returns a bound instance for a method', function () {
     const foo = new Foo();
     const { getFoo } = foo;
@@ -25,5 +58,62 @@ describe('autobind', function () {
 
     getFoo1().should.equal(foo1);
     getFoo2().should.equal(foo2);
+  });
+
+  it('returns the same bound function every time', function () {
+    const foo = new Foo();
+    const bar = new Bar();
+
+    foo.getFoo.should.equal(foo.getFoo);
+    bar.getFoo.should.equal(bar.getFoo);
+    bar.getSuperMethod().should.equal(bar.getSuperMethod());
+    bar.getFooAgain().should.equal(bar.getFooAgain());
+  });
+
+  it('works with inheritance, super.method() being autobound as well', function () {
+    const bar = new Bar();
+    const getFoo = bar.getFoo;
+
+    // Calling both forms more than once to catch
+    // bugs that only appear after first invocation
+    getFoo().should.equal(bar);
+    getFoo().should.equal(bar);
+    bar.getFoo().should.equal(bar);
+    bar.getFoo().should.equal(bar);
+    bar.getFooAgain().should.equal(bar);
+
+    barCount.should.equal(4);
+  });
+
+  it('throws when it needs WeakMap but it is not available', function () {
+    const WeakMap = root.WeakMap;
+    delete root.WeakMap;
+
+    const bar = new Bar();
+
+    (function () {
+      bar.getFoo();
+    }).should.throw(`Using @autobind on getFoo() requires WeakMap support due to its use of super.getFoo()
+      See https://github.com/jayphelps/core-decorators.js/issues/20`);
+
+    barCount.should.equal(0);
+
+    root.WeakMap = WeakMap;
+  });
+
+  it('does not override descriptor when accessed on the prototype', function () {
+    Foo.prototype.getFoo;
+
+    const foo = new Foo();
+    const getFoo1 = foo.getFoo;
+    getFoo1().should.equal(foo);
+
+    Bar.prototype.getFoo;
+
+    const bar = new Bar();
+    const getFoo2 = bar.getFoo;
+    getFoo2().should.equal(bar);
+
+    barCount.should.equal(1);
   });
 });
