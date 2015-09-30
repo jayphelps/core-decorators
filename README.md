@@ -31,7 +31,6 @@ _*note that the compiled code is intentionally not checked into this repo_
 
 
 ##### Proposed (not implemented, PRs welcome!):
-* @mixin
 * @instrument/profile
 * @throttle
 * @assertArguments(arg1 => arg1, arg2 => arg2)
