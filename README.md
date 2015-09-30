@@ -25,6 +25,7 @@ _*note that the compiled code is intentionally not checked into this repo_
 * [@suppressWarnings](#suppresswarnings)
 * [@nonenumerable](#nonenumerable)
 * [@nonconfigurable](#nonconfigurable)
+* [@decorate](#decorate)
 
 ##### For Classes
 * [@mixin](#mixin-alias-mixins)
@@ -229,6 +230,33 @@ Object.defineProperty(dinner, 'entree', {
 });
 // Cannot redefine property: entree
 
+```
+
+### @decorate
+
+Immediately applies the provided function and arguments to the method, allowing you to wrap methods with arbitrary helpers like [those provided by lodash](https://lodash.com/docs#after). The first argument is the function to apply, all further arguments will be passed to that decorating function.
+
+```js
+import { decorate } from 'core-decorators';
+import { memoize } from 'lodash';
+
+var count = 0;
+
+class Task {
+  @decorate(memoize)
+  doSomethingExpensive(data) {
+	count++;
+    // something expensive;
+    return data;
+  }
+}
+
+var task = new Task();
+task.doSomethingExpensive([1, 2, 3]);
+task.doSomethingExpensive([1, 2, 3]);
+
+count === 1;
+// true
 ```
 
 ### @mixin (alias: @mixins)
