@@ -25,10 +25,10 @@ _*note that the compiled code is intentionally not checked into this repo_
 * [@suppressWarnings](#suppresswarnings)
 * [@nonenumerable](#nonenumerable)
 * [@nonconfigurable](#nonconfigurable)
-* [@decorate](#decorate)
+* [@decorate](#decorate) :new:
 
 ##### For Classes
-* [@mixin](#mixin-alias-mixins)
+* [@mixin](#mixin-alias-mixins) :new:
 
 
 ##### Proposed (not implemented, PRs welcome!):
