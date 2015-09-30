@@ -245,15 +245,17 @@ var count = 0;
 class Task {
   @decorate(memoize)
   doSomethingExpensive(data) {
-	count++;
+    count++;
     // something expensive;
     return data;
   }
 }
 
 var task = new Task();
-task.doSomethingExpensive([1, 2, 3]);
-task.doSomethingExpensive([1, 2, 3]);
+var data = [1, 2, 3];
+
+task.doSomethingExpensive(data);
+task.doSomethingExpensive(data);
 
 count === 1;
 // true
@@ -282,7 +284,7 @@ const FlyMixin = {
 @mixin(SingerMixin, FlyMixin)
 class Bird {
   singMatingCall() {
-  	this.sing('tweet tweet');
+    this.sing('tweet tweet');
   }
 }
 
