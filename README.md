@@ -245,15 +245,17 @@ var count = 0;
 class Task {
   @decorate(memoize)
   doSomethingExpensive(data) {
-	count++;
+    count++;
     // something expensive;
     return data;
   }
 }
 
 var task = new Task();
-task.doSomethingExpensive([1, 2, 3]);
-task.doSomethingExpensive([1, 2, 3]);
+var data = [1, 2, 3];
+
+task.doSomethingExpensive(data);
+task.doSomethingExpensive(data);
 
 count === 1;
 // true
@@ -261,7 +263,7 @@ count === 1;
 
 ### @mixin (alias: @mixins)
 
-Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are applied in the order they are passed, but do **not** overload descriptors originally on the class, including those inherited traditionally.
+Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are applied in the order they are passed, but do **not** override descriptors already on the class, including those inherited traditionally.
 
 ```js
 import { mixin } from 'core-decorators';
@@ -274,15 +276,15 @@ const SingerMixin = {
 
 const FlyMixin = {
   // All types of property descriptors are supported
-  get speed() {}
-  fly() {}
+  get speed() {},
+  fly() {},
   land() {}
 };
 
 @mixin(SingerMixin, FlyMixin)
 class Bird {
   singMatingCall() {
-  	this.sing('tweet tweet');
+    this.sing('tweet tweet');
   }
 }
 
