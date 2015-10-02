@@ -276,8 +276,8 @@ const SingerMixin = {
 
 const FlyMixin = {
   // All types of property descriptors are supported
-  get speed() {}
-  fly() {}
+  get speed() {},
+  fly() {},
   land() {}
 };
 
