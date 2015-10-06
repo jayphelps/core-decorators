@@ -1,8 +1,9 @@
 {
   "name": "core-decorators",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Library of ES7 decorators inspired by languages that come with built-ins like @override, @deprecated, etc",
   "main": "lib/core-decorators.js",
+  "jsnext:main": "src/core-decorators.js",
   "files": [
     "lib",
     "src",
