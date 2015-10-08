@@ -1,15 +1,13 @@
-  import { decorate } from './private/utils';
+import { decorate } from './private/utils';
 
 const GENERIC_FUNCTION_ERROR = '{child} does not properly override {parent}';
 const FUNCTION_REGEXP = /^function ([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)?(\([^\)]*\))[\s\S]+$/;
 
 class SyntaxErrorReporter {
-  // undefined values needed until this babel PR is released:
-  // https://github.com/babel/babel/pull/1256
-  parentKlass = undefined;
-  childKlass = undefined;
-  parentDescriptor = undefined;
-  childDescriptor = undefined;
+  parentKlass;
+  childKlass;
+  parentDescriptor;
+  childDescriptor;
   
   get key() {
     return this.childDescriptor.key;  
