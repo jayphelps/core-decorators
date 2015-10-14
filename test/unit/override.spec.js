@@ -5,7 +5,7 @@ class Parent {
   speak(first, second) {}
 }
 
-describe('override', function () {
+describe('@override', function () {
   it('throws error when signature does not match', function () {
     (function () {
       class Child extends Parent {

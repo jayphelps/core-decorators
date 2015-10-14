@@ -15,7 +15,7 @@ class Editor {
   }
 }
 
-describe('debounce', function () {
+describe('@debounce', function () {
   let editor;
 
   beforeEach(function () {

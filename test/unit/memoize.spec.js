@@ -2,7 +2,7 @@ import chai from 'chai';
 import { stub } from 'sinon';
 import memoize from '../../lib/memoize';
 
-describe('memoize', function () {
+describe('@memoize', function () {
   var Foo, work, run;
 
   beforeEach(function () {

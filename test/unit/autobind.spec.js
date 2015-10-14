@@ -3,7 +3,7 @@ import autobind from '../../lib/autobind';
 
 const root = (typeof window !== 'undefined') ? window : global;
 
-describe('autobind', function () {
+describe('@autobind', function () {
   let Foo;
   let Bar;
   let barCount;

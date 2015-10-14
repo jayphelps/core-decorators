@@ -32,7 +32,7 @@ function applyMixins(...mixins) {
     };
 }
 
-describe('mixin', function () {
+describe('@mixin', function () {
   it('throws if you do not provide at least one mixin', function () {
     (function () {
       var foo = @mixin class Bad {};

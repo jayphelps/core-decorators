@@ -1,7 +1,7 @@
 import chai from 'chai';
 import decorate from '../../lib/decorate';
 
-describe('decorate', function () {
+describe('@decorate', function () {
   let Foo;
 
   beforeEach(function () {

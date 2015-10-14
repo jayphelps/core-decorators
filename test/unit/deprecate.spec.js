@@ -27,7 +27,7 @@ class Foo {
   }
 }
 
-describe('deprecate', function () {
+describe('@deprecate', function () {
   beforeEach(function () {
     sinon.spy(console, 'warn');
   });

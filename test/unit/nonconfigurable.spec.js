@@ -1,8 +1,7 @@
 import chai from 'chai';
 import nonconfigurable from '../../lib/nonconfigurable';
 
-
-describe('nonconfigurable', function () {
+describe('@nonconfigurable', function () {
   class Foo {
     @nonconfigurable
     bar(){}

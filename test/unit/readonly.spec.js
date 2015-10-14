@@ -1,7 +1,7 @@
 import chai from 'chai';
 import readonly from '../../lib/readonly';
 
-describe('readonly', function () {
+describe('@readonly', function () {
   class Foo {
     @readonly
     bar(){}

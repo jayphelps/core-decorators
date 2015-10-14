@@ -6,7 +6,7 @@ function enumerable (target, key, descriptor){
   return descriptor;
 }
 
-describe('nonenumerable', function () {
+describe('@nonenumerable', function () {
   class Foo {
     @nonenumerable
     @enumerable
