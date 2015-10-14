@@ -7,4 +7,5 @@ export { default as readonly } from './readonly';
 export { default as nonenumerable } from './nonenumerable';
 export { default as nonconfigurable } from './nonconfigurable';
 export { default as debounce } from './debounce';
+export { default as decorate } from './decorate';
 export { default as mixin, default as mixins } from './mixin';
