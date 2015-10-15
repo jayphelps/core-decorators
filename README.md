@@ -41,7 +41,7 @@ _*note that the compiled code is intentionally not checked into this repo_
 
 ### @autobind
 
-Forces invocations of this function to always have `this` refer to the class instance, even if the function is passed around or would otherwise lose its `this` context. e.g. `var fn = context.method;`
+Forces invocations of this function to always have `this` refer to the class instance, even if the function is passed around or would otherwise lose its `this` context. e.g. `var fn = context.method;` Popular with React components.
 
 ```js
 import { autobind } from 'core-decorators';
