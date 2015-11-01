@@ -1,19 +1,19 @@
 const { defineProperty, getOwnPropertyDescriptor,
         getOwnPropertyNames, getOwnPropertySymbols } = Object;
-        
+
 export function isDescriptor(desc) {
   if (!desc || !desc.hasOwnProperty) {
     return false;
   }
-  
+
   const keys = ['value', 'get', 'set'];
-  
+
   for (let i = 0, l = keys.length; i < l; i++) {
     if (desc.hasOwnProperty(keys[i])) {
       return true;
     }
   }
-  
+
   return false;
 }
 
@@ -29,6 +29,8 @@ export function decorate(handleDescriptor, entryArgs) {
 
 class Meta {
   debounceTimeoutIds = {};
+  throttleTimeoutIds = {};
+  throttlePreviouStimestamps = {};
 }
 
 const META_KEY = (typeof Symbol === 'function')
@@ -52,11 +54,11 @@ const getOwnKeys = getOwnPropertySymbols
           .concat(getOwnPropertySymbols(object));
       }
     : getOwnPropertyNames;
-  
+
 
 export function getOwnPropertyDescriptors(obj) {
   const descs = {};
-  
+
   getOwnKeys(obj).forEach(
     key => (descs[key] = getOwnPropertyDescriptor(obj, key))
   );

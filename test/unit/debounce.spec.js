@@ -44,7 +44,7 @@ describe('@debounce', function () {
     setTimeout(() => {
       editor.counter.should.equal(1);
       done();
-    }, 600); 
+    }, 600);
   });
 
   it('separate instances do not share timers', function (done) {
