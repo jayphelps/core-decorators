@@ -9,12 +9,12 @@ class Editor {
     this.counter++;
   }
 
-  @throttle(500, false)
+  @throttle(500, {leading: false})
   updateCounter2() {
     this.counter++;
   }
 
-  @throttle(500, false, false)
+  @throttle(500, {leading: false, trailing: false})
   updateCounter3() {
     this.counter++;
   }
@@ -65,22 +65,24 @@ describe('@throttle', function () {
     }, 600);
   });
 
-  it('not invokes function if "leading" and "trailing" options are both false', function (done) {
+  it('does not invokes function if "leading" and "trailing" options are both false', function (done) {
     editor.updateCounter3();
     editor.counter.should.equal(0);
 
-    // should still be 1 because 500ms hasn't yet passed
+    // should still be 0 because leading call a canceled
     setTimeout(() => {
       editor.counter.should.equal(0);
+      editor.updateCounter3();
     }, 400);
 
+    // should still be 0 because trailing call a canceled
     setTimeout(() => {
       editor.counter.should.equal(0);
       done();
     }, 600);
   });
 
-  it('separate instances do not share timers', function (done) {
+  it('does not share timers between instances', function (done) {
     let editor2 = new Editor();
     editor.updateCounter1();
     editor2.updateCounter1();

@@ -2,11 +2,19 @@ import { decorate, metaFor } from './private/utils';
 
 const DEFAULT_TIMEOUT = 300;
 
-function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, leading = true, trailing = true]) {
+function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, options = {}]) {
   const callback = descriptor.value;
 
   if (typeof callback !== 'function') {
     throw new SyntaxError('Only functions can be throttled');
+  }
+
+  if (options.leading !== false) {
+    options.leading = true
+  }
+
+  if(options.trailing !== false) {
+    options.trailing = true
   }
 
   return {
@@ -21,7 +29,7 @@ function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, lead
 
       // if first be called and disable the execution on the leading edge
       // set last execute timestamp to now
-      if (!previous && leading === false) {
+      if (!previous && options.leading === false) {
         previous = now;
       }
 
@@ -32,9 +40,9 @@ function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, lead
         delete throttleTimeoutIds[key];
         throttlePreviouStimestamps[key] = now;
         callback.apply(this, args);
-      } else if (!timeout && trailing !== false) {
+      } else if (!timeout && options.trailing !== false) {
         throttleTimeoutIds[key] = setTimeout(() => {
-          throttlePreviouStimestamps[key] = leading === false ? 0 : Date.now();
+          throttlePreviouStimestamps[key] = options.leading === false ? 0 : Date.now();
           delete throttleTimeoutIds[key];
           callback.apply(this, args);
         }, remaining);
