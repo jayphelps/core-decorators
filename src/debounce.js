@@ -15,18 +15,19 @@ function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, imme
       const { debounceTimeoutIds } = metaFor(this);
       const timeout = debounceTimeoutIds[key];
       const callNow = immediate && !timeout;
+      const args = arguments;
 
       clearTimeout(timeout);
 
       debounceTimeoutIds[key] = setTimeout(() => {
         delete debounceTimeoutIds[key];
         if (!immediate) {
-          callback.apply(this, arguments);
+          callback.apply(this, args);
         }
       }, wait);
 
       if (callNow) {
-        callback.apply(this, arguments);
+        callback.apply(this, args);
       }
     }
   };

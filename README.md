@@ -22,6 +22,7 @@ _*note that the compiled code is intentionally not checked into this repo_
 * [@override](#override)
 * [@deprecate](#deprecate-alias-deprecated)
 * [@debounce](#debounce)
+* [@throttle](#throttle) :new:
 * [@suppressWarnings](#suppresswarnings)
 * [@nonenumerable](#nonenumerable)
 * [@nonconfigurable](#nonconfigurable)
@@ -33,7 +34,6 @@ _*note that the compiled code is intentionally not checked into this repo_
 
 ##### Proposed (not implemented, PRs welcome!):
 * @instrument/profile
-* @throttle
 * @assertArguments(arg1 => arg1, arg2 => arg2)
 * @private
 
@@ -151,10 +151,35 @@ Optional boolean second argument allows to trigger function on the leading inste
 import { debounce } from 'core-decorators';
 
 class Editor {
-  
+
   content = '';
 
   @debounce(500)
+  updateContent(content) {
+    this.content = content;
+  }
+}
+```
+
+### @throttle
+
+Creates a new throttled function which will be invoked in every `wait` milliseconds. Default timeout is 300 ms.
+
+Second argument is optional options:
+
+- `leading`: default to `true`, allows to trigger function on the leading.
+- `trailing`: default to `true`, allows to trigger function on the trailing edge of the wait interval.
+
+Implementation is insired by similar method from [UnderscoreJS](http://underscorejs.org/#throttle).
+
+```js
+import { throttle } from 'core-decorators';
+
+class Editor {
+
+  content = '';
+
+  @throttle(500, {leading: false})
   updateContent(content) {
     this.content = content;
   }
@@ -195,7 +220,7 @@ import { nonenumerable } from 'core-decorators';
 
 class Meal {
   entree = 'steak';
-  
+
   @nonenumerable
   cost = 20.99;
 }
