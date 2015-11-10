@@ -1,7 +1,9 @@
 # core-decorators.js [![Build Status](https://travis-ci.org/jayphelps/core-decorators.js.svg?branch=master)](https://travis-ci.org/jayphelps/core-decorators.js)
-Library of [ES2016 (ES7) decorators](https://github.com/wycats/javascript-decorators) inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html). Note that unlike Java annotations, decorators are functions which are applied at runtime.
+Library of [JavaScript decorators](https://github.com/wycats/javascript-decorators) (sometimes erroneously stated as ES2016 or ES7) inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html). Note that unlike Java annotations, decorators are functions which are applied at runtime.
 
-It also includes a single class decorator, `@mixin` for applying  object descriptors to a given class.
+It also includes a single class decorator, `@mixin` for applying object descriptors to a given class.
+
+_*compiled code is intentionally not checked into this repo_
 
 ### Get It
 
@@ -10,9 +12,7 @@ A version compiled to ES5 in CJS format is published to npm as [`core-decorators
 npm install core-decorators --save
 ```
 
-This form could be consumed by any ES2016 (ES7) transpiler that supports decorators like [babel.js](https://babeljs.io/) with `babel --optional es7.decorators,es7.objectRestSpread` or `babel --stage 1` or using the recent iterations of TypeScript.
-
-_*note that the compiled code is intentionally not checked into this repo_
+This can be consumed by any transpiler that supports decorators like [babel.js](https://babeljs.io/) or using the recent iterations of TypeScript. To use with babel, you must include the correct babel plugins for decorator [parsing](http://babeljs.io/docs/plugins/syntax-decorators/) and [transformation](http://babeljs.io/docs/plugins/transform-decorators/) or use [stage-1](http://babeljs.io/docs/plugins/preset-stage-1/).
 
 ## Decorators
 
