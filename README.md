@@ -16,7 +16,7 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 
 ## Decorators
 
-##### For Methods
+##### For Properties and Methods
 * [@autobind](#autobind)
 * [@readonly](#readonly)
 * [@override](#override)
@@ -24,6 +24,7 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@debounce](#debounce)
 * [@throttle](#throttle) :new:
 * [@suppressWarnings](#suppresswarnings)
+* [@enumerable](#enumerable) :new:
 * [@nonenumerable](#nonenumerable)
 * [@nonconfigurable](#nonconfigurable)
 * [@decorate](#decorate) :new:
@@ -211,9 +212,31 @@ person.facepalmWithoutWarning();
 // no warning is logged
 ```
 
+### @enumerable
+
+Marks a method as being enumerable. Note that instance properties are _already_ enumerable, so this is only useful for methods.
+
+```js
+import { enumerable } from 'core-decorators';
+
+class Meal {
+  pay() {}
+  
+  @enumerable
+  eat() {}
+}
+
+var dinner = new Meal();
+for (var key in dinner) {
+  key;
+  // "eat" only, not "pay"
+}
+
+```
+
 ### @nonenumerable
 
-Marks a property or method as not being enumerable.
+Marks a property as not being enumerable. Note that class methods are _already_ nonenumerable, so this is only useful for instance properties.
 
 ```js
 import { nonenumerable } from 'core-decorators';
