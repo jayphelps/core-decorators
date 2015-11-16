@@ -1,6 +1,6 @@
 {
   "name": "core-decorators",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "Library of ES2016 (ES7) JavaScript decorators inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more! Works great with React/Angular/more!",
   "main": "lib/core-decorators.js",
   "jsnext:main": "src/core-decorators.js",
