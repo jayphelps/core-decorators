@@ -1,4 +1,3 @@
-import chai from 'chai';
 import throttle from '../../lib/throttle';
 
 class Editor {

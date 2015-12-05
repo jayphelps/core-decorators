@@ -1,4 +1,3 @@
-import chai from 'chai';
 import override from '../../lib/override';
 
 class Parent {

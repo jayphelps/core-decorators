@@ -1,4 +1,3 @@
-import chai from 'chai';
 import debounce from '../../lib/debounce';
 
 class Editor {

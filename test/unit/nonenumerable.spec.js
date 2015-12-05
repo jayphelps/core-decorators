@@ -1,4 +1,3 @@
-import chai from 'chai';
 import nonenumerable from '../../lib/nonenumerable';
 
 describe('@nonenumerable', function () {

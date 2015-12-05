@@ -1,4 +1,3 @@
-import chai from 'chai';
 import { spy } from 'sinon';
 import suppressWarnings from '../../lib/suppress-warnings';
 

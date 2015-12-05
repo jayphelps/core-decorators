@@ -1,4 +1,3 @@
-import chai from 'chai';
 import mixin from '../../lib/mixin';
 
 const BarMixin = {

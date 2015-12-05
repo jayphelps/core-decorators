@@ -1,4 +1,3 @@
-import chai from 'chai';
 import autobind from '../../lib/autobind';
 
 const root = (typeof window !== 'undefined') ? window : global;
