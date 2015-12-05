@@ -1,4 +1,3 @@
-import chai from 'chai';
 import readonly from '../../lib/readonly';
 
 describe('@readonly', function () {

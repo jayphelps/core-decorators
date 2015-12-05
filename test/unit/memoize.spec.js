@@ -1,4 +1,3 @@
-import chai from 'chai';
 import { stub } from 'sinon';
 import memoize from '../../lib/memoize';
 

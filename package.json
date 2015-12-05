@@ -43,7 +43,9 @@
   "homepage": "https://github.com/jayphelps/core-decorators.js",
   "devDependencies": {
     "babel": "^5.4.7",
+    "camelcase": "^2.0.1",
     "chai": "^3.2.0",
+    "glob": "^6.0.1",
     "mocha": "^2.2.5",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0"

@@ -1,10 +1,5 @@
-import chai from 'chai';
 import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
 import deprecate from '../../lib/deprecate';
-
-chai.should();
-chai.use(sinonChai);
 
 class Foo {
   @deprecate

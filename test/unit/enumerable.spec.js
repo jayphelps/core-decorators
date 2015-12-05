@@ -1,4 +1,3 @@
-import chai from 'chai';
 import enumerable from '../../lib/enumerable';
 
 describe('@enumerable', function () {

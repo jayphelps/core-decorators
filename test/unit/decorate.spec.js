@@ -1,4 +1,3 @@
-import chai from 'chai';
 import decorate from '../../lib/decorate';
 
 describe('@decorate', function () {
