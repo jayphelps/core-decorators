@@ -2,19 +2,11 @@ const { defineProperty, getOwnPropertyDescriptor,
         getOwnPropertyNames, getOwnPropertySymbols } = Object;
 
 export function isDescriptor(desc) {
-  if (!desc || !desc.hasOwnProperty) {
-    return false;
-  }
-
   const keys = ['value', 'get', 'set'];
 
-  for (let i = 0, l = keys.length; i < l; i++) {
-    if (desc.hasOwnProperty(keys[i])) {
-      return true;
-    }
-  }
-
-  return false;
+  return desc
+    && desc.hasOwnProperty
+    && keys.some(key => desc.hasOwnProperty(key));
 }
 
 export function decorate(handleDescriptor, entryArgs) {
@@ -57,13 +49,10 @@ const getOwnKeys = getOwnPropertySymbols
 
 
 export function getOwnPropertyDescriptors(obj) {
-  const descs = {};
-
-  getOwnKeys(obj).forEach(
-    key => (descs[key] = getOwnPropertyDescriptor(obj, key))
-  );
-
-  return descs;
+  return getOwnKeys(obj).reduce((descs, key) => {
+    descs[key] = getOwnPropertyDescriptor(obj, key);
+    return descs;
+  }, {});
 }
 
 export function createDefaultSetter(key) {
