@@ -7,7 +7,7 @@ describe('@nonenumerable', function () {
   }
 
   it('is not enumerable', function () {
-    Object.getOwnPropertyDescriptor(Foo.prototype, 'bar')
-      .enumerable.should.equal(false);
+    const foo = new Foo();
+    Object.getOwnPropertyDescriptor(foo, 'bar').enumerable.should.equal(false);
   });
 });
