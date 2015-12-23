@@ -1,3 +1,5 @@
+import lazyInitialize from '../lazy-initialize';
+
 const { defineProperty, getOwnPropertyDescriptor,
         getOwnPropertyNames, getOwnPropertySymbols } = Object;
 
@@ -28,8 +30,11 @@ export function decorate(handleDescriptor, entryArgs) {
 }
 
 class Meta {
+  @lazyInitialize
   debounceTimeoutIds = {};
+  @lazyInitialize
   throttleTimeoutIds = {};
+  @lazyInitialize
   throttlePreviousTimestamps = {};
 }
 

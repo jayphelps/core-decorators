@@ -12,7 +12,7 @@ function applyWithoutWarnings(context, fn, args) {
   return ret;
 }
 
-function handleDescriptor(target, key, descriptor, warningTypes) {
+function handleDescriptor(target, key, descriptor) {
   return {
     ...descriptor,
     value: function suppressWarningsWrapper() {
