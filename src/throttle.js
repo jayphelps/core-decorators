@@ -20,10 +20,10 @@ function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, opti
   return {
     ...descriptor,
     value() {
-      const { throttleTimeoutIds, throttlePreviouStimestamps } = metaFor(this);
+      const { throttleTimeoutIds, throttlePreviousTimestamps } = metaFor(this);
       const timeout = throttleTimeoutIds[key];
       // last execute timestamp
-      let previous = throttlePreviouStimestamps[key] || 0;
+      let previous = throttlePreviousTimestamps[key] || 0;
       const now = Date.now();
       const args = arguments;
 
@@ -38,11 +38,11 @@ function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, opti
       if (remaining <= 0) {
         clearTimeout(timeout);
         delete throttleTimeoutIds[key];
-        throttlePreviouStimestamps[key] = now;
+        throttlePreviousTimestamps[key] = now;
         callback.apply(this, args);
       } else if (!timeout && options.trailing !== false) {
         throttleTimeoutIds[key] = setTimeout(() => {
-          throttlePreviouStimestamps[key] = options.leading === false ? 0 : Date.now();
+          throttlePreviousTimestamps[key] = options.leading === false ? 0 : Date.now();
           delete throttleTimeoutIds[key];
           callback.apply(this, args);
         }, remaining);

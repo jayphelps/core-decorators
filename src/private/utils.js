@@ -30,7 +30,7 @@ export function decorate(handleDescriptor, entryArgs) {
 class Meta {
   debounceTimeoutIds = {};
   throttleTimeoutIds = {};
-  throttlePreviouStimestamps = {};
+  throttlePreviousTimestamps = {};
 }
 
 const META_KEY = (typeof Symbol === 'function')
