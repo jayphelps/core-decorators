@@ -17,17 +17,22 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 ## Decorators
 
 ##### For Properties and Methods
-* [@autobind](#autobind)
 * [@readonly](#readonly)
-* [@override](#override)
-* [@deprecate](#deprecate-alias-deprecated)
-* [@debounce](#debounce)
-* [@throttle](#throttle) :new:
-* [@suppressWarnings](#suppresswarnings)
-* [@enumerable](#enumerable) :new:
-* [@nonenumerable](#nonenumerable)
 * [@nonconfigurable](#nonconfigurable)
 * [@decorate](#decorate) :new:
+
+##### For Properties only
+* [@nonenumerable](#nonenumerable)
+* [@lazyInitialize](#lazyInitialize) :new:
+
+##### For Methods only
+* [@autobind](#autobind)
+* [@deprecate](#deprecate-alias-deprecated)
+* [@suppressWarnings](#suppresswarnings)
+* [@enumerable](#enumerable) :new:
+* [@override](#override)
+* [@debounce](#debounce)
+* [@throttle](#throttle) :new:
 
 ##### For Classes
 * [@mixin](#mixin-alias-mixins) :new:
@@ -261,7 +266,7 @@ Object.keys(dinner);
 
 ### @nonconfigurable
 
-Marks a property or method as not being writable.
+Marks a property or method so that it cannot be reconfigured, changed, or deleted.
 
 ```js
 import { nonconfigurable } from 'core-decorators';
@@ -307,6 +312,34 @@ task.doSomethingExpensive(data);
 
 count === 1;
 // true
+```
+
+### @lazyInitialize
+
+Prevents a property initializer from running until the decorated property is actually looked up. Useful to prevent excess allocations that might otherwise not be used, but be careful not to over-optimize things.
+
+```js
+import { lazyInitialize } from 'core-decorators';
+
+function createHugeBuffer() {
+  console.log('huge buffer created');
+  return new Array(1000000);
+}
+
+class Editor {
+  @lazyInitialize
+  hugeBuffer = createHugeBuffer();
+}
+
+var editor = new Editor();
+// createHugeBuffer() has not been called yet
+
+editor.hugeBuffer;
+// logs 'huge buffer created', now it has been called
+
+editor.hugeBuffer;
+// already initialized and equals our buffer, so
+// createHugeBuffer() is not called again
 ```
 
 ### @mixin (alias: @mixins)
