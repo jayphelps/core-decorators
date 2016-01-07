@@ -33,13 +33,13 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@override](#override)
 * [@debounce](#debounce)
 * [@throttle](#throttle) :new:
+* [@instrument](#instrument) :new:
 
 ##### For Classes
 * [@mixin](#mixin-alias-mixins) :new:
 
 
 ##### Proposed (not implemented, PRs welcome!):
-* @instrument/profile
 * @assertArguments(arg1 => arg1, arg2 => arg2)
 * @private
 
@@ -226,7 +226,7 @@ import { enumerable } from 'core-decorators';
 
 class Meal {
   pay() {}
-  
+
   @enumerable
   eat() {}
 }
@@ -374,6 +374,16 @@ bird.singMatingCall();
 // alerts "tweet tweet"
 
 ```
+
+### @instrument
+
+Uses `console.time` and `console.timeEnd` to provide function timings with a unique label whose default prefix is `ClassName.method`.
+
+Will polyfill `console.time` if the current environment does not support it. You can also supply a custom `console` object with the following methods:
+
+* `myConsole.time(label)`
+* `myConsole.timeEnd(label)`
+* `myConsole.log(value)`
 
 # Future Compatibility
 Since most people can't keep up to date with specs, it's important to note that ES2016 (including the decorators spec this relies on) is in-flux and subject to breaking changes. In fact, the [biggest change is coming shortly](https://github.com/wycats/javascript-decorators/pull/36) but I am active in the appropriate communities and will be keeping this project up to date as things progress. For the most part, these changes will usually be transparent to consumers of this project--that said, core-decorators has not yet reached 1.0 and may in fact introduce breaking changes. If you'd prefer not to receive these changes, be sure to lock your dependency to [PATCH](http://semver.org/). You can track the progress of core-decorators@1.0.0 in the [The Road to 1.0](https://github.com/jayphelps/core-decorators.js/issues/15) ticket.
