@@ -4,10 +4,10 @@ const CONSOLE_NATIVE = console;
 
 let count = 0;
 
-function handleDescriptor(target, key, descriptor, [prefix = null, options = {}]) {
+function handleDescriptor(target, key, descriptor, [prefix = null, konsole = null]) {
   let className = target.constructor.name;
   let fn = descriptor.value;
-  const CONSOLE = options.console || CONSOLE_NATIVE;
+  const CONSOLE = konsole || CONSOLE_NATIVE;
 
   if ( prefix === null ) {
     prefix = `${className}.${key}`;

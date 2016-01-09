@@ -77,7 +77,7 @@ describe('@instrument', function() {
     };
 
     class Boo {
-      @instrument('custom', {console:myConsole})
+      @instrument('custom', myConsole)
       hoo() {
         return;
       }
@@ -101,7 +101,7 @@ describe('@instrument', function() {
     }
 
     class Boo {
-      @instrument('custom', {console:myConsole})
+      @instrument('custom', myConsole)
       hoo() {
         return;
       }
