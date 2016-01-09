@@ -33,8 +33,9 @@ function handleDescriptor(target, key, descriptor, [prefix = null, konsole = nul
       let label = `${prefix}-${count}`;
       count++;
       time(label);
-      fn.apply(this, arguments);
+      let result = fn.apply(this, arguments);
       timeEnd(label);
+      return result;
     }
   }
 }
