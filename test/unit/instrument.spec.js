@@ -8,7 +8,7 @@ describe('@instrument', function() {
   class Foo {
     @instrument
     instrumented() {
-      return;
+      return 'instrumented';
     }
 
     @instrument('foo')
@@ -109,6 +109,12 @@ describe('@instrument', function() {
     new Boo().hoo();
     timeCalled.should.equal(true);
     timeEndCalled.should.equal(true);
+  });
+
+  it('returns the value', function() {
+    let foo = new Foo();
+    let result = foo.instrumented();
+    result.should.equal('instrumented');
   });
 
 });
