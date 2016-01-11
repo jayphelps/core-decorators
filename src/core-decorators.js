@@ -12,4 +12,3 @@ export { default as throttle } from './throttle';
 export { default as decorate } from './decorate';
 export { default as mixin, default as mixins } from './mixin';
 export { default as lazyInitialize } from './lazy-initialize';
-export { default as instrument } from './instrument';
