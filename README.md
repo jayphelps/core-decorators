@@ -33,13 +33,13 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@override](#override)
 * [@debounce](#debounce)
 * [@throttle](#throttle) :new:
+* [@instrument](#instrument) :new:
 
 ##### For Classes
 * [@mixin](#mixin-alias-mixins) :new:
 
 
 ##### Proposed (not implemented, PRs welcome!):
-* @instrument/profile
 * @assertArguments(arg1 => arg1, arg2 => arg2)
 * @private
 
@@ -226,7 +226,7 @@ import { enumerable } from 'core-decorators';
 
 class Meal {
   pay() {}
-  
+
   @enumerable
   eat() {}
 }
@@ -373,6 +373,36 @@ var bird = new Bird();
 bird.singMatingCall();
 // alerts "tweet tweet"
 
+```
+
+### @instrument
+
+Uses `console.time` and `console.timeEnd` to provide function timings with a unique label whose default prefix is `ClassName.method`.  Supply a first argument to override the prefix:
+
+```js
+class Bird {
+  @instrument('sing')
+  sing() {
+  }
+}
+
+var bird = new Bird();
+bird.sing(); // console.time label will be 'sing-0'
+bird.sing(); // console.time label will be 'sing-1'
+```
+
+Will polyfill `console.time` if the current environment does not support it. You can also supply a custom `console` object as the second argument with the following methods:
+
+* `myConsole.time(label)`
+* `myConsole.timeEnd(label)`
+* `myConsole.log(value)`
+
+```js
+let myConsole = {
+  time: function(label) { /* custom time() method */ },
+  timeEnd: function(label) { /* custom timeEnd method */ },
+  log: function(str) { /* custom log method */ }
+}
 ```
 
 # Future Compatibility
