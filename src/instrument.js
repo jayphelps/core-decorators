@@ -2,6 +2,16 @@ import { decorate } from './private/utils';
 
 const CONSOLE_NATIVE = console;
 
+let labels = {};
+const CONSOLE_TIME = console.time ? console.time.bind(console) : function(label) {
+  labels[label] = new Date();
+};
+const CONSOLE_TIMEEND = console.timeEnd ? console.timeEnd.bind(console) : function(label) {
+  let timeNow = new Date();
+  let timeTaken = timeNow - labels[label];
+  console.log(`${label}: ${timeTaken}ms`);
+};
+
 let count = 0;
 
 function handleDescriptor(target, key, descriptor, [prefix = null, konsole = null]) {
@@ -20,16 +30,8 @@ function handleDescriptor(target, key, descriptor, [prefix = null, konsole = nul
   return {
     ...descriptor,
     value() {
-      let timeStarted;
-      let log = CONSOLE.log ? CONSOLE.log.bind(CONSOLE) : CONSOLE_NATIVE.log.bind(CONSOLE_NATIVE);
-      let time = CONSOLE.time ? CONSOLE.time.bind(CONSOLE) : function() {
-        timeStarted = new Date();
-      };
-      let timeEnd = CONSOLE.timeEnd ? CONSOLE.timeEnd.bind(CONSOLE) : function() {
-        let timeEnded = new Date();
-        let timeTaken = timeEnded - timeStarted;
-        log(`${label}: ${timeTaken}ms`);
-      };
+      let time = CONSOLE.time || CONSOLE_TIME;
+      let timeEnd = CONSOLE.timeEnd || CONSOLE_TIMEEND;
       let label = `${prefix}-${count}`;
       count++;
       time(label);

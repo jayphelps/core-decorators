@@ -40,6 +40,14 @@ describe('@instrument', function() {
     timeEndSpy.called.should.equal(true);
   });
 
+  it('uses class and method names for a default prefix', function() {
+    let labelPattern = new RegExp('Foo\\.instrumented-\\d+');
+    let label;
+    new Foo().instrumented();
+    label = timeSpy.getCall(0).args[0];
+    label.should.match(labelPattern);
+  });
+
   it('creates a unique label with a counter', function() {
     let dashNum = new RegExp('.*-(\\d+)$');
     let firstNum;
@@ -66,26 +74,6 @@ describe('@instrument', function() {
     logSpy.called.should.equal(true);
     console.log = LOG_NATIVE;
   });
-
-  it('supports a custom log function', function() {
-    let logged = false;
-
-    let myConsole = {
-      log() {
-        logged = true;
-      }
-    };
-
-    class Boo {
-      @instrument('custom', myConsole)
-      hoo() {
-        return;
-      }
-    }
-
-    new Boo().hoo();
-    logged.should.equal(true);
-  })
 
   it('supports a custom instrumentation object', function() {
     let timeCalled = false;
