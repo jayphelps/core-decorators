@@ -19,6 +19,11 @@ describe('@time', function() {
     untimed() {
       return;
     }
+
+    @time
+    iThrowAnError() {
+      throw 'foobar';
+    }
   };
 
   let timeSpy;
@@ -36,6 +41,17 @@ describe('@time', function() {
 
   it('calls console.time and console.timeEnd', function() {
     new Foo().timed();
+    timeSpy.called.should.equal(true);
+    timeEndSpy.called.should.equal(true);
+  });
+
+  it('calls console.timeEnd even if the called method throws', function() {
+    try {
+      new Foo().iThrowAnError();
+    } catch (e) {
+      e.should.equal('foobar');
+    }
+
     timeSpy.called.should.equal(true);
     timeEndSpy.called.should.equal(true);
   });
