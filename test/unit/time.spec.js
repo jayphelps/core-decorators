@@ -1,22 +1,22 @@
 import { spy } from 'sinon';
-import instrument from '../../lib/instrument';
+import time from '../../lib/time';
 
 const CONSOLE_TIME = console.time;
 const CONSOLE_TIMEEND = console.timeEnd;
 
-describe('@instrument', function() {
+describe('@time', function() {
   class Foo {
-    @instrument
-    instrumented() {
-      return 'instrumented';
+    @time
+    timed() {
+      return 'timed';
     }
 
-    @instrument('foo')
-    instrumentedPrefix() {
+    @time('foo')
+    timedPrefix() {
       return;
     }
 
-    uninstrumented() {
+    untimed() {
       return;
     }
   };
@@ -35,15 +35,15 @@ describe('@instrument', function() {
   });
 
   it('calls console.time and console.timeEnd', function() {
-    new Foo().instrumented();
+    new Foo().timed();
     timeSpy.called.should.equal(true);
     timeEndSpy.called.should.equal(true);
   });
 
   it('uses class and method names for a default prefix', function() {
-    let labelPattern = new RegExp('Foo\\.instrumented-\\d+');
+    let labelPattern = new RegExp('Foo\\.timed-\\d+');
     let label;
-    new Foo().instrumented();
+    new Foo().timed();
     label = timeSpy.getCall(0).args[0];
     label.should.match(labelPattern);
   });
@@ -52,30 +52,30 @@ describe('@instrument', function() {
     let dashNum = new RegExp('.*-(\\d+)$');
     let firstNum;
     let secondNum;
-    new Foo().instrumented();
-    new Foo().instrumentedPrefix();
+    new Foo().timed();
+    new Foo().timedPrefix();
     firstNum = parseInt(timeSpy.getCall(0).args[0].replace(dashNum, '$1'), 10);
     secondNum = parseInt(timeSpy.getCall(1).args[0].replace(dashNum, '$1'), 10);
     secondNum.should.equal(firstNum + 1);
   });
 
   it('uses a supplied prefix for the label', function() {
-    new Foo().instrumentedPrefix();
+    new Foo().timedPrefix();
     timeSpy.getCall(0).args[0].should.match(/^foo-/);
     timeEndSpy.getCall(0).args[0].should.match(/^foo-/);
   });
 
-  it('uses a default instrumentation object if console.time is not available', function() {
+  it('uses a default timeation object if console.time is not available', function() {
     const LOG_NATIVE = console.log;
     let logSpy = console.log = spy();
     console.time = null;
     console.timeEnd = null;
-    new Foo().instrumented();
+    new Foo().timed();
     logSpy.called.should.equal(true);
     console.log = LOG_NATIVE;
   });
 
-  it('supports a custom instrumentation object', function() {
+  it('supports a custom timeation object', function() {
     let timeCalled = false;
     let timeEndCalled = false;
 
@@ -89,7 +89,7 @@ describe('@instrument', function() {
     }
 
     class Boo {
-      @instrument('custom', myConsole)
+      @time('custom', myConsole)
       hoo() {
         return;
       }
@@ -101,8 +101,8 @@ describe('@instrument', function() {
 
   it('returns the value', function() {
     let foo = new Foo();
-    let result = foo.instrumented();
-    result.should.equal('instrumented');
+    let result = foo.timed();
+    result.should.equal('timed');
   });
 
 });

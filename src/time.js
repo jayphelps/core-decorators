@@ -24,7 +24,7 @@ function handleDescriptor(target, key, descriptor, [prefix = null, konsole = nul
   }
 
   if (typeof fn !== 'function') {
-    throw new SyntaxError(`@instrument can only be used on functions, not: ${fn}`);
+    throw new SyntaxError(`@time can only be used on functions, not: ${fn}`);
   }
 
   return {
@@ -42,6 +42,6 @@ function handleDescriptor(target, key, descriptor, [prefix = null, konsole = nul
   }
 }
 
-export default function instrument(...args) {
+export default function time(...args) {
   return decorate(handleDescriptor, args);
 }
