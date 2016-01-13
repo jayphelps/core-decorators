@@ -33,7 +33,7 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@override](#override)
 * [@debounce](#debounce)
 * [@throttle](#throttle) :new:
-* [@instrument](#instrument) :new:
+* [@time](#time) :new:
 
 ##### For Classes
 * [@mixin](#mixin-alias-mixins) :new:
@@ -375,13 +375,13 @@ bird.singMatingCall();
 
 ```
 
-### @instrument
+### @time
 
 Uses `console.time` and `console.timeEnd` to provide function timings with a unique label whose default prefix is `ClassName.method`.  Supply a first argument to override the prefix:
 
 ```js
 class Bird {
-  @instrument('sing')
+  @time('sing')
   sing() {
   }
 }
