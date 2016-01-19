@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import autobind from '../../lib/autobind';
 
 const root = (typeof window !== 'undefined') ? window : global;
@@ -22,7 +23,8 @@ describe('@autobind', function () {
     barCount = 0;
 
     Bar = class Bar extends Foo {
-      @autobind
+      // Works when called as function as well
+      @autobind()
       getFoo() {
         const foo = super.getFoo();
         barCount++;
@@ -145,5 +147,46 @@ describe('@autobind', function () {
     getFoo2().should.equal(bar);
 
     barCount.should.equal(1);
+  });
+
+  it('can be used to autobind the entire class at once', function () {
+    // do not @autobind, which means start() should return `undefined` if
+    // it is detached from the instance
+    class Vehicle {
+      start() {
+        return this;
+      }
+    }
+
+    @autobind
+    class Car extends Vehicle {
+      constructor() {
+        super();
+        this.name = 'amazing';
+      }
+
+      get color() {
+        return 'red';
+      }
+
+      drive() {
+        return this;
+      }
+
+      stop() {
+        return this;
+      }
+    }
+
+    const car = new Car();
+    const { drive, stop, name, color, start } = car;
+    expect(drive()).to.equal(car);
+    drive().should.equal(car);
+    stop().should.equal(car);
+    name.should.equal('amazing');
+    color.should.equal('red');
+
+    // We didn't @autobind Vehicle
+    expect(start()).to.be.undefined;
   });
 });

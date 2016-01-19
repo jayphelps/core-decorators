@@ -1,4 +1,5 @@
-import { decorate, createDefaultSetter } from './private/utils';
+import { decorate, createDefaultSetter, getOwnPropertyDescriptors } from './private/utils';
+const { defineProperty } = Object;
 
 function bind(fn, context) {
   if (fn.bind) {
@@ -37,7 +38,20 @@ function getBoundSuper(obj, fn) {
   return superStore.get(fn);
 }
 
-function handleDescriptor(target, key, { value: fn }) {
+function autobindClass(target) {
+  const descs = getOwnPropertyDescriptors(target.prototype);
+
+  for (const key in descs) {
+    const desc = descs[key];
+    if (typeof desc.value !== 'function' || key === 'constructor') {
+      continue;
+    }
+
+    defineProperty(target.prototype, key, autobindMethod(target, key, desc));
+  }
+}
+
+function autobindMethod(target, key, { value: fn }) {
   if (typeof fn !== 'function') {
     throw new SyntaxError(`@autobind can only be used on functions, not: ${fn}`);
   }
@@ -63,7 +77,7 @@ function handleDescriptor(target, key, { value: fn }) {
 
       const boundFn = bind(fn, this);
 
-      Object.defineProperty(this, key, {
+      defineProperty(this, key, {
         configurable: true,
         writable: true,
         // NOT enumerable when it's a bound method
@@ -77,6 +91,20 @@ function handleDescriptor(target, key, { value: fn }) {
   };
 }
 
+function handle(args) {
+  if (args.length === 1) {
+    return autobindClass(...args);
+  } else {
+    return autobindMethod(...args);
+  }
+}
+
 export default function autobind(...args) {
-  return decorate(handleDescriptor, args);
+  if (args.length === 0) {
+    return function () {
+      return handle(arguments);
+    };
+  } else {
+    return handle(args);
+  }
 }
