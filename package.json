@@ -33,7 +33,8 @@
     "react",
     "angular",
     "lodash",
-    "mixin"
+    "mixin",
+    "mixins"
   ],
   "author": "Jay Phelps <hello@jayphelps>",
   "license": "MIT",
