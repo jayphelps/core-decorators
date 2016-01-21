@@ -34,7 +34,7 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@time](#time) :new:
 
 ##### For Classes
-* [@autobind](#autobind)
+* [@autobind](#autobind) :new:
 * [@mixin](#mixin-alias-mixins) :new:
 
 
