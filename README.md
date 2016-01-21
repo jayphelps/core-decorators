@@ -21,7 +21,7 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 
 ##### For Properties
 * [@nonenumerable](#nonenumerable)
-* [@lazyInitialize](#lazyInitialize) :new:
+* [@lazyInitialize](#lazyinitialize) :new:
 
 ##### For Methods
 * [@autobind](#autobind)
