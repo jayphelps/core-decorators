@@ -1,7 +1,5 @@
 # core-decorators.js [![Build Status](https://travis-ci.org/jayphelps/core-decorators.js.svg?branch=master)](https://travis-ci.org/jayphelps/core-decorators.js)
-Library of [JavaScript decorators](https://github.com/wycats/javascript-decorators) (sometimes erroneously stated as ES2016 or ES7) inspired by languages that come with built-ins like @​override, @​deprecate, etc, similar to [pre-defined Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html). Note that unlike Java annotations, decorators are functions which are applied at runtime.
-
-It also includes a single class decorator, `@mixin` for applying object descriptors to a given class.
+Library of [JavaScript decorators](https://github.com/wycats/javascript-decorators) (aka ES2016/ES7 decorators) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more. Popular with React/Angular, but is framework agnostic. Similar to [Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html) but unlike Java annotations, decorators are functions which are applied at runtime.
 
 _*compiled code is intentionally not checked into this repo_
 
@@ -21,11 +19,11 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@nonconfigurable](#nonconfigurable)
 * [@decorate](#decorate) :new:
 
-##### For Properties only
+##### For Properties
 * [@nonenumerable](#nonenumerable)
 * [@lazyInitialize](#lazyInitialize) :new:
 
-##### For Methods only
+##### For Methods
 * [@autobind](#autobind)
 * [@deprecate](#deprecate-alias-deprecated)
 * [@suppressWarnings](#suppresswarnings)
@@ -36,6 +34,7 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@time](#time) :new:
 
 ##### For Classes
+* [@autobind](#autobind)
 * [@mixin](#mixin-alias-mixins) :new:
 
 
@@ -49,6 +48,8 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 
 Forces invocations of this function to always have `this` refer to the class instance, even if the function is passed around or would otherwise lose its `this` context. e.g. `var fn = context.method;` Popular with React components.
 
+Individual methods:
+
 ```js
 import { autobind } from 'core-decorators';
 
@@ -60,12 +61,37 @@ class Person {
 }
 
 let person = new Person();
-let getPerson = person.getPerson;
+let { getPerson } = person;
 
 getPerson() === person;
 // true
 ```
 
+Entire Class:
+
+```js
+import { autobind } from 'core-decorators';
+
+@autobind
+class Person {
+  getPerson() {
+  	return this;
+  }
+  
+  getPersonAgain() {
+    return this;
+  }
+}
+
+let person = new Person();
+let { getPerson, getPersonAgain } = person;
+
+getPerson() === person;
+// true
+
+getPersonAgain() === person;
+// true
+```
 ### @readonly
 
 Marks a property or method as not being writable.
