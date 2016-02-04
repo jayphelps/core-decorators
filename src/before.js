@@ -7,17 +7,27 @@ function handleDescriptor(target, key, descriptor, [fn]) {
     throw new SyntaxError(`@before can only be used on functions, not: ${value}`);
   }
   
-  if (typeof fn !== 'function') {
-    throw new SyntaxError(`@before need a function in parameter, not: ${fn}`);
+  if (typeof fn !== 'function' && (!fn.then && typeof fn.then !== 'function')) {
+    throw new SyntaxError(`@before need a function or a promise in parameter, not: ${fn}`);
   }
+
+  const isPromised = fn.then && typeof fn.then === 'function';
 
   return {
     ...descriptor,
-    value: () => {
-      try {
-        return fn.apply(this, arguments);
+    value: () => {      
+      try {        
+        if (isPromised) {
+          fn.then(function(val) {                  
+            return value.apply(this, arguments); 
+          });
+        }
+        else {
+          return fn.apply(this, arguments);  
+        }
       } finally {
-        return value.apply(this, arguments);
+        if (!isPromised)
+          return value.apply(this, arguments);
       }
     }
   }  
