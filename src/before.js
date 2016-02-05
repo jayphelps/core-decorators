@@ -17,13 +17,13 @@ function handleDescriptor(target, key, descriptor, [fn]) {
     ...descriptor,
     value: () => {      
       try {        
-        if (isPromised) {
+        if (isPromised) {          
           fn.then(function(val) {                  
             return value.apply(this, arguments); 
           });
         }
-        else {
-          return fn.apply(this, arguments);  
+        else {          
+          return fn.apply(this, arguments);
         }
       } finally {
         if (!isPromised)

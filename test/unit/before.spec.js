@@ -2,16 +2,17 @@ import before from '../../lib/before';
 
 describe('@before', function () {
   let Foo;
-  const order = [];
+  let order = [];
 
   beforeEach(function () {
+
     function fn() {
       order.push(0);
     };
 
     Foo = class Foo {
       @before(fn)
-      suchWow() {
+      suchWow() {        
         order.push(1);
         return order;
       }      
@@ -20,10 +21,12 @@ describe('@before', function () {
 
   it('check functions call ordering', function () {
     const foo = new Foo();
+    
     foo.suchWow().should.eql([0,1]);
+
   });
 
-  it('parameter is a promise', function() {    
+  it('parameter is a promise', function() {
 
     const p = new Promise(function(resolve, reject) {            
       resolve({data: 'ok'});      
