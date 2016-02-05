@@ -32,6 +32,7 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@debounce](#debounce)
 * [@throttle](#throttle) :new:
 * [@time](#time) :new:
+* [@before](#before) :new:
 
 ##### For Classes
 * [@autobind](#autobind) :new:
@@ -51,7 +52,7 @@ import { autobind } from 'core-decorators';
 class Person {
   @autobind
   getPerson() {
-  	return this;
+    return this;
   }
 }
 
@@ -70,7 +71,7 @@ import { autobind } from 'core-decorators';
 @autobind
 class Person {
   getPerson() {
-  	return this;
+    return this;
   }
   
   getPersonAgain() {
@@ -424,6 +425,51 @@ let myConsole = {
   timeEnd: function(label) { /* custom timeEnd method */ },
   log: function(str) { /* custom log method */ }
 }
+```
+
+### @before
+
+Pre call a function or expects that a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) has resolved before executing decorated method. 
+
+```js
+function beforeSinging() {
+  console.log('I will sing');
+}
+
+class Bird {
+  @before(beforeSinging)
+  sing() {
+    console.log('I sing');
+  }
+}
+
+var bird = new Bird();
+bird.sing();
+
+// I will sing
+// I sing
+```
+
+with [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+
+```js
+const p = new Promise(function(resolve, reject) {            
+  resolve({data: 'I will sing'});      
+});
+
+class Bird {
+  @before(p)
+  sing(resolveValue) {          
+    console.log(resolveValue.data);
+  console.log('I sing');        
+  }
+}
+
+var bird = new Bird();
+bird.sing();
+
+// I will sing
+// I sing
 ```
 
 # Future Compatibility
