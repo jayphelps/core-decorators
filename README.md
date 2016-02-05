@@ -38,11 +38,6 @@ This can be consumed by any transpiler that supports decorators like [babel.js](
 * [@autobind](#autobind) :new:
 * [@mixin](#mixin-alias-mixins) :new:
 
-
-##### Proposed (not implemented, PRs welcome!):
-* @assertArguments(arg1 => arg1, arg2 => arg2)
-* @private
-
 ## Docs
 
 ### @autobind
