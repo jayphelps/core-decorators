@@ -1,3 +1,10 @@
+/**
+ * core-decorators.js
+ * (c) 2016 Jay Phelps
+ * MIT Licensed
+ * https://github.com/jayphelps/core-decorators.js
+ * @license
+ */
 export { default as override } from './override';
 export { default as deprecate, default as deprecated } from './deprecate';
 export { default as suppressWarnings } from './suppress-warnings';
