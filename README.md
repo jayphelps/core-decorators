@@ -12,6 +12,12 @@ npm install core-decorators --save
 
 This can be consumed by any transpiler that supports decorators like [babel.js](https://babeljs.io/) or using the recent iterations of TypeScript. To use with babel, you must include the correct babel plugins for decorator [parsing](http://babeljs.io/docs/plugins/syntax-decorators/) and [transformation](http://babeljs.io/docs/plugins/transform-decorators/) or use [stage-1](http://babeljs.io/docs/plugins/preset-stage-1/). *Babel 6 [does not yet support decorators](https://phabricator.babeljs.io/T2645), use Babel 5 until that is fixed.*
 
+##### Bower/globals
+
+A globals version is available [here in the artifact repo](https://github.com/jayphelps/core-decorators-artifacts), or via `$ bower install core-decorators`. It defines a global variable `CoreDecorators`, which can then be used as you might expect: `@CoreDecorators.autobind()`, etc.
+
+I *highly* recommend against using that globals build as it's quite strange you're using decorators (a proposed future feature of JavaScript) while not using ES2015 modules, a spec ratified feature used by nearly every modern framework. Also--[bower is on its deathbed](https://github.com/bower/bower/pull/1748) and IMO for very good reasons.
+
 ## Decorators
 
 ##### For Properties and Methods
