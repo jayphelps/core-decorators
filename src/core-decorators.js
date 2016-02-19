@@ -20,3 +20,4 @@ export { default as decorate } from './decorate';
 export { default as mixin, default as mixins } from './mixin';
 export { default as lazyInitialize } from './lazy-initialize';
 export { default as time } from './time';
+export { default as injectProps } from './inject-props';
