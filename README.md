@@ -78,7 +78,7 @@ class Person {
   getPerson() {
   	return this;
   }
-  
+
   getPersonAgain() {
     return this;
   }
@@ -430,6 +430,35 @@ let myConsole = {
   timeEnd: function(label) { /* custom timeEnd method */ },
   log: function(str) { /* custom log method */ }
 }
+```
+
+### @injectProps
+
+Injects a selected property (of the class instance) as the first argument of its target function.
+
+If no property is selected, defaults to 'props'.
+
+```js
+import { injectProps } from 'core-decorators';
+
+class Person {
+  constructor(props) { this.props = props; }
+
+  state = { firstName: 'John', lastName: 'Snow' };
+
+  @injectProps('state')
+  fullName({ firstName, lastName }, title = 'Knight') {
+    return `${title} ${firstName} ${lastName}`;
+  }
+
+  @injectProps
+  render({ title }) {
+    return this.fullName(title);
+  }
+}
+
+new Person({ title: 'Sir' }).render(); // returns 'Sir John Snow'
+new Person().fullName(); // returns 'Knight John Snow'
 ```
 
 # Future Compatibility
