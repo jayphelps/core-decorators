@@ -13,7 +13,7 @@
   "scripts": {
     "build": "babel --out-dir lib src",
     "build-bower": "babel-node scripts/build-bower.js",
-    "test": "npm run build && mocha --compilers js:babel/register --require babel/polyfill 'test/**/*.spec.js'"
+    "test": "npm run build && mocha --compilers js:babel/register --require babel/polyfill \"test/**/*.spec.js\""
   },
   "repository": {
     "type": "git",
