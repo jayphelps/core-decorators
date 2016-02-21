@@ -12,10 +12,11 @@ const aliases = {
 };
 
 describe('Main package exports', function () {
+  const libPath = path.normalize(`${__dirname}/../lib`);
   let filePaths;
 
   beforeEach(function () {
-    filePaths = glob.sync(`${__dirname}/../lib/*.js`, {
+    filePaths = glob.sync(`${libPath}/*.js`, {
       ignore: ['**/core-decorators.js', '**/*.spec.js']
     });
   });
