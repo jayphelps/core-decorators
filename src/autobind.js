@@ -1,8 +1,6 @@
 import { decorate, createDefaultSetter, getOwnPropertyDescriptors } from './private/utils';
 const { defineProperty } = Object;
 
-const supportsWeakMap = typeof WeakMap !== 'undefined';
-
 function bind(fn, context) {
   if (fn.bind) {
     return fn.bind(context);
@@ -16,7 +14,7 @@ function bind(fn, context) {
 let mapStore;
 
 function getBoundSuper(obj, fn) {
-  if (!supportsWeakMap) {
+  if (typeof WeakMap === 'undefined') {
     throw new Error(
       `Using @autobind on ${fn.name}() requires WeakMap support due to its use of super.${fn.name}()
       See https://github.com/jayphelps/core-decorators.js/issues/20`
