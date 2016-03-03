@@ -1,7 +1,7 @@
 import { decorate, createDefaultSetter, getOwnPropertyDescriptors } from './private/utils';
 const { defineProperty } = Object;
 
-const supportsWeakMap = typeof WeakMap === 'undefined';
+const supportsWeakMap = typeof WeakMap !== 'undefined';
 
 function bind(fn, context) {
   if (fn.bind) {
