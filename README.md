@@ -1,5 +1,5 @@
 # core-decorators.js [![Build Status](https://travis-ci.org/jayphelps/core-decorators.js.svg?branch=master)](https://travis-ci.org/jayphelps/core-decorators.js)
-Library of [JavaScript decorators](https://github.com/wycats/javascript-decorators) (aka ES2016/ES7 decorators) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more. Popular with React/Angular, but is framework agnostic. Similar to [Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html) but unlike Java annotations, decorators are functions which are applied at runtime.
+Library of [JavaScript decorators](https://github.com/wycats/javascript-decorators) (aka ES2016/ES7 decorators but that's not accurate) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more. Popular with React/Angular, but is framework agnostic. Similar to [Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html) but unlike Java annotations, decorators are functions which are applied at runtime.
 
 _*compiled code is intentionally not checked into this repo_
 
