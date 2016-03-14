@@ -78,7 +78,7 @@ class Person {
   getPerson() {
   	return this;
   }
-  
+
   getPersonAgain() {
     return this;
   }
@@ -430,6 +430,36 @@ let myConsole = {
   timeEnd: function(label) { /* custom timeEnd method */ },
   log: function(str) { /* custom log method */ }
 }
+```
+
+### @injectProps
+
+Injects the selected properties (of the class instance) before the target method's parameters.
+
+If no property is selected, defaults to 'props'.
+
+```js
+import { injectProps } from 'core-decorators';
+
+class Person {
+  constructor(props) { this.props = props; }
+
+  state = { clickCount: 1 };
+  attributes = { firstName: 'John', lastName: 'Snow' };
+
+  @injectProps('state', 'attributes')
+  fullName({ clickCount } , { firstName, lastName }, title = 'Knight') {
+    return `${title} ${firstName} ${lastName} (${clickCount})`;
+  }
+
+  @injectProps
+  render({ title }) {
+    return this.fullName(title);
+  }
+}
+
+new Person({ title: 'Sir' }).render(); // returns 'Sir John Snow (1)'
+new Person().fullName(); // returns 'Knight John Snow (1)'
 ```
 
 # Future Compatibility
