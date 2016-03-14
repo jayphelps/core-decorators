@@ -29,6 +29,9 @@ I *highly* recommend against using that globals build as it's quite strange you'
 * [@nonenumerable](#nonenumerable)
 * [@lazyInitialize](#lazyinitialize) :new:
 
+##### For Classes and Methods
+* [@abstract](#abstract) :new:
+
 ##### For Methods
 * [@autobind](#autobind)
 * [@deprecate](#deprecate-alias-deprecated)
@@ -430,6 +433,60 @@ let myConsole = {
   timeEnd: function(label) { /* custom timeEnd method */ },
   log: function(str) { /* custom log method */ }
 }
+```
+
+### @abstract
+
+Marks a given method or class for being abstract. Both static and instance methods can be declared abstract. Abstract classes, when decorated, cannot be instantiated. 
+When sub classing a decorated abstract class, sub classes can only be instantiated when they implement all of the abstract methods of its super classes. When calling 
+an abstract method, an exception will be thrown.
+
+```js
+@abstract
+class Animal {
+  constructor(name) {
+    this._name = name;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  @abstract
+  static family() {}
+
+  @abstract
+  speak() {}
+}
+// Animal.family();
+// throws TypeError: Animal must implement abstract method family()
+
+@abstract
+class Rodent extends Animal {
+  static family() {return 'rodent';}
+}
+// new Rodent();
+// throws TypeError: abstract class Rodent cannot be instantiated
+
+class Mouse extends Rodent {
+  constructor(name) {
+    super(name + ' Mouse');
+  }
+  speak() {return 'ieek';}
+}
+// let micky = new Mouse('Micky');
+// micky.speak();
+// returns "ieek"
+// micky.name == 'Micky Mouse'
+// is true
+
+// here we forget to decorate the class
+class Bird extends Animal {
+  static family() {return 'bird';}
+}
+// new Bird();
+// throws TypeError: abstract class Bird cannot be instantiated
+//                   did you forget to decorate using @abstract?
 ```
 
 # Future Compatibility
