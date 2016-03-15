@@ -1,6 +1,6 @@
 /**
  * core-decorators.js
- * (c) 2016 Jay Phelps
+ * (c) 2016 Jay Phelps and contributors
  * MIT Licensed
  * https://github.com/jayphelps/core-decorators.js
  * @license
@@ -20,6 +20,7 @@ export { default as decorate } from './decorate';
 export { default as mixin, default as mixins } from './mixin';
 export { default as lazyInitialize } from './lazy-initialize';
 export { default as time } from './time';
+export { default as extendDescriptor } from './extendDescriptor';
 
 // Helper to apply decorators to a class without transpiler support
 export { default as applyDecorators } from './applyDecorators';

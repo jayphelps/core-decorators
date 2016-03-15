@@ -23,25 +23,26 @@ I *highly* recommend against using that globals build as it's quite strange you'
 ##### For Properties and Methods
 * [@readonly](#readonly)
 * [@nonconfigurable](#nonconfigurable)
-* [@decorate](#decorate) :new:
+* [@decorate](#decorate)
+* [@extendDescriptor](#extendDescriptor) :new:
 
 ##### For Properties
 * [@nonenumerable](#nonenumerable)
-* [@lazyInitialize](#lazyinitialize) :new:
+* [@lazyInitialize](#lazyinitialize)
 
 ##### For Methods
 * [@autobind](#autobind)
 * [@deprecate](#deprecate-alias-deprecated)
 * [@suppressWarnings](#suppresswarnings)
-* [@enumerable](#enumerable) :new:
+* [@enumerable](#enumerable)
 * [@override](#override)
 * [@debounce](#debounce)
-* [@throttle](#throttle) :new:
-* [@time](#time) :new:
+* [@throttle](#throttle)
+* [@time](#time)
 
 ##### For Classes
-* [@autobind](#autobind) :new:
-* [@mixin](#mixin-alias-mixins) :new:
+* [@autobind](#autobind)
+* [@mixin](#mixin-alias-mixins)
 
 ## Helpers
 
@@ -433,6 +434,35 @@ let myConsole = {
   timeEnd: function(label) { /* custom timeEnd method */ },
   log: function(str) { /* custom log method */ }
 }
+```
+
+### @extendDescriptor
+
+Extends the new property descriptor with the descriptor from the super/parent class prototype. Although useful in various circumstances, it's particularly helpful to address the fact that getters and setters share a single descriptor so overriding only a getter or only a setter will blow away the other, without this decorator.
+
+```js
+class Base {
+  @nonconfigurable
+  get foo() {
+    return `hello ${this._foo}`;
+  }
+}
+
+class Derived extends Base {
+  @extendDescriptor
+  set foo(value) {
+    this._foo = value;
+  }
+}
+
+const derived = new Derived();
+derived.foo = 'bar';
+derived.foo === 'hello bar';
+// true
+
+const desc = Object.getOwnPropertyDescriptor(Derived.prototype, 'foo');
+desc.configurable === false;
+// true
 ```
 
 ### applyDecorators() helper
