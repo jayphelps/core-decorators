@@ -1,8 +1,8 @@
 import { spy } from 'sinon';
-import time from '../../lib/time';
+import time, { defaultConsole } from '../../lib/time';
 
-const CONSOLE_TIME = console.time;
-const CONSOLE_TIMEEND = console.timeEnd;
+const CONSOLE_TIME = defaultConsole.time;
+const CONSOLE_TIMEEND = defaultConsole.timeEnd;
 
 describe('@time', function() {
   class Foo {
@@ -30,13 +30,13 @@ describe('@time', function() {
   let timeEndSpy;
 
   beforeEach(function () {
-    timeSpy = console.time = spy();
-    timeEndSpy = console.timeEnd = spy();
+    timeSpy = defaultConsole.time = spy();
+    timeEndSpy = defaultConsole.timeEnd = spy();
   });
 
   afterEach(function () {
-    console.time = CONSOLE_TIME;
-    console.timeEnd = CONSOLE_TIMEEND;
+    defaultConsole.time = CONSOLE_TIME;
+    defaultConsole.timeEnd = CONSOLE_TIMEEND;
   });
 
   it('calls console.time and console.timeEnd', function() {
@@ -79,16 +79,6 @@ describe('@time', function() {
     new Foo().timedPrefix();
     timeSpy.getCall(0).args[0].should.match(/^foo-/);
     timeEndSpy.getCall(0).args[0].should.match(/^foo-/);
-  });
-
-  it('uses a default timeation object if console.time is not available', function() {
-    const LOG_NATIVE = console.log;
-    let logSpy = console.log = spy();
-    console.time = null;
-    console.timeEnd = null;
-    new Foo().timed();
-    logSpy.called.should.equal(true);
-    console.log = LOG_NATIVE;
   });
 
   it('supports a custom timeation object', function() {

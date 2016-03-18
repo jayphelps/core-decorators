@@ -2,6 +2,7 @@ import chai from 'chai'
 import path from 'path';
 import glob from 'glob';
 import toCamelCase from 'camelcase';
+import interopRequire from 'interop-require';
 import * as decorators from '../';
 
 const should = chai.should();
@@ -37,7 +38,7 @@ describe('Main package exports', function () {
       const name = toCamelCase(
         path.basename(filePath, '.js')
       );
-      const decorator = require(filePath);
+      const decorator = interopRequire(filePath);
       should.exist(decorators[name], `@${name} should be exported`);
       decorators[name].should.equal(decorator, `export @${name} is the expected function`);
 
