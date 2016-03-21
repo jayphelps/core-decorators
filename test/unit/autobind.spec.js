@@ -6,6 +6,7 @@ const root = (typeof window !== 'undefined') ? window : global;
 describe('@autobind', function () {
   let Foo;
   let Bar;
+  let Car;
   let barCount;
 
   beforeEach(function () {
@@ -18,12 +19,16 @@ describe('@autobind', function () {
       getFooAgain() {
         return this;
       }
+
+      @autobind
+      onlyOnFoo() {
+        return this;
+      }
     }
 
     barCount = 0;
 
     Bar = class Bar extends Foo {
-      // Works when called as function as well
       @autobind()
       getFoo() {
         const foo = super.getFoo();
@@ -31,8 +36,24 @@ describe('@autobind', function () {
         return foo;
       }
 
-      getSuperMethod() {
+      getSuperMethod_getFoo() {
         return super.getFoo;
+      }
+
+      getSuperMethod_onlyOnFoo() {
+        return super.onlyOnFoo;
+      }
+
+      @autobind
+      onlyOnBar() {
+        return this;
+      }
+    }
+
+    Car = class Car extends Foo {
+      @autobind()
+      getCarFromFoo() {
+        return super.onlyOnFoo();
       }
     }
   });
@@ -48,6 +69,7 @@ describe('@autobind', function () {
     const { getFoo } = foo;
 
     getFoo().should.equal(foo);
+
   });
 
   it('sets the correct prototype descriptor options', function () {
@@ -98,21 +120,32 @@ describe('@autobind', function () {
 
     foo.getFoo.should.equal(foo.getFoo);
     bar.getFoo.should.equal(bar.getFoo);
-    bar.getSuperMethod().should.equal(bar.getSuperMethod());
+    bar.getSuperMethod_getFoo().should.equal(bar.getSuperMethod_getFoo());
     bar.getFooAgain().should.equal(bar.getFooAgain());
   });
 
   it('works with inheritance, super.method() being autobound as well', function () {
     const bar = new Bar();
-    const getFoo = bar.getFoo;
+    const car = new Car();
+
+    const getFooFromBar = bar.getFoo;
+    const getCarFromFoo = car.getCarFromFoo;
 
     // Calling both forms more than once to catch
     // bugs that only appear after first invocation
-    getFoo().should.equal(bar);
-    getFoo().should.equal(bar);
+    getFooFromBar().should.equal(bar);
+    getFooFromBar().should.equal(bar);
+    getCarFromFoo().should.equal(car);
+    getCarFromFoo().should.equal(car);
+
     bar.getFoo().should.equal(bar);
     bar.getFoo().should.equal(bar);
     bar.getFooAgain().should.equal(bar);
+    const getSuperMethod_getFoo = bar.getSuperMethod_getFoo();
+    getSuperMethod_getFoo().should.equal(bar);
+    const onlyOnFoo = bar.getSuperMethod_onlyOnFoo();
+    onlyOnFoo().should.equal(bar);
+
 
     barCount.should.equal(4);
   });
@@ -134,19 +167,28 @@ describe('@autobind', function () {
   });
 
   it('does not override descriptor when accessed on the prototype', function () {
-    Foo.prototype.getFoo;
-
-    const foo = new Foo();
-    const getFoo1 = foo.getFoo;
-    getFoo1().should.equal(foo);
-
     Bar.prototype.getFoo;
+    Bar.prototype.onlyOnBar;
 
     const bar = new Bar();
     const getFoo2 = bar.getFoo;
+    const onlyOnBar = bar.onlyOnBar;
     getFoo2().should.equal(bar);
+    onlyOnBar().should.equal(bar);
 
     barCount.should.equal(1);
+
+    // check Foo after Bar since it was inherited by Bar and might accidentally
+    // be bound to the instance of Foo above!
+    Foo.prototype.getFoo;
+    Foo.prototype.onlyOnFoo;
+
+    const foo = new Foo();
+    const getFoo1 = foo.getFoo;
+    const onlyOnFoo = foo.onlyOnFoo;
+    getFoo1().should.equal(foo);
+    onlyOnFoo().should.equal(foo);
+
   });
 
   it('can be used to autobind the entire class at once', function () {
@@ -176,9 +218,22 @@ describe('@autobind', function () {
       stop() {
         return this;
       }
+
+      render() {
+        return this;
+      }
     }
 
+    const originalRender = Car.prototype.render;
+    Car.prototype.render = function () {
+      return originalRender.apply(this, arguments);
+    };
+
+    Car.prototype.stop;
+    Car.prototype.color;
+
     const car = new Car();
+    car.render().should.equal(car);
     const { drive, stop, name, color, start } = car;
     expect(drive()).to.equal(car);
     drive().should.equal(car);
