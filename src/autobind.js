@@ -38,8 +38,8 @@ function getBoundSuper(obj, fn) {
   return superStore.get(fn);
 }
 
-function autobindClass(target) {
-  const descs = getOwnPropertyDescriptors(target.prototype);
+function autobindClass(klass) {
+  const descs = getOwnPropertyDescriptors(klass.prototype);
 
   for (const key in descs) {
     const desc = descs[key];
@@ -47,7 +47,7 @@ function autobindClass(target) {
       continue;
     }
 
-    defineProperty(target.prototype, key, autobindMethod(target, key, desc));
+    defineProperty(klass.prototype, key, autobindMethod(klass.prototype, key, desc));
   }
 }
 
@@ -63,8 +63,8 @@ function autobindMethod(target, key, { value: fn }) {
     enumerable: false,
 
     get() {
-      // This happens if someone accesses the
-      // property directly on the prototype
+      // This happens if someone accesses the property directly
+      // on the prototype i.e. Klass.prototype.key
       if (this === target) {
         return fn;
       }
