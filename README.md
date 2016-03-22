@@ -10,7 +10,7 @@ A version compiled to ES5 in CJS format is published to npm as [`core-decorators
 npm install core-decorators --save
 ```
 
-This can be consumed by any transpiler that supports stage-0 of the decorators spec, like [babel.js](https://babeljs.io/) version 5 or using the recent iterations of TypeScript. *Babel 6 [does not yet support decorators](https://phabricator.babeljs.io/T2645), use Babel 5 until that is fixed.*
+This can be consumed by any transpiler that supports stage-0 of the decorators spec, like [babel.js](https://babeljs.io/) version 5 or using the recent iterations of TypeScript. *Babel 6 [does not yet support decorators](https://phabricator.babeljs.io/T2645), use Babel 5 or the [`applyDecorators()` helper](#applyDecorators) until that is fixed.*
 
 ##### Bower/globals
 
@@ -42,6 +42,10 @@ I *highly* recommend against using that globals build as it's quite strange you'
 ##### For Classes
 * [@autobind](#autobind) :new:
 * [@mixin](#mixin-alias-mixins) :new:
+
+## Helpers
+
+* [applyDecorators()](#applyDecorators) :new:
 
 ## Docs
 
@@ -293,22 +297,21 @@ Object.keys(dinner);
 
 ### @nonconfigurable
 
-Marks a property or method so that it cannot be reconfigured, changed, or deleted.
+Marks a property or method so that it cannot be deleted; also prevents it from being reconfigured via `Object.defineProperty`, but **this may not always work how you expect** due to a quirk in JavaScript itself, not this library. Adding the `@readonly` decorator fixes it, but at the cost of obviously making the property readonly (aka `writable: false`). [You can read more about this here.](https://github.com/jayphelps/core-decorators.js/issues/58)
 
 ```js
 import { nonconfigurable } from 'core-decorators';
 
-class Meal {
+class Foo {
   @nonconfigurable
-  entree = 'steak';
+  @readonly
+  bar() {};
 }
 
-var dinner = new Meal();
-
-Object.defineProperty(dinner, 'entree', {
-  enumerable: false
+Object.defineProperty(Foo.prototype, 'bar', {
+  value: 'I will error'
 });
-// Cannot redefine property: entree
+// Cannot redefine property: bar
 
 ```
 
@@ -430,6 +433,29 @@ let myConsole = {
   timeEnd: function(label) { /* custom timeEnd method */ },
   log: function(str) { /* custom log method */ }
 }
+```
+
+### applyDecorators() helper
+
+The `applyDecorators()` helper can be used when you don't have language support for decorators like in Babel 6 or even with vanilla ES5 code without a transpiler.
+
+```js
+class Foo {
+  getFoo() {
+    return this;
+  }
+}
+
+// This works on regular function prototypes
+// too, like `function Foo() {}`
+applyDecorators(Foo, {
+  getFoo: [autobind]
+});
+
+let foo = new Foo();
+let getFoo = foo.getFoo;
+getFoo() === foo;
+// true
 ```
 
 # Future Compatibility
