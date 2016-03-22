@@ -51,7 +51,7 @@ function autobindClass(klass) {
   }
 }
 
-function autobindMethod(target, key, { value: fn }) {
+function autobindMethod(target, key, { value: fn, configurable, enumerable }) {
   if (typeof fn !== 'function') {
     throw new SyntaxError(`@autobind can only be used on functions, not: ${fn}`);
   }
@@ -59,8 +59,8 @@ function autobindMethod(target, key, { value: fn }) {
   const { constructor } = target;
 
   return {
-    configurable: true,
-    enumerable: false,
+    configurable,
+    enumerable,
 
     get() {
       // This happens if someone accesses the property directly
