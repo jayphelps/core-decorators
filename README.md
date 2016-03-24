@@ -52,6 +52,8 @@ I *highly* recommend against using that globals build as it's quite strange you'
 
 ### @autobind
 
+> Note: there is a bug in `react-hot-reloader <= 1.3.0` (they fixed in [`2.0.0-alpha-4`](https://github.com/gaearon/react-hot-loader/pull/182)) which prevents this from working as expected. [Follow it here](https://github.com/jayphelps/core-decorators.js/issues/48)
+
 Forces invocations of this function to always have `this` refer to the class instance, even if the function is passed around or would otherwise lose its `this` context. e.g. `var fn = context.method;` Popular with React components.
 
 Individual methods:
