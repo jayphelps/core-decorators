@@ -24,7 +24,7 @@ I *highly* recommend against using that globals build as it's quite strange you'
 * [@readonly](#readonly)
 * [@nonconfigurable](#nonconfigurable)
 * [@decorate](#decorate)
-* [@extendDescriptor](#extendDescriptor) :new:
+* [@extendDescriptor](#extenddescriptor) :new:
 
 ##### For Properties
 * [@nonenumerable](#nonenumerable)
@@ -46,7 +46,7 @@ I *highly* recommend against using that globals build as it's quite strange you'
 
 ## Helpers
 
-* [applyDecorators()](#applyDecorators) :new:
+* [applyDecorators()](#applydecorators-helper) :new:
 
 ## Docs
 
