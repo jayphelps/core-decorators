@@ -63,15 +63,23 @@ function autobindMethod(target, key, { value: fn, configurable, enumerable }) {
     enumerable,
 
     get() {
-      // This happens if someone accesses the property directly
-      // on the prototype i.e. Klass.prototype.key
+      // Class.prototype.key lookup
+      // Someone accesses the property directly on the prototype on which it is
+      // actually defined on, i.e. Class.prototype.hasOwnProperty(key)
       if (this === target) {
         return fn;
       }
 
-      // This is a confusing case where you have an autobound method calling
-      // super.sameMethod() which is also autobound and so on.
-      if (this.constructor !== constructor && this.constructor.prototype.hasOwnProperty(key)) {
+      // Class.prototype.key lookup
+      // Someone accesses the property directly on a prototype but it was found
+      // up the chain, not defined directly on it
+      // i.e. Class.prototype.hasOwnProperty(key) == false && key in Class.prototype
+      if (this.constructor !== constructor && Object.getPrototypeOf(this).constructor === constructor) {
+        return fn;
+      }
+
+      // Autobound method calling calling super.sameMethod() which is also autobound and so on.
+      if (this.constructor !== constructor && key in this.constructor.prototype) {
         return getBoundSuper(this, fn);
       }
 

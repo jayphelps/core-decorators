@@ -249,7 +249,7 @@ describe('@autobind', function () {
     @autobind
     class A {
       method() {
-        return this.test;
+        return this.test || 'WRONG ONE';
       }
     }
 
@@ -268,5 +268,11 @@ describe('@autobind', function () {
     const c = new C();
     const { method } = c;
     method().should.equal('hello');
+
+    const method2 = A.prototype.method;
+    method2.call({ test: 'first' }).should.equal('first');
+
+    const method3 = B.prototype.method;
+    method3.call({ test: 'second' }).should.equal('second');
   });
 });
