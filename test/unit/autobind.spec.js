@@ -244,4 +244,29 @@ describe('@autobind', function () {
     // We didn't @autobind Vehicle
     expect(start()).to.be.undefined;
   });
+
+  it('correctly binds with multiple class prototype levels', function () {
+    @autobind
+    class A {
+      method() {
+        return this.test;
+      }
+    }
+
+    @autobind
+    class B extends A {}
+
+    @autobind
+    class C extends B {
+      test = 'hello';
+
+      method() {
+        return super.method();
+      }
+    }
+
+    const c = new C();
+    const { method } = c;
+    method().should.equal('hello');
+  });
 });
