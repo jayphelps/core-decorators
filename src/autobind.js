@@ -78,7 +78,7 @@ function autobindMethod(target, key, { value: fn, configurable, enumerable }) {
         return fn;
       }
 
-      // Autobound method calling calling super.sameMethod() which is also autobound and so on.
+      // Autobound method calling super.sameMethod() which is also autobound and so on.
       if (this.constructor !== constructor && key in this.constructor.prototype) {
         return getBoundSuper(this, fn);
       }
