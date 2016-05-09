@@ -1,24 +1,36 @@
 import { decorate as _decorate, createDefaultSetter } from './private/utils';
 
 function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
-  const { value: fn, configurable, enumerable, writable } = descriptor;
+  const { configurable, enumerable, writable } = descriptor;
+  const originalGet = descriptor.get;
+  const originalSet = descriptor.set;
+  const originalValue = descriptor.value;
+  const isGetter = !!originalGet;
 
   return {
     configurable,
     enumerable,
     get() {
-      const value = decorator(fn, ...args);
+      const fn = isGetter ? originalGet.call(this) : originalValue;
+      const value = decorator.call(this, fn, ...args);
 
-      Object.defineProperty(this, key, {
-        configurable,
-        enumerable,
-        writable,
-        value
-      });
+      if (isGetter) {
+        return value;
+      } else {
+        const desc = {
+          configurable,
+          enumerable
+        };
 
-      return value;
+        desc.value = value;
+        desc.writable = writable;
+
+        Object.defineProperty(this, key, desc);
+
+        return value;
+      }
     },
-    set: createDefaultSetter()
+    set: isGetter ? originalSet : createDefaultSetter()
   };
 }
 
