@@ -248,8 +248,12 @@ describe('@autobind', function () {
   it('correctly binds with multiple class prototype levels', function () {
     @autobind
     class A {
-      method() {
-        return this.test || 'WRONG ONE';
+      method1() {
+        return this.test1 || 'WRONG';
+      }
+
+      method2() {
+        return this.test2 || 'WRONG';
       }
     }
 
@@ -258,6 +262,52 @@ describe('@autobind', function () {
 
     @autobind
     class C extends B {
+      test1 = 'hello';
+
+      method1() {
+        return super.method1();
+      }
+    }
+
+    @autobind
+    class D extends C {
+      test2 = 'hello';
+
+      method2() {
+        return super.method2();
+      }
+    }
+
+    const c = new C();
+    const d = new D();
+    const { method1 } = c;
+    const { method2 } = d;
+    method1().should.equal('hello');
+    method2().should.equal('hello');
+
+    const methodFromProto1 = A.prototype.method1;
+    methodFromProto1.call({ test1: 'first' }).should.equal('first');
+
+    const methodFromProto2 = B.prototype.method1;
+    methodFromProto2.call({ test1: 'second' }).should.equal('second');
+  });
+
+  it('works correctly for JabX', function () {
+    @autobind
+    class A {
+      method() {
+        return this.test;
+      }
+    }
+
+    @autobind
+    class B extends A {}
+
+    @autobind
+    class C extends B {}
+
+    @autobind
+    class D extends C {
       test = 'hello';
 
       method() {
@@ -265,14 +315,8 @@ describe('@autobind', function () {
       }
     }
 
-    const c = new C();
-    const { method } = c;
+    const d = new D();
+    const { method } = d;
     method().should.equal('hello');
-
-    const method2 = A.prototype.method;
-    method2.call({ test: 'first' }).should.equal('first');
-
-    const method3 = B.prototype.method;
-    method3.call({ test: 'second' }).should.equal('second');
   });
 });
