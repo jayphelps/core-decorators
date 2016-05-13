@@ -62,4 +62,16 @@ describe('@mixin', function () {
     foo.getStuff4().should.equal('stuff4');
     foo.stuff5.should.equal('stuff5');
   });
+
+  it('correctly adds symbols', function () {
+    const symbolHash = Symbol('mixin');
+    const SymbolMixin = {
+      [symbolHash]() {
+        return 'symbolHash';
+      }
+    };
+    const foo = new (applyMixins(SymbolMixin));
+
+    foo[symbolHash]().should.equal('symbolHash');
+  });
 });

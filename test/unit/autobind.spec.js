@@ -275,4 +275,19 @@ describe('@autobind', function () {
     const method3 = B.prototype.method;
     method3.call({ test: 'second' }).should.equal('second');
   });
+
+  it('correctly binds class with symbol properties', function () {
+    const parkHash = Symbol('park');
+
+    @autobind
+    class Car {
+      [parkHash]() {
+        return this;
+      }
+    }
+
+    const car = new Car();
+    const park = car[parkHash];
+    park().should.equal(car);
+  })
 });
