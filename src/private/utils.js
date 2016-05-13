@@ -62,10 +62,13 @@ const getOwnKeys = getOwnPropertySymbols
 
 
 export function getOwnPropertyDescriptors(obj) {
-  return getOwnKeys(obj).map(key => [
-    key,
-    getOwnPropertyDescriptor(obj, key)
-  ]);
+  const descs = {};
+
+  getOwnKeys(obj).forEach(
+    key => (descs[key] = getOwnPropertyDescriptor(obj, key))
+  );
+
+  return descs;
 }
 
 export function createDefaultSetter(key) {

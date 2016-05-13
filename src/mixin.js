@@ -10,9 +10,9 @@ function handleClass(target, mixins) {
   for (let i = 0, l = mixins.length; i < l; i++) {
     const descs = getOwnPropertyDescriptors(mixins[i]);
 
-    for (const [key, desc] of descs) {
+    for (const key in descs) {
       if (!(key in target.prototype)) {
-        defineProperty(target.prototype, key, desc);
+        defineProperty(target.prototype, key, descs[key]);
       }
     }
   }

@@ -41,7 +41,8 @@ function getBoundSuper(obj, fn) {
 function autobindClass(klass) {
   const descs = getOwnPropertyDescriptors(klass.prototype);
 
-  for (const [key, desc] of descs) {
+  for (const key in descs) {
+    const desc = descs[key];
     if (typeof desc.value !== 'function' || key === 'constructor') {
       continue;
     }
