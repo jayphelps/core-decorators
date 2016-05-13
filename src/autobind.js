@@ -1,4 +1,4 @@
-import { decorate, createDefaultSetter, getOwnPropertyDescriptors } from './private/utils';
+import { decorate, createDefaultSetter, getOwnPropertyDescriptors, getOwnKeys } from './private/utils';
 const { defineProperty } = Object;
 
 function bind(fn, context) {
@@ -41,7 +41,7 @@ function getBoundSuper(obj, fn) {
 function autobindClass(klass) {
   const descs = getOwnPropertyDescriptors(klass.prototype);
 
-  for (const key in descs) {
+  for (const key of getOwnKeys(descs)) {
     const desc = descs[key];
     if (typeof desc.value !== 'function' || key === 'constructor') {
       continue;

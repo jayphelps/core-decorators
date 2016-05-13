@@ -1,4 +1,4 @@
-import { getOwnPropertyDescriptors } from './private/utils';
+import { getOwnPropertyDescriptors, getOwnKeys } from './private/utils';
 
 const { defineProperty } = Object;
 
@@ -10,7 +10,7 @@ function handleClass(target, mixins) {
   for (let i = 0, l = mixins.length; i < l; i++) {
     const descs = getOwnPropertyDescriptors(mixins[i]);
 
-    for (const key in descs) {
+    for (const key of getOwnKeys(descs)) {
       if (!(key in target.prototype)) {
         defineProperty(target.prototype, key, descs[key]);
       }
