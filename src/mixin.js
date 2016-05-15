@@ -14,10 +14,15 @@ function hasProperty(prop, obj) {
   // prop actually exists in given object/prototypes' chain.
   if (buggySymbol(prop)) {
     do {
+      if (obj === Object.prototype) {
+        // Polyfill assigns undefined as value for stored symbol key.
+        // We can assume in this special case if there is nothing assigned it doesn't exist.
+        return typeof(obj[prop]) !== 'undefined';
+      }
       if (obj.hasOwnProperty(prop)) {
         return true;
       }
-    } while ((obj = getPrototypeOf(obj)) && obj !== Object.prototype);
+    } while (obj = getPrototypeOf(obj));
     return false;
   } else {
     return prop in obj;
