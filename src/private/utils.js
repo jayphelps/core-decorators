@@ -53,7 +53,7 @@ export function metaFor(obj) {
   return obj[META_KEY];
 }
 
-const getOwnKeys = getOwnPropertySymbols
+export const getOwnKeys = getOwnPropertySymbols
     ? function (object) {
         return getOwnPropertyNames(object)
           .concat(getOwnPropertySymbols(object));

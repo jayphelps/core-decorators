@@ -1,6 +1,33 @@
-import { getOwnPropertyDescriptors } from './private/utils';
+import { getOwnPropertyDescriptors, getOwnKeys } from './private/utils';
 
-const { defineProperty } = Object;
+const { defineProperty, getPrototypeOf } = Object;
+
+function buggySymbol(symbol) {
+  return Object.prototype.toString.call(symbol) === '[object Symbol]' && typeof(symbol) === 'object';
+}
+
+function hasProperty(prop, obj) {
+  // We have to traverse manually prototypes' chain for polyfilled ES6 Symbols
+  // like "in" operator does.
+  // I.e.: Babel 5 Symbol polyfill stores every created symbol in Object.prototype.
+  // That's why we cannot use construction like "prop in obj" to check, if needed
+  // prop actually exists in given object/prototypes' chain.
+  if (buggySymbol(prop)) {
+    do {
+      if (obj === Object.prototype) {
+        // Polyfill assigns undefined as value for stored symbol key.
+        // We can assume in this special case if there is nothing assigned it doesn't exist.
+        return typeof(obj[prop]) !== 'undefined';
+      }
+      if (obj.hasOwnProperty(prop)) {
+        return true;
+      }
+    } while (obj = getPrototypeOf(obj));
+    return false;
+  } else {
+    return prop in obj;
+  }
+}
 
 function handleClass(target, mixins) {
   if (!mixins.length) {
@@ -10,8 +37,8 @@ function handleClass(target, mixins) {
   for (let i = 0, l = mixins.length; i < l; i++) {
     const descs = getOwnPropertyDescriptors(mixins[i]);
 
-    for (const key in descs) {
-      if (!(key in target.prototype)) {
+    for (const key of getOwnKeys(descs)) {
+      if (!(hasProperty(key, target.prototype))) {
         defineProperty(target.prototype, key, descs[key]);
       }
     }
