@@ -492,3 +492,14 @@ getFoo() === foo;
 
 # Future Compatibility
 Since most people can't keep up to date with specs, it's important to note that the spec is in-flux and subject to breaking changes. In fact, the [biggest change is coming shortly](https://github.com/wycats/javascript-decorators/pull/36) but I am active in the appropriate communities and will be keeping this project up to date as things progress. For the most part, these changes will usually be transparent to consumers of this project--that said, core-decorators has not yet reached 1.0 and may in fact introduce breaking changes. If you'd prefer not to receive these changes, be sure to lock your dependency to [PATCH](http://semver.org/). You can track the progress of core-decorators@1.0.0 in the [The Road to 1.0](https://github.com/jayphelps/core-decorators.js/issues/15) ticket.
+
+# Decorator Order Sometimes Matters
+When using multiple decorators on a class, method, or property the order of the decorators sometimes matters. This is a neccesary caveat of decorators because otherwise certain cool features wouldn't be possible. The most common example of this is using `@autobind` and any [Higher-Order Component (HOC)](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750) decorator, e.g. Redux's `@connect`. You must `@autobind` your class first before applying the `@connect` HOC.
+
+```js
+@connect()
+@autobind
+class Foo extends Component {}
+```
+
+To make matters even worse, the latest version of the decorators spec reverses the order in which they are applied; all current transpilers implement it bottom to top, but the new spec has it top to bottom.
