@@ -501,5 +501,3 @@ When using multiple decorators on a class, method, or property the order of the 
 @autobind
 class Foo extends Component {}
 ```
-
-To make matters even worse, the latest version of the decorators spec reverses the order in which they are applied; all current transpilers implement it bottom to top, but the new spec has it top to bottom.
