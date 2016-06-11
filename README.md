@@ -12,7 +12,7 @@ A version compiled to ES5 in CJS format is published to npm as [`core-decorators
 npm install core-decorators --save
 ```
 
-This can be consumed by any transpiler that supports stage-0 of the decorators spec, like [babel.js](https://babeljs.io/) version 5 or using the recent iterations of TypeScript. *Babel 6 [does not yet support decorators](https://phabricator.babeljs.io/T2645), use Babel 5 or the [`applyDecorators()` helper](#applydecorators-helper) until that is fixed.*
+This can be consumed by any transpiler that supports stage-0 of the decorators spec, like [babel.js](https://babeljs.io/) version 5 or using the recent iterations of TypeScript. *Babel 6 [does not yet support decorators natively](https://phabricator.babeljs.io/T2645), but you can include [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy) or use the [`applyDecorators()` helper](#applydecorators-helper).*
 
 ##### Bower/globals
 
