@@ -1,3 +1,4 @@
+import autobind from '../../lib/autobind';
 import decorate from '../../lib/decorate';
 import { memoize } from 'lodash';
 
@@ -38,6 +39,13 @@ describe('@decorate', function () {
         callCount++;
         return this;
       }
+
+      @decorate(memoize)
+      @autobind
+      getFooAutobound() {
+        callCount++;
+        return this;
+      }
     }
   });
 
@@ -66,9 +74,39 @@ describe('@decorate', function () {
     foo1Result.should.not.equal(foo2Result);
     foo1Result.should.equal(foo1);
     foo2Result.should.equal(foo2);
+  });
+
+  it('is applied in a way that allows memoization', function () {
+    const foo1 = new Foo();
+    const foo2 = new Foo();
+
+    const foo1Result = foo1.getFoo();
+    const foo2Result = foo2.getFoo();
 
     foo1.getFoo();
 
     callCount.should.equal(2);
+
+    foo1.getFoo(1);
+    foo1.getFoo(2);
+
+    callCount.should.equal(4);
+  });
+
+  it('is applied in a way that allows memoization when autobound', function () {
+    const foo1 = new Foo();
+    const foo2 = new Foo();
+
+    const foo1Result = foo1.getFooAutobound();
+    const foo2Result = foo2.getFooAutobound();
+
+    foo1.getFooAutobound();
+
+    callCount.should.equal(2);
+
+    foo1.getFooAutobound(1);
+    foo1.getFooAutobound(2);
+
+    callCount.should.equal(4);
   });
 });
