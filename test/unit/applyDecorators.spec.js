@@ -28,7 +28,7 @@ describe('applyDecorators() helper', function () {
 
     (function () {
       foo.second = 'I will error';
-    }).should.throw('Cannot assign to read only property \'second\' of [object Object]');
+    }).should.throw('Cannot assign to read only property \'second\' of object \'#<Foo>\'');
 
     Object.getOwnPropertyDescriptor(Foo.prototype, 'second')
       .writable.should.equal(false);

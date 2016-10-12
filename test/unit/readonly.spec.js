@@ -19,10 +19,10 @@ describe('@readonly', function () {
 
     (function () {
       foo.first = 'I will error';
-    }).should.throw('Cannot assign to read only property \'first\' of [object Object]');
+    }).should.throw('Cannot assign to read only property \'first\' of object \'#<Foo>\'');
     
     (function () {
       foo.second = 'I will also error';
-    }).should.throw('Cannot assign to read only property \'second\' of [object Object]');
+    }).should.throw('Cannot assign to read only property \'second\' of object \'#<Foo>\'');
   });
 });
