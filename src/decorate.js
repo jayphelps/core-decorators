@@ -13,22 +13,20 @@ function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
     get() {
       const fn = isGetter ? originalGet.call(this) : originalValue;
       const value = decorator.call(this, fn, ...args);
+      const desc = {
+        configurable,
+        enumerable,
+        value,
+        writable
+      };
 
       if (isGetter) {
-        return value;
-      } else {
-        const desc = {
-          configurable,
-          enumerable
-        };
-
-        desc.value = value;
-        desc.writable = writable;
-
-        Object.defineProperty(this, key, desc);
-
-        return value;
+        desc.writable = true;
       }
+
+      Object.defineProperty(this, key, desc);
+
+      return value;
     },
     set: isGetter ? originalSet : createDefaultSetter()
   };
