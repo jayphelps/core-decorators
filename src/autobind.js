@@ -1,5 +1,6 @@
-import { decorate, createDefaultSetter, getOwnPropertyDescriptors, getOwnKeys } from './private/utils';
-const { defineProperty } = Object;
+import { decorate, createDefaultSetter,
+  getOwnPropertyDescriptors, getOwnKeys } from './private/utils';
+const { defineProperty, getPrototypeOf } = Object;
 
 function bind(fn, context) {
   if (fn.bind) {
@@ -40,9 +41,12 @@ function getBoundSuper(obj, fn) {
 
 function autobindClass(klass) {
   const descs = getOwnPropertyDescriptors(klass.prototype);
+  const keys = getOwnKeys(descs);
 
-  for (const key of getOwnKeys(descs)) {
+  for (let i = 0, l = keys.length; i < l; i++) {
+    const key = keys[i];
     const desc = descs[key];
+
     if (typeof desc.value !== 'function' || key === 'constructor') {
       continue;
     }
@@ -74,7 +78,7 @@ function autobindMethod(target, key, { value: fn, configurable, enumerable }) {
       // Someone accesses the property directly on a prototype but it was found
       // up the chain, not defined directly on it
       // i.e. Class.prototype.hasOwnProperty(key) == false && key in Class.prototype
-      if (this.constructor !== constructor && Object.getPrototypeOf(this).constructor === constructor) {
+      if (this.constructor !== constructor && getPrototypeOf(this).constructor === constructor) {
         return fn;
       }
 

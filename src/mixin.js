@@ -36,8 +36,11 @@ function handleClass(target, mixins) {
 
   for (let i = 0, l = mixins.length; i < l; i++) {
     const descs = getOwnPropertyDescriptors(mixins[i]);
+    const keys = getOwnKeys(descs);
 
-    for (const key of getOwnKeys(descs)) {
+    for (let j = 0, k = keys.length; j < k; j++) {
+      const key = keys[j];
+
       if (!(hasProperty(key, target.prototype))) {
         defineProperty(target.prototype, key, descs[key]);
       }

@@ -1,4 +1,5 @@
 import { decorate as _decorate, createDefaultSetter } from './private/utils';
+const { defineProperty } = Object;
 
 function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
   const { configurable, enumerable, writable } = descriptor;
@@ -25,7 +26,7 @@ function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
         desc.value = value;
         desc.writable = writable;
 
-        Object.defineProperty(this, key, desc);
+        defineProperty(this, key, desc);
 
         return value;
       }

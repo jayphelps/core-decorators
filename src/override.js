@@ -209,8 +209,10 @@ const suggestionTransforms = [
 ];
 
 function findPossibleAlternatives(superKlass, key) {
-  for (const fn of suggestionTransforms) {
+  for (let i = 0, l = suggestionTransforms.length; i < l; i++) {
+    const fn = suggestionTransforms[i];
     const suggestion = fn(key);
+
     if (suggestion in superKlass) {
       return suggestion;
     }

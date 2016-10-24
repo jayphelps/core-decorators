@@ -5,11 +5,15 @@ function suppressedWarningNoop() {
 }
 
 function applyWithoutWarnings(context, fn, args) {
-  const nativeWarn = console.warn;
-  console.warn = suppressedWarningNoop;
-  const ret = fn.apply(context, args);
-  console.warn = nativeWarn;
-  return ret;
+  if (typeof console === 'object') {
+    const nativeWarn = console.warn;
+    console.warn = suppressedWarningNoop;
+    const ret = fn.apply(context, args);
+    console.warn = nativeWarn;
+    return ret;
+  } else {
+    return fn.apply(context, args);
+  }
 }
 
 function handleDescriptor(target, key, descriptor) {

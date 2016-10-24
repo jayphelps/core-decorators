@@ -1,8 +1,9 @@
 import { decorate } from './private/utils';
+const { getPrototypeOf, getOwnPropertyDescriptor } = Object;
 
 function handleDescriptor(target, key, descriptor) {
-  const superKlass = Object.getPrototypeOf(target);
-  const superDesc = Object.getOwnPropertyDescriptor(superKlass, key);
+  const superKlass = getPrototypeOf(target);
+  const superDesc = getOwnPropertyDescriptor(superKlass, key);
 
   return {
     ...superDesc,
