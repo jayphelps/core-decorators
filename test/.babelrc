@@ -1,6 +1,10 @@
 {
-  "optional": [
-    "es7.decorators",
-    "es7.classProperties"
+  "presets": [
+      "es2015"
+  ],
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-class-properties",
+    "transform-decorators-legacy"
   ]
 }
