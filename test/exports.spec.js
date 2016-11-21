@@ -17,7 +17,7 @@ describe('Main package exports', function () {
   let filePaths;
 
   beforeEach(function () {
-    filePaths = glob.sync(`${libPath}/readonly.js`, {
+    filePaths = glob.sync(`${libPath}/*.js`, {
       ignore: ['**/core-decorators.js', '**/*.spec.js']
     });
   });
