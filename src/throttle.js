@@ -20,12 +20,16 @@ function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, opti
   return {
     ...descriptor,
     value() {
-      const { throttleTimeoutIds, throttlePreviousTimestamps } = metaFor(this);
+      const meta = metaFor(this);
+      const { throttleTimeoutIds, throttlePreviousTimestamps } = meta;
       const timeout = throttleTimeoutIds[key];
       // last execute timestamp
       let previous = throttlePreviousTimestamps[key] || 0;
       const now = Date.now();
-      const args = arguments;
+
+      if (options.trailing) {
+        meta.throttleTrailingArgs = arguments;
+      }
 
       // if first be called and disable the execution on the leading edge
       // set last execute timestamp to now
@@ -39,12 +43,14 @@ function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, opti
         clearTimeout(timeout);
         delete throttleTimeoutIds[key];
         throttlePreviousTimestamps[key] = now;
-        callback.apply(this, args);
-      } else if (!timeout && options.trailing !== false) {
+        callback.apply(this, arguments);
+      } else if (!timeout && options.trailing) {
         throttleTimeoutIds[key] = setTimeout(() => {
           throttlePreviousTimestamps[key] = options.leading === false ? 0 : Date.now();
           delete throttleTimeoutIds[key];
-          callback.apply(this, args);
+          callback.apply(this, meta.throttleTrailingArgs);
+          // don't leak memory!
+          meta.throttleTrailingArgs = null;
         }, remaining);
       }
     }

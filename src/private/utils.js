@@ -32,10 +32,15 @@ export function decorate(handleDescriptor, entryArgs) {
 class Meta {
   @lazyInitialize
   debounceTimeoutIds = {};
+
   @lazyInitialize
   throttleTimeoutIds = {};
+
   @lazyInitialize
   throttlePreviousTimestamps = {};
+
+  @lazyInitialize
+  throttleTrailingArgs = null;
 }
 
 const META_KEY = (typeof Symbol === 'function')
