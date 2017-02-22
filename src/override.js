@@ -110,7 +110,7 @@ function getDescriptorType(descriptor) {
   return 'data';
 }
 
-function checkFunctionSignatures(parent: Function, child: Function, reporter) {
+function checkFunctionSignatures(parent, child, reporter) {
   reporter.assert(parent.length === child.length);
 }
 

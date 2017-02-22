@@ -5,22 +5,47 @@
  * https://github.com/jayphelps/core-decorators.js
  * @license
  */
-export { default as override } from './override';
-export { default as deprecate, default as deprecated } from './deprecate';
-export { default as suppressWarnings } from './suppress-warnings';
-export { default as memoize } from './memoize';
-export { default as autobind } from './autobind';
-export { default as readonly } from './readonly';
-export { default as enumerable } from './enumerable';
-export { default as nonenumerable } from './nonenumerable';
-export { default as nonconfigurable } from './nonconfigurable';
-export { default as debounce } from './debounce';
-export { default as throttle } from './throttle';
-export { default as decorate } from './decorate';
-export { default as mixin, default as mixins } from './mixin';
-export { default as lazyInitialize } from './lazy-initialize';
-export { default as time } from './time';
-export { default as extendDescriptor } from './extendDescriptor';
+
+import override from './override';
+import deprecate from './deprecate';
+import suppressWarnings from './suppress-warnings';
+import memoize from './memoize';
+import autobind from './autobind';
+import readonly from './readonly';
+import enumerable from './enumerable';
+import nonenumerable from './nonenumerable';
+import nonconfigurable from './nonconfigurable';
+import debounce from './debounce';
+import throttle from './throttle';
+import decorate from './decorate';
+import mixin from './mixin';
+import lazyInitialize from './lazy-initialize';
+import time from './time';
+import extendDescriptor from './extendDescriptor';
 
 // Helper to apply decorators to a class without transpiler support
-export { default as applyDecorators } from './applyDecorators';
+import applyDecorators from './applyDecorators';
+
+
+export {
+	override,
+	deprecate,
+	deprecate as deprecated,
+	suppressWarnings,
+	memoize,
+	autobind,
+	readonly,
+	enumerable,
+	nonenumerable,
+	nonconfigurable,
+	debounce,
+	throttle,
+	decorate,
+	mixin,
+	mixin as mixins,
+	lazyInitialize,
+	time,
+	extendDescriptor,
+	// Helper to apply decorators to a class without transpiler support
+	applyDecorators
+};
