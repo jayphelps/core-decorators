@@ -1,3 +1,10 @@
+# output files
 /lib/
-/node_modules/
 core-decorators.js
+
+# IDEA files
+/.idea
+
+# NPM files
+/node_modules/
+.npmrc
