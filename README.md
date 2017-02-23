@@ -43,6 +43,7 @@ I *highly* recommend against using that globals build as it's quite strange you'
 * [@debounce](#debounce)
 * [@throttle](#throttle)
 * [@time](#time)
+* [@once](#once)
 
 ##### For Classes
 * [@autobind](#autobind)
@@ -440,6 +441,22 @@ let myConsole = {
   timeEnd: function(label) { /* custom timeEnd method */ },
   log: function(str) { /* custom log method */ }
 }
+```
+
+### @once
+
+Forces a method to run only once. In this case, every other call to the method will return the result of the first run.
+
+It is useful for <i>operation caching</i> for heavy tasks. For making a method kinda disposable after first run.
+
+```js
+class Foo {
+
+    @once
+    runSumOnlyOnce(num1, num2) {
+      return num1 + num2;
+    }
+  }
 ```
 
 ### @extendDescriptor
