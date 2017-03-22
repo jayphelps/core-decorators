@@ -21,6 +21,7 @@ export { default as mixin, default as mixins } from './mixin';
 export { default as lazyInitialize } from './lazy-initialize';
 export { default as time } from './time';
 export { default as extendDescriptor } from './extendDescriptor';
+export { default as profile } from './profile';
 
 // Helper to apply decorators to a class without transpiler support
 export { default as applyDecorators } from './applyDecorators';

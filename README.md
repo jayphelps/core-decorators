@@ -43,6 +43,7 @@ I *highly* recommend against using that globals build as it's quite strange you'
 * [@debounce](#debounce)
 * [@throttle](#throttle)
 * [@time](#time)
+* [@profile](#profile) :new:
 
 ##### For Classes
 * [@autobind](#autobind)
@@ -89,7 +90,7 @@ class Person {
   getPerson() {
   	return this;
   }
-  
+
   getPersonAgain() {
     return this;
   }
@@ -441,6 +442,38 @@ let myConsole = {
   log: function(str) { /* custom log method */ }
 }
 ```
+
+### @profile
+
+Uses `console.profile` and `console.profileEnd` to provide function profiling with a unique label whose default prefix is `ClassName.method`. Supply a first argument to override the prefix:
+
+```js
+class Bird {
+  @profile('sing')
+  sing() {
+  }
+}
+
+var bird = new Bird();
+bird.sing(); // Adds a profile with label sing and marked as run 1
+bird.sing(); // Adds a profile with label sing and marked as run 2
+```
+
+Because profiling is expensive, you may not want to run it every time the function is called. Supply a second argument of `true` to have the profiling only run once:
+
+```js
+class Bird {
+  @profile(null, true)
+  sing() {
+  }
+}
+
+var bird = new Bird();
+bird.sing(); // Adds a profile with label Bird.sing
+bird.sing(); // Does nothing
+```
+
+Profiling is currently only supported in Chrome 53+, Firefox, and Edge. Unfortunately this feature can't be polyfilled or faked, so if used in an unsupported browser or Node.js then this decorator will automatically disable itself.
 
 ### @extendDescriptor
 
