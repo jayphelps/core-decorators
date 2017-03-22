@@ -47,6 +47,7 @@
     "camelcase": "^2.0.1",
     "chai": "^3.2.0",
     "glob": "^6.0.1",
+    "global-wrap": "^2.0.0",
     "interop-require": "1.0.0",
     "lodash": "4.10.0",
     "mocha": "^2.2.5",
