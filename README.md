@@ -190,7 +190,7 @@ person.facepalmHarder();
 
 Creates a new debounced function which will be invoked after `wait` milliseconds since the time it was invoked. Default timeout is 300 ms.
 
-Optional boolean second argument allows to trigger function on the leading instead of the trailing edge of the wait interval. Implementation is insired by similar method from [UnderscoreJS](http://underscorejs.org/#debounce).
+Optional boolean second argument allows to trigger function on the leading instead of the trailing edge of the wait interval. Implementation is inspired by similar method from [UnderscoreJS](http://underscorejs.org/#debounce).
 
 ```js
 import { debounce } from 'core-decorators';
@@ -215,7 +215,7 @@ Second argument is optional options:
 - `leading`: default to `true`, allows to trigger function on the leading.
 - `trailing`: default to `true`, allows to trigger function on the trailing edge of the wait interval.
 
-Implementation is insired by similar method from [UnderscoreJS](http://underscorejs.org/#throttle).
+Implementation is inspired by similar method from [UnderscoreJS](http://underscorejs.org/#throttle).
 
 ```js
 import { throttle } from 'core-decorators';
