@@ -20,6 +20,7 @@ export { default as decorate } from './decorate';
 export { default as mixin, default as mixins } from './mixin';
 export { default as lazyInitialize } from './lazy-initialize';
 export { default as time } from './time';
+export { default as once } from './once';
 export { default as extendDescriptor } from './extendDescriptor';
 export { default as profile } from './profile';
 

@@ -44,6 +44,7 @@ I *highly* recommend against using that globals build as it's quite strange you'
 * [@throttle](#throttle)
 * [@time](#time)
 * [@profile](#profile) :new:
+* [@once](#once) :new:
 
 ##### For Classes
 * [@autobind](#autobind)
@@ -474,6 +475,22 @@ bird.sing(); // Does nothing
 ```
 
 Profiling is currently only supported in Chrome 53+, Firefox, and Edge. Unfortunately this feature can't be polyfilled or faked, so if used in an unsupported browser or Node.js then this decorator will automatically disable itself.
+
+### @once
+
+Forces a method to run only once. In this case, every other call to the method will return the result of the first run.
+
+It is useful for <i>operation caching</i> for heavy tasks. For making a method kinda disposable after first run.
+
+```js
+class Foo {
+
+    @once
+    runSumOnlyOnce(num1, num2) {
+      return num1 + num2;
+    }
+  }
+```
 
 ### @extendDescriptor
 
