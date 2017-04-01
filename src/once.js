@@ -7,18 +7,23 @@ function handleDescriptor(target, key, descriptor) {
     throw new SyntaxError(`@once can only be used on functions, not: ${fn}`);
   }
 
-  let returnedValue;
-
-  return {
-    ...descriptor,
-    value() {
-      if (!returnedValue) {
-        returnedValue = fn.apply(this, arguments);
-      }
-
-      return returnedValue;
+  let returnValue;
+  let hasRun = false;
+  const value = () => {
+    if (!hasRun) {
+      returnValue = fn.apply(this, arguments);
+      hasRun = true;
     }
-  }
+
+    return returnValue;
+  };
+
+  value.reset = () => {
+    returnValue = undefined;
+    hasRun = false;
+  };
+
+  return {...descriptor, value};
 }
 
 export default function once(...args) {
