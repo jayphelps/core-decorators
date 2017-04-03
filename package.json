@@ -1,6 +1,6 @@
 {
   "name": "core-decorators",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "Library of JavaScript stage-0 decorators (aka ES2016/ES7 decorators but that's not accurate!) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more! Works great with React/Angular/more!",
   "main": "lib/core-decorators.js",
   "module": "es/core-decorators.js",
