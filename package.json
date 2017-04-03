@@ -3,6 +3,8 @@
   "version": "0.15.0",
   "description": "Library of JavaScript stage-0 decorators (aka ES2016/ES7 decorators but that's not accurate!) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more! Works great with React/Angular/more!",
   "main": "lib/core-decorators.js",
+  "module": "es/core-decorators.js",
+  "jsnext:main": "es/core-decorators.js",
   "files": [
     "lib",
     "src",
@@ -11,6 +13,7 @@
   ],
   "scripts": {
     "build": "babel --out-dir lib src",
+    "build-es": "BABEL_ENV=es babel --out-dir es src",
     "build-bower": "babel-node scripts/build-bower.js",
     "test": "npm run build && mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\""
   },
@@ -47,6 +50,7 @@
     "babel-core": "^6.24.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",
