@@ -1,6 +1,6 @@
 /**
  * core-decorators.js
- * (c) 2016 Jay Phelps and contributors
+ * (c) 2017 Jay Phelps and contributors
  * MIT Licensed
  * https://github.com/jayphelps/core-decorators.js
  * @license
