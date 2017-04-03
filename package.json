@@ -12,7 +12,7 @@
   "scripts": {
     "build": "babel --out-dir lib src",
     "build-bower": "babel-node scripts/build-bower.js",
-    "test": "npm run build && mocha --compilers js:babel/register --require babel/polyfill \"test/**/*.spec.js\""
+    "test": "npm run build && mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\""
   },
   "repository": {
     "type": "git",
@@ -43,15 +43,22 @@
   },
   "homepage": "https://github.com/jayphelps/core-decorators.js",
   "devDependencies": {
-    "babel": "^5.4.7",
-    "camelcase": "^2.0.1",
-    "chai": "^3.2.0",
-    "glob": "^6.0.1",
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.24.0",
+    "camelcase": "^4.1.0",
+    "chai": "^3.5.0",
+    "glob": "^7.1.1",
     "global-wrap": "^2.0.0",
     "interop-require": "1.0.0",
-    "lodash": "4.10.0",
-    "mocha": "^2.2.5",
-    "sinon": "^1.15.4",
-    "sinon-chai": "^2.8.0"
+    "lodash": "4.17.4",
+    "mocha": "^3.2.0",
+    "sinon": "^2.1.0",
+    "sinon-chai": "^2.9.0"
   }
 }
