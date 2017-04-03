@@ -6,6 +6,7 @@
   "module": "es/core-decorators.js",
   "jsnext:main": "es/core-decorators.js",
   "files": [
+    "es",
     "lib",
     "src",
     "README.md",
