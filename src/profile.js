@@ -1,4 +1,6 @@
-import { decorate } from './private/utils';
+import { decorate, metaFor } from './private/utils';
+
+const oc = console;
 
 // Exported for mocking in tests
 export const defaultConsole = {
@@ -7,7 +9,7 @@ export const defaultConsole = {
   warn: console.warn.bind(console)
 };
 
-function handleDescriptor(target, key, descriptor, [prefix = null, once = false, console = defaultConsole]) {
+function handleDescriptor(target, key, descriptor, [prefix = null, onceThrottleOrFunction = false, console = defaultConsole]) {
   if (!profile.__enabled) {
     if (!profile.__warned) {
       console.warn('Console.profile is not supported. All @profile decorators are disabled.');
@@ -26,21 +28,25 @@ function handleDescriptor(target, key, descriptor, [prefix = null, once = false,
     throw new SyntaxError(`@profile can only be used on functions, not: ${fn}`);
   }
 
-  let ran = false;
-
   return {
     ...descriptor,
     value() {
-      const label = `${prefix}`;
-      if (!once || once && !ran) {
-        console.profile(label);
-        ran = true;
+      const now = Date.now();
+      const meta = metaFor(this);
+      if (
+        (onceThrottleOrFunction === true && !meta.profileLastRan) ||
+        (onceThrottleOrFunction === false) ||
+        (typeof onceThrottleOrFunction === 'number' && (now - meta.profileLastRan) > onceThrottleOrFunction) ||
+        (typeof onceThrottleOrFunction === 'function' && onceThrottleOrFunction.apply(this, arguments))
+      ) {
+        console.profile(prefix);
+        meta.profileLastRan = now;
       }
 
       try {
         return fn.apply(this, arguments);
       } finally {
-        console.profileEnd(label);
+        console.profileEnd(prefix);
       }
     }
   }
