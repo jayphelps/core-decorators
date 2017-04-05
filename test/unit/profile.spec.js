@@ -1,4 +1,4 @@
-import { spy } from 'sinon';
+import { spy, useFakeTimers } from 'sinon';
 import applyDecorators from '../../lib/applyDecorators';
 import profile, { defaultConsole } from '../../lib/profile';
 
@@ -21,8 +21,24 @@ describe('@profile', function() {
     }
 
     @profile(null, true)
-    profileOnce() {
-      return;
+    profileOnce(cb) {
+      return cb();
+    }
+
+
+    @profile(null, 1000)
+    profileThrottled(cb) {
+      return cb();
+    }
+
+    @profile(null, function () { return this.isAwesome; })
+    profileFunctioned(cb) {
+      return cb();
+    }
+
+    @profile(null, function (run) { return run; })
+    profileFunctionedWithParameter(run, cb) {
+      return cb();
     }
 
     unprofiled() {
@@ -58,11 +74,19 @@ describe('@profile', function() {
   });
 
   it('calls console.profile and console.profileEnd once when flag is on', function() {
-    const foo = new Foo();
-    foo.profileOnce();
-    foo.profileOnce();
+    const cbSpy = spy();
 
+    const foo = new Foo();
+    foo.profileOnce(cbSpy);
+    foo.profileOnce(cbSpy);
     profileSpy.calledOnce.should.equal(true);
+    cbSpy.calledTwice.should.equal(true);
+
+    const bar = new Foo();
+    bar.profileOnce(cbSpy);
+    bar.profileOnce(cbSpy);
+    profileSpy.calledTwice.should.equal(true);
+    cbSpy.callCount.should.equal(4);
   });
 
   it('calls console.profileEnd even if the called method throws', function() {
@@ -120,6 +144,79 @@ describe('@profile', function() {
     result.should.equal('profiled');
   });
 
+  describe('when throttled', function() {
+    let clock;
+    let count = 1;
+    beforeEach(function() {
+      clock = useFakeTimers(Date.now());
+      count += 1;
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
+    it('should always call function', function() {
+      const cbSpy = spy();
+      const foo = new Foo();
+
+      foo.profileThrottled(cbSpy);
+      foo.profileThrottled(cbSpy);
+
+      profileSpy.calledOnce.should.equal(true);
+      cbSpy.calledTwice.should.equal(true);
+    });
+
+    it('should call profile after throttle time', function() {
+      const noop = function() {};
+      const foo = new Foo();
+
+      foo.profileThrottled(noop);
+      foo.profileThrottled(noop);
+      profileSpy.calledOnce.should.equal(true);
+
+      clock.tick(999);
+
+      foo.profileThrottled(noop);
+      profileSpy.calledOnce.should.equal(true);
+
+      clock.tick(10);
+
+      foo.profileThrottled(noop);
+      profileSpy.calledTwice.should.equal(true);
+    })
+  });
+
+  describe('when functioned', function() {
+    it('should have `this` context', () => {
+      const cbSpy = spy();
+      const foo = new Foo();
+
+      foo.profileFunctioned(cbSpy);
+      profileSpy.calledOnce.should.equal(false);
+      cbSpy.calledOnce.should.equal(true);
+
+      foo.isAwesome = true;
+
+      foo.profileFunctioned(cbSpy);
+      profileSpy.calledOnce.should.equal(true);
+      cbSpy.calledTwice.should.equal(true);
+    });
+
+    it('should accept parameters', () => {
+      const cbSpy = spy();
+      const foo = new Foo();
+
+      foo.profileFunctionedWithParameter(false, cbSpy);
+      profileSpy.calledOnce.should.equal(false);
+      cbSpy.calledOnce.should.equal(true);
+
+      foo.profileFunctionedWithParameter(true, cbSpy);
+      profileSpy.calledOnce.should.equal(true);
+      cbSpy.calledTwice.should.equal(true);
+    });
+  });
+
   describe('when disabled', function() {
     class Bar {
       disabledProfile() {
@@ -154,6 +251,6 @@ describe('@profile', function() {
 
       Bar.prototype.disabledProfile.should.equal(oldBarDisabledProfile);
     });
-  })
+  });
 
 });

@@ -41,6 +41,9 @@ class Meta {
 
   @lazyInitialize
   throttleTrailingArgs = null;
+
+  @lazyInitialize
+  profileLastRan = null;
 }
 
 const META_KEY = (typeof Symbol === 'function')

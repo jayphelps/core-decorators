@@ -473,6 +473,45 @@ bird.sing(); // Adds a profile with label Bird.sing
 bird.sing(); // Does nothing
 ```
 
+Alternatively you can pass a number instead of `true` to represent the milliseconds between profiles. Profiling is always ran on the leading edge.
+
+```js
+class Bird {
+  @profile(null, 1000)
+  sing() {
+  }
+}
+
+var bird = new Bird();
+bird.sing(); // Adds a profile with label Bird.sing
+// Wait 100ms
+bird.sing(); // Does nothing
+// Wait 1000ms
+bird.sing(); // Adds a profile with label Bird.sing
+```
+
+When you need extremely fine-tuned control, you can pass a function that returns a boolean to determine if profiling should occur. The function will have `this` context of the instance and the arguments to the method will be passed to the function as well. Arrow functions **will not** receive the instance context.
+
+```js
+class Bird {
+  @profile(null, function (volume) { return volume === 'loud'; })
+  sing(volume) {
+  }
+
+  @profile(null, function () { return this.breed === 'eagle' })
+  fly() {
+  }
+}
+
+var bird = new Bird();
+bird.sing('loud'); // Adds a profile with label Bird.sing
+bird.sing('quite'); // Does nothing
+
+bird.fly(); // Does nothing
+bird.breed = 'eagle';
+bird.fly(); // Adds a profile with label Bird.fly
+```
+
 Profiling is currently only supported in Chrome 53+, Firefox, and Edge. Unfortunately this feature can't be polyfilled or faked, so if used in an unsupported browser or Node.js then this decorator will automatically disable itself.
 
 ### @extendDescriptor
