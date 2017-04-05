@@ -1,6 +1,0 @@
-{
-  "optional": [
-    "es7.decorators",
-    "es7.classProperties"
-  ]
-}
