@@ -1,3 +1,4 @@
+import { useFakeTimers } from 'sinon';
 import debounce from '../../lib/debounce';
 
 class Editor {
@@ -16,45 +17,47 @@ class Editor {
 
 describe('@debounce', function () {
   let editor;
+  let clock;
 
   beforeEach(function () {
     editor = new Editor();
+    clock = useFakeTimers(Date.now());
   });
 
-  it('invokes function only once', function (done) {
+  afterEach(function () {
+    clock.restore();
+  });
+
+  it('invokes function only once', function () {
     editor.updateCounter1();
     editor.counter.should.equal(0);
 
-    setTimeout(() => {
-      editor.counter.should.equal(1);
-      done();
-    }, 600);
+    clock.tick(600);
+
+    editor.counter.should.equal(1);
   });
 
-  it('invokes function immediately and only once if "immediate" option is true', function (done) {
+  it('invokes function immediately and only once if "immediate" option is true', function () {
     editor.updateCounter2();
     editor.counter.should.equal(1);
 
-    // should still be 1 because 600ms hasn't yet passed
-    setTimeout(() => {
-      editor.counter.should.equal(1);
-    }, 400);
+    clock.tick(400);
 
-    setTimeout(() => {
-      editor.counter.should.equal(1);
-      done();
-    }, 600);
+    editor.counter.should.equal(1);
+
+    clock.tick(200);
+
+    editor.counter.should.equal(1);
   });
 
-  it('does not share timers between instances', function (done) {
+  it('does not share timers between instances', function () {
     let editor2 = new Editor();
     editor.updateCounter1();
     editor2.updateCounter1();
 
-    setTimeout(() => {
-      editor.counter.should.equal(1);
-      editor2.counter.should.equal(1);
-      done();
-    }, 600);
+    clock.tick(600);
+
+    editor.counter.should.equal(1);
+    editor2.counter.should.equal(1);
   });
 });
