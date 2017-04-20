@@ -22,13 +22,17 @@ A globals version is available [here in the artifact repo](https://github.com/ja
 
 I *highly* recommend against using that globals build as it's quite strange you're using decorators (a proposed future feature of JavaScript) while not using ES2015 modules, a spec ratified feature used by nearly every modern framework. Also--[bower is on its deathbed](https://github.com/bower/bower/pull/1748) and IMO for very good reasons.
 
+## Need lodash utilities as decorators?
+
+core-decorators aims to provide decorators that are fundamental to JavaScript itself--mostly things you could do with normal `Object.defineProperty` but not as easily when using ES2015 classes. Things like debouncing, throttling, and other more opinionated decorators are being phased out in favor of [lodash-decorators](https://www.npmjs.com/package/lodash-decorators) which wraps applicable lodash utilities as decorators. We don't want to duplicate the effort of lodash, which has years and years of robust testing and bugfixes.
+
 ## Decorators
 
 ##### For Properties and Methods
 * [@readonly](#readonly)
 * [@nonconfigurable](#nonconfigurable)
 * [@decorate](#decorate)
-* [@extendDescriptor](#extenddescriptor) :new:
+* [@extendDescriptor](#extenddescriptor)
 
 ##### For Properties
 * [@nonenumerable](#nonenumerable)
@@ -40,18 +44,18 @@ I *highly* recommend against using that globals build as it's quite strange you'
 * [@suppressWarnings](#suppresswarnings)
 * [@enumerable](#enumerable)
 * [@override](#override)
-* [@debounce](#debounce)
-* [@throttle](#throttle)
+* [@debounce](#debounce) :no_entry_sign: DEPRECATED
+* [@throttle](#throttle) :no_entry_sign: DEPRECATED
 * [@time](#time)
-* [@profile](#profile) :new:
+* [@profile](#profile)
 
 ##### For Classes
 * [@autobind](#autobind)
-* [@mixin](#mixin-alias-mixins)
+* [@mixin](#mixin-alias-mixins) :no_entry_sign: DEPRECATED
 
 ## Helpers
 
-* [applyDecorators()](#applydecorators-helper) :new:
+* [applyDecorators()](#applydecorators-helper)
 
 ## Docs
 
@@ -186,7 +190,7 @@ person.facepalmHarder();
 //
 ```
 
-### @debounce
+### @debounce :no_entry_sign: DEPRECATED
 
 Creates a new debounced function which will be invoked after `wait` milliseconds since the time it was invoked. Default timeout is 300 ms.
 
@@ -206,7 +210,7 @@ class Editor {
 }
 ```
 
-### @throttle
+### @throttle :no_entry_sign: DEPRECATED
 
 Creates a new throttled function which will be invoked in every `wait` milliseconds. Default timeout is 300 ms.
 
@@ -380,7 +384,7 @@ editor.hugeBuffer;
 // createHugeBuffer() is not called again
 ```
 
-### @mixin (alias: @mixins)
+### @mixin (alias: @mixins) :no_entry_sign: DEPRECATED
 
 Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are applied in the order they are passed, but do **not** override descriptors already on the class, including those inherited traditionally.
 

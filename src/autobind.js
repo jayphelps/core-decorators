@@ -1,16 +1,6 @@
 import { decorate, createDefaultSetter,
-  getOwnPropertyDescriptors, getOwnKeys } from './private/utils';
+  getOwnPropertyDescriptors, getOwnKeys, bind } from './private/utils';
 const { defineProperty, getPrototypeOf } = Object;
-
-function bind(fn, context) {
-  if (fn.bind) {
-    return fn.bind(context);
-  } else {
-    return function __autobind__() {
-      return fn.apply(context, arguments);
-    };
-  }
-}
 
 let mapStore;
 
