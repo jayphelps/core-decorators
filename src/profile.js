@@ -4,8 +4,8 @@ const oc = console;
 
 // Exported for mocking in tests
 export const defaultConsole = {
-  profile: console.profile ? console.profile.bind(console) : () => {},
-  profileEnd: console.profileEnd ? console.profileEnd.bind(console) : () => {},
+  profile: console.profile ? (profileName) => { console.profile(profileName) } : () => {},
+  profileEnd: console.profileEnd ? (profileName) => { console.profileEnd(profileName) } : () => {},
   warn: console.warn.bind(console)
 };
 
