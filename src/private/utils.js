@@ -92,3 +92,29 @@ export function createDefaultSetter(key) {
     return newValue;
   };
 }
+
+export function bind(fn, context) {
+  if (fn.bind) {
+    return fn.bind(context);
+  } else {
+    return function __autobind__() {
+      return fn.apply(context, arguments);
+    };
+  }
+}
+
+export const warn = (() => {
+  if (typeof console !== 'object' || !console || typeof console.warn !== 'function') {
+    return () => {};
+  } else {
+    return bind(console.warn, console);
+  }
+})();
+
+const seenDeprecations = {};
+export function internalDeprecation(msg) {
+  if (seenDeprecations[msg] !== true) {
+    seenDeprecations[msg] = true;
+    warn('DEPRECATION: ' + msg);
+  }
+}

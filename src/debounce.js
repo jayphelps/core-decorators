@@ -1,4 +1,4 @@
-import { decorate, metaFor } from './private/utils';
+import { decorate, metaFor, internalDeprecation } from './private/utils';
 
 const DEFAULT_TIMEOUT = 300;
 
@@ -34,5 +34,6 @@ function handleDescriptor(target, key, descriptor, [wait = DEFAULT_TIMEOUT, imme
 }
 
 export default function debounce(...args) {
+  internalDeprecation('@debounce is deprecated and will be removed shortly. Use @debounce from lodash-decorators.\n\n  https://www.npmjs.com/package/lodash-decorators');
   return decorate(handleDescriptor, args);
 }

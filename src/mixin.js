@@ -1,4 +1,4 @@
-import { getOwnPropertyDescriptors, getOwnKeys } from './private/utils';
+import { getOwnPropertyDescriptors, getOwnKeys, internalDeprecation } from './private/utils';
 
 const { defineProperty, getPrototypeOf } = Object;
 
@@ -49,6 +49,8 @@ function handleClass(target, mixins) {
 }
 
 export default function mixin(...mixins) {
+  internalDeprecation('@mixin is deprecated and will be removed shortly. Use @mixin from lodash-decorators.\n\n  https://www.npmjs.com/package/lodash-decorators');
+
   if (typeof mixins[0] === 'function') {
     return handleClass(mixins[0], []);
   } else {

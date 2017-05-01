@@ -1,18 +1,18 @@
-import { decorate, metaFor } from './private/utils';
+import { decorate, metaFor, warn, bind } from './private/utils';
 
 const oc = console;
 
 // Exported for mocking in tests
 export const defaultConsole = {
-  profile: console.profile ? console.profile.bind(console) : () => {},
-  profileEnd: console.profileEnd ? console.profileEnd.bind(console) : () => {},
-  warn: console.warn.bind(console)
+  profile: console.profile ? bind(console.profile, console) : () => {},
+  profileEnd: console.profileEnd ? bind(console.profileEnd, console) : () => {},
+  warn
 };
 
 function handleDescriptor(target, key, descriptor, [prefix = null, onceThrottleOrFunction = false, console = defaultConsole]) {
   if (!profile.__enabled) {
     if (!profile.__warned) {
-      console.warn('Console.profile is not supported. All @profile decorators are disabled.');
+      console.warn('console.profile is not supported. All @profile decorators are disabled.');
       profile.__warned = true;
     }
     return descriptor;

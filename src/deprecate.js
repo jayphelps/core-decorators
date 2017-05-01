@@ -1,4 +1,4 @@
-import { decorate } from './private/utils';
+import { decorate, warn } from './private/utils';
 
 const DEFAULT_MSG = 'This function will be removed in future versions.';
 
@@ -16,7 +16,7 @@ function handleDescriptor(target, key, descriptor, [msg = DEFAULT_MSG, options =
   return {
     ...descriptor,
     value: function deprecationWrapper() {
-      console.warn(`DEPRECATION ${methodSignature}: ${msg}`);
+      warn(`DEPRECATION ${methodSignature}: ${msg}`);
       return descriptor.value.apply(this, arguments);
     }
   };
