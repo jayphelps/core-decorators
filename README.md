@@ -92,7 +92,7 @@ import { autobind } from 'core-decorators';
 @autobind
 class Person {
   getPerson() {
-  	return this;
+    return this;
   }
 
   getPersonAgain() {
