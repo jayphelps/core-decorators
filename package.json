@@ -15,6 +15,8 @@
   "scripts": {
     "build": "babel --out-dir lib src && cross-env BABEL_ENV=es babel --out-dir es src",
     "build-bower": "babel-node scripts/build-bower.js",
+    "build-tsc": "tsc || npm run tsc-errors-as-warnings",
+    "tsc-errors-as-warnings":  "echo \"TypeScript errors treated as warnings\"",
     "test": "npm run build && mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\""
   },
   "repository": {
@@ -46,6 +48,9 @@
   },
   "homepage": "https://github.com/jayphelps/core-decorators.js",
   "devDependencies": {
+    "@types/chai": "^3.5.2",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^6.0.73",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
@@ -64,6 +69,7 @@
     "lodash": "4.17.4",
     "mocha": "^3.2.0",
     "sinon": "^2.1.0",
-    "sinon-chai": "^2.9.0"
+    "sinon-chai": "^2.9.0",
+    "typescript": "^2.3.3"
   }
 }
