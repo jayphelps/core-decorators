@@ -1,5 +1,5 @@
 {
-  "exclude": ["scripts", "lib/**", "es", "node_modules", "built" ],
+  "exclude": ["scripts", "lib", "es", "node_modules", "built" ],
   "compilerOptions": {
     "outDir": "built",
     "target": "es5",
@@ -12,6 +12,10 @@
       "dom",
       "es2015","es2015.core", "es2015.collection"
     ],
+    "baseUrl": ".",
+    "paths": {
+      "lib/*": ["src/*"]
+    },
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true
   },
