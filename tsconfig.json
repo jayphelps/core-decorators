@@ -6,8 +6,8 @@
     "module":"commonjs",
     "sourceMap": true,
     "allowJs": true,
-    "checkJs": false,
-    "allowUnreachableCode": true,
+    "checkJs": true,
+    "allowUnreachableCode": false,
     "lib": [
       "dom",
       "es2015","es2015.core", "es2015.collection"

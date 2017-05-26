@@ -16,7 +16,8 @@
     "build": "babel --out-dir lib src && cross-env BABEL_ENV=es babel --out-dir es src",
     "build-bower": "babel-node scripts/build-bower.js",
     "build-tsc": "tsc || npm run tsc-errors-as-warnings",
-    "tsc-errors-as-warnings":  "echo \"TypeScript errors treated as warnings\"",
+    "clean": "rimraf lib es built",
+    "tsc-errors-as-warnings": "echo \"TypeScript errors treated as warnings\"",
     "test": "npm run build && mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\""
   },
   "repository": {
@@ -68,6 +69,7 @@
     "interop-require": "1.0.0",
     "lodash": "4.17.4",
     "mocha": "^3.2.0",
+    "rimraf": "^2.6.1",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0",
     "typescript": "^2.3.3"
