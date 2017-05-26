@@ -19,7 +19,8 @@
     "postbuild-tsc": "mv --force built/src built/lib",
     "clean": "rimraf lib es built",
     "tsc-errors-as-warnings": "echo \"TypeScript errors treated as warnings\"",
-    "test": "npm run build && mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\"",
+    "pretest": "npm run build",
+    "test": "mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\"",
     "test-tsc": "rimraf built && npm run build-tsc && mocha  \"built/test/**/*.spec.js\""
   },
   "repository": {
