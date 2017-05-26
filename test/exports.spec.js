@@ -1,8 +1,8 @@
-import chai from 'chai'
-import path from 'path';
-import glob from 'glob';
-import toCamelCase from 'camelcase';
-import interopRequire from 'interop-require';
+import * as chai from 'chai'
+import * as path from 'path';
+import * as glob from 'glob';
+import * as toCamelCase from 'camelcase';
+import * as interopRequire from 'interop-require';
 import * as decorators from '../';
 
 const should = chai.should();
