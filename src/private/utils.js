@@ -24,7 +24,7 @@ export function decorate(handleDescriptor, entryArgs) {
     return handleDescriptor(...entryArgs, []);
   } else {
     return function () {
-      return handleDescriptor(...arguments, entryArgs);
+      return handleDescriptor(...Array.from(arguments), entryArgs);
     };
   }
 }
