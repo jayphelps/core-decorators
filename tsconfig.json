@@ -1,5 +1,5 @@
 {
-  "exclude": ["scripts", "lib", "es", "node_modules", "built" ],
+  "exclude": ["scripts", "lib/**", "es", "node_modules", "built" ],
   "compilerOptions": {
     "outDir": "built",
     "target": "es5",
@@ -16,6 +16,9 @@
     "paths": {
       "lib/*": ["src/*"]
     },
+    "rootDirs": [
+      "src", "lib"
+    ],
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true
   },
