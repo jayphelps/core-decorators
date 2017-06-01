@@ -7,8 +7,9 @@
     "sourceMap": true,
     "allowJs": true,
     "checkJs": false,
-    "allowUnreachableCode": false,
+    "allowUnreachableCode": true,
     "lib": [
+      "es5",
       "dom",
       "es2015","es2015.core", "es2015.collection"
     ],
