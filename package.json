@@ -13,15 +13,13 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "babel --out-dir lib src && cross-env BABEL_ENV=es babel --out-dir es src",
+    "build": "rimraf lib && babel --out-dir lib src && cross-env BABEL_ENV=es babel --out-dir es src",
     "build-bower": "babel-node scripts/build-bower.js",
-    "build-tsc": "tsc || npm run tsc-errors-as-warnings",
-    "postbuild-tsc": "mv --force built/src built/lib",
+    "prebuild-tsc": "rimraf built",
+    "build-tsc": "tsc --outDir lib",
     "clean": "rimraf lib es built",
     "tsc-errors-as-warnings": "echo \"TypeScript errors treated as warnings\"",
-    "pretest": "npm run build",
-    "test": "mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\"",
-    "test-tsc": "rimraf built && npm run build-tsc && mocha  \"built/test/**/*.spec.js\""
+    "test": "mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\""
   },
   "repository": {
     "type": "git",
@@ -75,7 +73,7 @@
     "mocha": "^3.2.0",
     "mv": "^2.1.1",
     "rimraf": "^2.6.1",
-    "sinon": "^2.1.0",
+    "sinon": "2.1.0",
     "sinon-chai": "^2.9.0",
     "typescript": "^2.3.3"
   }

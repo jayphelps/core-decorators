@@ -2,5 +2,4 @@
 /es/
 /node_modules/
 /built/
-.vscode
 *.log
