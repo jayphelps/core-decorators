@@ -1,0 +1,28 @@
+{
+  "include": ["src"],
+  "exclude": ["scripts", "lib/**", "es", "node_modules", "built" ],
+  "compilerOptions": {
+    "outDir": "built",
+    "target": "es5",
+    "module":"commonjs",
+    "sourceMap": true,
+    "allowJs": true,
+    "checkJs": false,
+    "allowUnreachableCode": true,
+    "lib": [
+      "es5",
+      "dom",
+      "es2015","es2015.core", "es2015.collection"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "lib/*": ["src/*"]
+    },
+    "rootDirs": [
+      "src", "lib"
+    ],
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "compileOnSave": true
+}

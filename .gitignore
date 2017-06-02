@@ -1,4 +1,5 @@
 /lib/
 /es/
 /node_modules/
-/core-decorators.js
+/built/
+*.log

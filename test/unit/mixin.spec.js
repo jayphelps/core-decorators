@@ -19,7 +19,7 @@ const OverrideMixin = {
 };
 
 function applyMixins(...mixins) {
-  return @mixin(...mixins)
+  @mixin(...mixins)
     class Foo {
       getStuff3() {
         return 'stuff3';
@@ -28,14 +28,15 @@ function applyMixins(...mixins) {
       getStuff4() {
         return 'stuff4';
       }
-    };
+    }
+  return Foo;
 }
 
 describe('@mixin', function () {
   it('throws if you do not provide at least one mixin', function () {
     (function () {
-      var foo = @mixin class Bad {};
-      console.error(foo);
+      @mixin class Bad {};
+      console.error(Bad);
     }).should.throw('@mixin() class Bad requires at least one mixin as an argument');
 
     (function () {
