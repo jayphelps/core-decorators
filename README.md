@@ -131,7 +131,7 @@ dinner.entree = 'salmon';
 
 Checks that the marked method indeed overrides a function with the same signature somewhere on the prototype chain.
 
-Works with methods and getters/setters. Will ensure name, parameter count, as well as descriptor type (accessor/data). Provides a suggestion if it finds a method with a similar signature, including slight misspellings.
+Works with methods and getters/setters only (**not** property initializers/arrow functions). Will ensure name, parameter count, as well as descriptor type (accessor/data). Provides a suggestion if it finds a method with a similar signature, including slight misspellings.
 
 ```js
 import { override } from 'core-decorators';
