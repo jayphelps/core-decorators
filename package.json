@@ -5,12 +5,14 @@
   "main": "lib/core-decorators.js",
   "module": "es/core-decorators.js",
   "jsnext:main": "es/core-decorators.js",
+  "typings": "./index.d.ts",
   "files": [
     "es",
     "lib",
     "src",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "index.d.ts"
   ],
   "scripts": {
     "prepublish": "npm run build",
