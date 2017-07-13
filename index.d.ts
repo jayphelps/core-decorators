@@ -16,13 +16,6 @@ export interface DeprecateOption {
   url: string;
 }
 
-export interface ThrottleOptions {
-  /** allows to trigger function on the leading. */
-  leading?: boolean;
-  /** allows to trigger function on the trailing edge of the wait interval. */
-  trailing?: boolean;
-}
-
 /**
  * Forces invocations of this function to always have this refer to the class instance,
  * even if the function is passed around or would otherwise lose its this context. e.g. var fn = context.method;
