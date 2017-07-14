@@ -186,27 +186,6 @@ person.facepalmHarder();
 //     See http://knowyourmeme.com/memes/facepalm for more details.
 //
 ```
-
-### @debounce :no_entry_sign: DEPRECATED
-
-Creates a new debounced function which will be invoked after `wait` milliseconds since the time it was invoked. Default timeout is 300 ms.
-
-Optional boolean second argument allows to trigger function on the leading instead of the trailing edge of the wait interval. Implementation is inspired by similar method from [UnderscoreJS](http://underscorejs.org/#debounce).
-
-```js
-import { debounce } from 'core-decorators';
-
-class Editor {
-
-  content = '';
-
-  @debounce(500)
-  updateContent(content) {
-    this.content = content;
-  }
-}
-```
-
 ### @suppressWarnings
 
 Suppresses any JavaScript `console.warn()` call while the decorated function is called. (i.e. on the stack)

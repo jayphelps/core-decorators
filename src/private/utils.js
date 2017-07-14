@@ -30,19 +30,7 @@ export function decorate(handleDescriptor, entryArgs) {
 }
 
 class Meta {
-  @lazyInitialize
-  debounceTimeoutIds = {};
-
-  @lazyInitialize
-  throttleTimeoutIds = {};
-
-  @lazyInitialize
-  throttlePreviousTimestamps = {};
-
-  @lazyInitialize
-  throttleTrailingArgs = null;
-
-  @lazyInitialize
+  // @lazyInitialize
   profileLastRan = null;
 }
 
