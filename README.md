@@ -1,5 +1,5 @@
 # core-decorators.js [![Build Status](https://travis-ci.org/jayphelps/core-decorators.js.svg?branch=master)](https://travis-ci.org/jayphelps/core-decorators.js)
-Library of [JavaScript stage-0 decorators](https://github.com/wycats/javascript-decorators) (aka ES2016/ES7 decorators [but that's not accurate](https://medium.com/@jayphelps/please-stop-referring-to-proposed-javascript-features-as-es7-cad29f9dcc4b)) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more. Popular with React/Angular, but is framework agnostic. Similar to [Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html) but unlike Java annotations, decorators are functions which are applied at runtime.
+Library of [JavaScript stage-0 decorators](https://github.com/wycats/javascript-decorators) (aka ES2016/ES7 decorators [but that's not accurate](https://medium.com/@jayphelps/please-stop-referring-to-proposed-javascript-features-as-es7-cad29f9dcc4b)) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind and more. Popular with React/Angular, but is framework agnostic. Similar to [Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html) but unlike Java annotations, decorators are functions which are applied at runtime.
 
 These are stage-0 decorators because while [the decorators spec has changed](http://tc39.github.io/proposal-decorators/) and is now stage-2, no transpiler has yet to implement these changes and until they do, this library won't either. Although the [TypeScript documentation](http://www.typescriptlang.org/docs/handbook/decorators.html) uses the phrase "Decorators are a stage 2 proposal for JavaScript" this is misleading because TypeScript still only implements the **stage-0** version of the spec, which is very incompatible with stage-2 (as of this writing). If you concretely find that a compiler (babel, TS, etc) implement stage-2+, please do link me to the appropriate release notes! :balloon:
 
@@ -44,14 +44,11 @@ core-decorators aims to provide decorators that are fundamental to JavaScript it
 * [@suppressWarnings](#suppresswarnings)
 * [@enumerable](#enumerable)
 * [@override](#override)
-* [@debounce](#debounce) :no_entry_sign: DEPRECATED
-* [@throttle](#throttle) :no_entry_sign: DEPRECATED
 * [@time](#time)
 * [@profile](#profile)
 
 ##### For Classes
 * [@autobind](#autobind)
-* [@mixin](#mixin-alias-mixins) :no_entry_sign: DEPRECATED
 
 ## Helpers
 
@@ -210,31 +207,6 @@ class Editor {
 }
 ```
 
-### @throttle :no_entry_sign: DEPRECATED
-
-Creates a new throttled function which will be invoked in every `wait` milliseconds. Default timeout is 300 ms.
-
-Second argument is optional options:
-
-- `leading`: default to `true`, allows to trigger function on the leading.
-- `trailing`: default to `true`, allows to trigger function on the trailing edge of the wait interval.
-
-Implementation is inspired by similar method from [UnderscoreJS](http://underscorejs.org/#throttle).
-
-```js
-import { throttle } from 'core-decorators';
-
-class Editor {
-
-  content = '';
-
-  @throttle(500, {leading: false})
-  updateContent(content) {
-    this.content = content;
-  }
-}
-```
-
 ### @suppressWarnings
 
 Suppresses any JavaScript `console.warn()` call while the decorated function is called. (i.e. on the stack)
@@ -382,39 +354,6 @@ editor.hugeBuffer;
 editor.hugeBuffer;
 // already initialized and equals our buffer, so
 // createHugeBuffer() is not called again
-```
-
-### @mixin (alias: @mixins) :no_entry_sign: DEPRECATED
-
-Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are applied in the order they are passed, but do **not** override descriptors already on the class, including those inherited traditionally.
-
-```js
-import { mixin } from 'core-decorators';
-
-const SingerMixin = {
-  sing(sound) {
-    alert(sound);
-  }
-};
-
-const FlyMixin = {
-  // All types of property descriptors are supported
-  get speed() {},
-  fly() {},
-  land() {}
-};
-
-@mixin(SingerMixin, FlyMixin)
-class Bird {
-  singMatingCall() {
-    this.sing('tweet tweet');
-  }
-}
-
-var bird = new Bird();
-bird.singMatingCall();
-// alerts "tweet tweet"
-
 ```
 
 ### @time

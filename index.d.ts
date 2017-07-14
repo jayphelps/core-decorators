@@ -50,10 +50,6 @@ export const nonenumerable: PropertyOrMethodDecorator;
  */
 export const nonconfigurable: PropertyOrMethodDecorator;
 /**
- * Initial implementation included, likely slow. WIP.
- */
-export const memoize: MethodDecorator;
-/**
  * Immediately applies the provided function and arguments to the method, allowing you to wrap methods with arbitrary helpers like those provided by lodash.
  * The first argument is the function to apply, all further arguments will be passed to that decorating function.
  */

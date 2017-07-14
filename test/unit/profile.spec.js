@@ -145,6 +145,8 @@ describe('@profile', function() {
   });
 
   describe('when throttled', function() {
+    // I'm not sure, should this section should go as the @throttled decorator is obsolete.
+
     let clock;
     let count = 1;
     beforeEach(function() {

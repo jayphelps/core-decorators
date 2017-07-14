@@ -8,8 +8,7 @@ import * as decorators from '../';
 const should = chai.should();
 
 const aliases = {
-  deprecate: 'deprecated',
-  mixin: 'mixins'
+  deprecate: 'deprecated'
 };
 
 describe('Main package exports', function () {

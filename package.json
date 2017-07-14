@@ -1,7 +1,7 @@
 {
   "name": "core-decorators",
   "version": "0.19.0",
-  "description": "Library of JavaScript stage-0 decorators (aka ES2016/ES7 decorators but that's not accurate!) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more! Works great with React/Angular/more!",
+  "description": "Library of JavaScript stage-0 decorators (aka ES2016/ES7 decorators but that's not accurate!) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind and more! Works great with React/Angular/more!",
   "main": "lib/core-decorators.js",
   "module": "es/core-decorators.js",
   "jsnext:main": "es/core-decorators.js",
@@ -41,9 +41,7 @@
     "autobind",
     "react",
     "angular",
-    "lodash",
-    "mixin",
-    "mixins"
+    "lodash"
   ],
   "author": "Jay Phelps <hello@jayphelps>",
   "license": "MIT",
