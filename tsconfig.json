@@ -2,7 +2,7 @@
   "include": ["src"],
   "exclude": ["scripts", "lib/**", "es", "node_modules", "built" ],
   "compilerOptions": {
-    "outDir": "built",
+    "outDir": "lib",
     "target": "es5",
     "module":"commonjs",
     "sourceMap": true,
