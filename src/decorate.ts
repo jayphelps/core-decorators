@@ -18,7 +18,7 @@ function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
       if (isGetter) {
         return value;
       } else {
-        const desc = {
+        const desc: PropertyDescriptor  = {
           configurable,
           enumerable
         };
@@ -31,7 +31,7 @@ function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
         return value;
       }
     },
-    set: isGetter ? originalSet : createDefaultSetter()
+    set: isGetter ? originalSet : createDefaultSetter(key)
   };
 }
 

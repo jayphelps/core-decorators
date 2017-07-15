@@ -95,9 +95,9 @@ function autobindMethod(target, key, { value: fn, configurable, enumerable }) {
 
 function handle(args) {
   if (args.length === 1) {
-    return autobindClass(...args);
+    return autobindClass(args[0]);
   } else {
-    return autobindMethod(...args);
+    return autobindMethod(args[0], args[1], args[2]);
   }
 }
 

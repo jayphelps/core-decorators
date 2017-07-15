@@ -49,13 +49,12 @@ export function metaFor(obj) {
   return obj[META_KEY];
 }
 
-export const getOwnKeys = getOwnPropertySymbols
-    ? function (object) {
-        return getOwnPropertyNames(object)
+export const getOwnKeys = 
+  getOwnPropertySymbols ? function (object) {
+        return (getOwnPropertyNames(object) as [string|symbol])
           .concat(getOwnPropertySymbols(object));
       }
     : getOwnPropertyNames;
-
 
 export function getOwnPropertyDescriptors(obj) {
   const descs = {};
