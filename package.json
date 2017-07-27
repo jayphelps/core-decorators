@@ -18,7 +18,8 @@
     "prepublish": "rimraf cjs esm && npm run build",
     "build-bower": "babel-node scripts/build-bower.js",
     "build": "gulp",
-    "test": "mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\""
+    "test": "mocha testBabel/**/*.spec.js"
+    
   },
   "repository": {
     "type": "git",
@@ -65,6 +66,7 @@
     "glob": "^7.1.1",
     "global-wrap": "^2.0.0",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-typescript": "^3.2.1",
     "interop-require": "1.0.0",
@@ -75,5 +77,8 @@
     "sinon": "2.1.0",
     "sinon-chai": "^2.9.0",
     "typescript": "^2.3.3"
+  },
+  "dependencies": {
+    "gulp-debug": "^3.1.0"
   }
 }

@@ -4,4 +4,6 @@
 /esm/
 /node_modules/
 /built/
+/testBabel/
+/testTsc/
 *.log
