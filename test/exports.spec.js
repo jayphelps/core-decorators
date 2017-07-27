@@ -12,7 +12,7 @@ const aliases = {
 };
 
 describe('Main package exports', function () {
-  const libPath = path.normalize(`${__dirname}/../lib`);
+  const libPath = path.normalize(`${__dirname}/../cjs`);
   let filePaths;
 
   beforeEach(function () {

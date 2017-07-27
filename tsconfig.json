@@ -1,6 +1,6 @@
 {
   "include": ["src"],
-  "exclude": ["scripts", "lib/**", "es", "node_modules", "built" ],
+  "exclude": ["scripts", "lib/**", "es", "node_modules", "built", "cjs", "esm", "amd", "system" ],
   "compilerOptions": {
     "outDir": "lib",
     "target": "es5",

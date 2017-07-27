@@ -1,5 +1,7 @@
 /lib/
 /es/
+/cjs/
+/esm/
 /node_modules/
 /built/
 *.log
