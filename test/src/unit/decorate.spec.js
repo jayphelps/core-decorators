@@ -1,20 +1,14 @@
-import decorate from '../../lib/decorate';
+import { decorate } from 'core-decorators';
 import { memoize } from 'lodash';
 
 describe('@decorate', function () {
-  let Foo;
-  let callCount;
-
-  beforeEach(function () {
-    const append = function (fn, suffix) {
+  function append (fn, suffix) {
       return function (msg) {
         return fn.call(this, msg) + suffix;
       };
     };
-
-    callCount = 0;
-
-    Foo = class Foo {
+  
+  class Foo {
       @decorate(append, '!')
       suchWow(something) {
         return something + 'bro';
@@ -39,6 +33,11 @@ describe('@decorate', function () {
         return this;
       }
     }
+    
+  let callCount;
+
+  beforeEach(function () {
+    callCount = 0;
   });
 
   it('correctly applies user provided function to method', function () {

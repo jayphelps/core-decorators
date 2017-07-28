@@ -1,10 +1,10 @@
-import extendDescriptor from '../../lib/extendDescriptor';
-import enumerable from '../../lib/enumerable';
-import nonenumerable from '../../lib/nonenumerable';
+import {enumerable, nonenumerable} from 'core-decorators';
+import {extendDescriptor} from 'core-decorators/lib/extendDescriptor';
 
 describe('@extendDescriptor', function () {
   class Base {
     get first() {
+      // @ts-ignore
       return this._first;
     }
 

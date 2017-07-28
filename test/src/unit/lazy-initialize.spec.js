@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import lazyInitialize from '../../lib/lazy-initialize';
+import {lazyInitialize} from 'core-decorators';
 
 describe('@lazyInitialize', function () {
   let initializer;

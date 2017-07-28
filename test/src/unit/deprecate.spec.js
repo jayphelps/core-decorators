@@ -1,6 +1,6 @@
 import sinon from 'sinon';
-import deprecate from '../../lib/deprecate';
-import * as utils from '../../lib/private/utils';
+import { deprecate } from 'core-decorators';
+import * as utils from 'core-decorators/lib/private/utils';
 
 class Foo {
   @deprecate

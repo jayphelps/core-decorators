@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as glob from 'glob';
 const camelCase = require('camelCase')
 const interopRequire = require('interop-require');
-import * as decorators from '../';
+import * as decorators from 'core-decorators';
 
 const should = chai.should();
 

@@ -1,23 +1,17 @@
 import { expect } from 'chai';
-import autobind from '../../lib/autobind';
+import { autobind } from 'core-decorators';
 
 const root = (typeof window !== 'undefined') ? window : global;
 
 describe('@autobind', function () {
-  let Foo;
-  let Bar;
-  let Car;
-  let barCount;
-
-  beforeEach(function () {
-    Foo = class Foo {
+  class Foo {
       @autobind
       getFoo() {
         return this;
       }
 
       getFooAgain() {
-        return this;
+        return this; 
       }
 
       @autobind
@@ -26,10 +20,9 @@ describe('@autobind', function () {
       }
     }
 
-    barCount = 0;
-
-    Bar = class Bar extends Foo {
-      @autobind()
+  class Bar extends Foo {
+    // @ts-ignore
+    @autobind()
       getFoo() {
         const foo = super.getFoo();
         barCount++;
@@ -49,18 +42,22 @@ describe('@autobind', function () {
         return this;
       }
     }
-
-    Car = class Car extends Foo {
+  
+    class Car extends Foo {
+      // @ts-ignore
       @autobind()
       getCarFromFoo() {
         return super.onlyOnFoo();
       }
     }
+    
+    let barCount = 0;
+
+  beforeEach(function () {
+    barCount = 0;
   });
 
   afterEach(function () {
-    Foo = null;
-    Bar = null;
     barCount = null;
   });
 
@@ -93,13 +90,14 @@ describe('@autobind', function () {
   it('sets the correct instance descriptor options when reassigned outside', function () {
     const noop = function () {};
     const foo = new Foo();
+    // @ts-ignore
     const ret = foo.getFoo = noop;
     const desc = Object.getOwnPropertyDescriptor(foo, 'getFoo');
 
     ret.should.equal(noop);
-    desc.configurable.should.equal(true);
-    desc.enumerable.should.equal(true);
-    desc.writable.should.equal(true);
+    desc.configurable.should.equal(true, "configurable");
+    desc.enumerable.should.equal(true, "enumerable");
+    desc.writable.should.equal(true, "writable");
     desc.value.should.equal(noop);
   });
 
@@ -151,7 +149,9 @@ describe('@autobind', function () {
   });
 
   it('throws when it needs WeakMap but it is not available', function () {
+    // @ts-ignore
     const WeakMap = root.WeakMap;
+    // @ts-ignore
     delete root.WeakMap;
 
     const bar = new Bar();
@@ -163,6 +163,7 @@ describe('@autobind', function () {
 
     barCount.should.equal(0);
 
+    // @ts-ignore
     root.WeakMap = WeakMap;
   });
 
@@ -201,7 +202,7 @@ describe('@autobind', function () {
     }
 
     @autobind
-    class Car extends Vehicle {
+    class Car extends Vehicle { 
       constructor() {
         super();
         this.name = 'amazing';
@@ -249,6 +250,7 @@ describe('@autobind', function () {
     @autobind
     class A {
       method() {
+        // @ts-ignore
         return this.test || 'WRONG ONE';
       }
     }
