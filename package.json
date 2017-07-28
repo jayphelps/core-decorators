@@ -2,24 +2,24 @@
   "name": "core-decorators",
   "version": "0.19.0",
   "description": "Library of JavaScript stage-0 decorators (aka ES2016/ES7 decorators but that's not accurate!) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind and more! Works great with React/Angular/more!",
-  "main": "cjs/core-decorators.js",
+  "main": "lib/core-decorators.js",
   "module": "esm/core-decorators.js",
   "jsnext:main": "esm/core-decorators.js",
   "typings": "./index.d.ts",
   "files": [
     "esm",
-    "cjs",
+    "lib",
     "src",
     "README.md",
     "LICENSE",
     "index.d.ts"
   ],
   "scripts": {
-    "prepublish": "rimraf cjs esm && npm run build",
+    "prepublish": "gulp clean && npm run build",
     "build-bower": "babel-node scripts/build-bower.js",
     "build": "gulp",
-    "test": "mocha testBabel/**/*.spec.js"
-    
+    "test": "mocha testBabel/**/*.spec.js",
+    "testtsc": "mocha testTsc/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -63,6 +63,7 @@
     "camelcase": "^4.1.0",
     "chai": "^3.5.0",
     "cross-env": "^5.0.0",
+    "del": "^3.0.0",
     "glob": "^7.1.1",
     "global-wrap": "^2.0.0",
     "gulp": "^3.9.1",
@@ -73,12 +74,9 @@
     "lodash": "4.17.4",
     "merge2": "^1.1.0",
     "mocha": "^3.2.0",
-    "rimraf": "^2.6.1",
     "sinon": "2.1.0",
     "sinon-chai": "^2.9.0",
     "typescript": "^2.3.3"
   },
-  "dependencies": {
-    "gulp-debug": "^3.1.0"
-  }
+  "dependencies": {}
 }

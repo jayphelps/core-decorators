@@ -2,29 +2,32 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const ts = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
-const rimraf = require('rimraf');
+const del = require('del');
+
+const srcFiles = 'src/**/*';
+const testFiles = 'test/**/*';
 
 // Default build uses settings from 'tsconfig.json'
 
 tsProject = ts.createProject('tsconfig.json');
 tsProjectEsm = ts.createProject('tsconfig.json', {module: 'es2015'});
+tsProjectTest = ts.createProject('tsconfig.json', {rootDir: '.'});
  
-gulp.task('clean', function (cb) {
-  rimraf.sync('cjs');
-  rimraf('esm', cb);
+gulp.task('clean', function () {
+  return del(['lib', 'esm', 'testBabel', 'testTsc']);
 })
 
-gulp.task('cjs', function () {
-    var tsResult = tsProject.src() 
+gulp.task('lib', function () {
+    var tsResult = gulp.src(srcFiles) 
       .pipe(sourcemaps.init())
       .pipe(tsProject());
     return tsResult.js
       .pipe(sourcemaps.write('sourcemaps'))
-      .pipe(gulp.dest('cjs'))
+      .pipe(gulp.dest('lib'))
 });
 
 gulp.task('esm', function () {
-    var tsResult = tsProjectEsm.src() 
+    var tsResult = gulp.src(srcFiles) 
       .pipe(sourcemaps.init())
       .pipe(tsProjectEsm());
     return tsResult.js
@@ -32,7 +35,15 @@ gulp.task('esm', function () {
       .pipe(gulp.dest('esm'))
 });
 
-gulp.task('src', ['cjs', 'esm']);
+gulp.task('tsc.test', ['src'], function () {
+  return gulp.src(testFiles)
+    .pipe(sourcemaps.init())
+    .pipe(tsProjectTest())
+    .pipe(sourcemaps.write(sourcemaps))
+    .pipe(gulp.dest('testTsc'))
+})
+
+gulp.task('src', ['lib', 'esm']);
 
 gulp.task('babel.test', ['src'], function () {
   return gulp.src('test/**/*.js')
@@ -57,7 +68,7 @@ gulp.task('babel.test', ['src'], function () {
 })
 
 
-gulp.task('test', ['babel.test'] )
+gulp.task('test', ['babel.test', 'tsc.test'] )
 
 gulp.task('watch', ['src','test'], function () {
   gulp.watch('src/**/*', ['src'])

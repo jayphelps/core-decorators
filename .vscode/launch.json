@@ -10,9 +10,7 @@
             "name": "Mocha Tests",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
-                "--compilers", "js:babel-core/register",
-                "--require", "babel-polyfill",
-                "${workspaceRoot}/test/**/*.spec.js",
+                "${workspaceRoot}/testBabel/**/*.spec.js",
                 "--debug"
             ]
         }

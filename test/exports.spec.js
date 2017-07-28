@@ -1,8 +1,8 @@
 import * as chai from 'chai'
 import * as path from 'path';
 import * as glob from 'glob';
-import toCamelCase from 'camelcase';
-import interopRequire from 'interop-require';
+const camelCase = require('camelCase')
+const interopRequire = require('interop-require');
 import * as decorators from '../';
 
 const should = chai.should();
@@ -12,7 +12,7 @@ const aliases = {
 };
 
 describe('Main package exports', function () {
-  const libPath = path.normalize(`${__dirname}/../cjs`);
+  const libPath = path.normalize(`${__dirname}/../lib`);
   let filePaths;
 
   beforeEach(function () {
@@ -34,7 +34,7 @@ describe('Main package exports', function () {
     }
 
     filePaths.forEach(filePath => {
-      const name = toCamelCase(
+      const name = camelCase(
         path.basename(filePath, '.js')
       );
       const decorator = interopRequire(filePath);

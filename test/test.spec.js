@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
+const sinonChai = require('sinon-chai');
 
 chai.should();
 chai.use(sinonChai);
