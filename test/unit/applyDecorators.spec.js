@@ -1,5 +1,7 @@
-// @ts-nocheck
-import {applyDecorators, autobind, readonly, enumerable} from 'core-decorators';
+import applyDecorators from '../../lib/applyDecorators';
+import autobind from '../../lib/autobind';
+import readonly from '../../lib/readonly';
+import enumerable from '../../lib/enumerable';
 
 describe('applyDecorators() helper', function () {
   class Foo {

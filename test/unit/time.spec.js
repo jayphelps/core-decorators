@@ -1,5 +1,5 @@
 import { spy } from 'sinon';
-import { time, defaultConsole } from 'core-decorators';
+import time, { defaultConsole } from '../../lib/time';
 
 const CONSOLE_TIME = defaultConsole.time;
 const CONSOLE_TIMEEND = defaultConsole.timeEnd;

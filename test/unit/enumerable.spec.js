@@ -1,4 +1,4 @@
-import { enumerable } from 'core-decorators';
+import enumerable from '../../lib/enumerable';
 
 describe('@enumerable', function () {
   class Foo {

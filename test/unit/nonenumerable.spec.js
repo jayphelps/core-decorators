@@ -1,4 +1,4 @@
-import { nonenumerable } from 'core-decorators';
+import nonenumerable from '../../lib/nonenumerable';
 
 describe('@nonenumerable', function () {
   class Foo {

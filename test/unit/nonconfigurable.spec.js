@@ -1,4 +1,5 @@
-import {nonconfigurable, readonly}  from 'core-decorators';
+import nonconfigurable from '../../lib/nonconfigurable';
+import readonly from '../../lib/readonly';
 
 describe('@nonconfigurable', function () {
   class Foo {
