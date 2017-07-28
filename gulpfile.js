@@ -39,7 +39,7 @@ gulp.task('tsc.test', ['src'], function () {
   return gulp.src(testFiles)
     .pipe(sourcemaps.init())
     .pipe(tsProjectTest())
-    .pipe(sourcemaps.write(sourcemaps))
+    .pipe(sourcemaps.write('sourcemaps'))
     .pipe(gulp.dest('testTsc'))
 })
 

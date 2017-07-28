@@ -7,10 +7,22 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
+            "name": "Mocha Tests (Babel)",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
+                "--no-timeouts",
                 "${workspaceRoot}/testBabel/**/*.spec.js",
+                "--debug"
+            ]
+        },
+           {
+            "type": "node",
+            "request": "launch",
+            "name": "Mocha Tests (tsc)",
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--no-timeouts",
+                "${workspaceRoot}/testtsc/**/*.spec.js",
                 "--debug"
             ]
         }
