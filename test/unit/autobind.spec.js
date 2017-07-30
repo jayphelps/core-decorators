@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { autobind } from 'core-decorators';
 
+// @ts-ignore
 const root = (typeof window !== 'undefined') ? window : global;
 
 describe('@autobind', function () {

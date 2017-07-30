@@ -18,8 +18,7 @@
     "prepublish": "gulp clean && npm run build",
     "build-bower": "babel-node scripts/build-bower.js",
     "build": "gulp",
-    "test": "mocha test/babel/*.spec.js",
-    "test.typescript": "mocha test/typescript/*/*.spec.js"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -76,10 +75,12 @@
     "global-wrap": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-debug": "^3.1.0",
     "gulp-eslint": "^4.0.0",
     "gulp-mocha": "^4.3.1",
+    "gulp-replace": "^0.6.1",
     "gulp-sourcemaps": "^2.6.0",
-    "gulp-tsb": "^2.0.4",
+    "gulp-tsb": "git+https://github.com/BurtHarris/gulp-tsb.git",
     "interop-require": "1.0.0",
     "lodash": "4.17.4",
     "mocha": "^3.2.0",

@@ -12,7 +12,7 @@ function getBoundSuper(obj, fn) {
   }
 
   if (!mapStore) {
-     mapStore = new WeakMap();
+     mapStore = new WeakMap(); 
   }
 
   if (mapStore.has(obj) === false) {

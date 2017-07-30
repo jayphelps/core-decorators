@@ -46,6 +46,7 @@ describe('@deprecate', function () {
 
   it('console.warn() is called with the custom message, when provided', function () {
     return;
+    // @ts-ignore
     const foo = new Foo();
 
     foo.third().should.equal('hello galaxy');

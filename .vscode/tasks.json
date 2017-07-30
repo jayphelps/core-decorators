@@ -15,17 +15,6 @@
                 "kind": "build",
                 "isDefault": true
             }
-        },
-        {
-            "type": "gulp",
-            "task": "test",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "problemMatcher": [
-                "$eslint-stylish"
-            ]
         }
     ]
 }

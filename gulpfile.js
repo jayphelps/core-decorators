@@ -4,57 +4,25 @@ const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
+const replace = require('gulp-replace');
 const tsb = require('gulp-tsb');
 const runSequence = require('run-sequence');
 const fs = require('graceful-fs');
 const os = require('os');
 const path = require('path');
 
-const srcFiles = ['src/**/*.ts'];
-const unitTests = 'test/unit/*.js';
-const jsFiles = ['**/*.js', '!**/node_modules/**', '!lib/**', '!esm/**', '!test/babel/**', '!test/typescript/**'];
+const srcFiles = 'src/**/*.ts';
+const testFiles = 'test/*.js';
+const unitTestFiles = 'test/unit/*.js';
+const miscFiles = ['*.js', 'scripts/**/*.js'];
+const watchFiles = [srcFiles, testFiles, unitTestFiles, miscFiles];
+const jsFiles = [testFiles, unitTestFiles, '*.js', 'scripts/**/*.js'];
 
 // Typescript configuration options (tsb caches for speed)
 
-const cjs = tsb.create({
-  outDir: 'lib',
-  module: 'commonjs',
-  target: 'es5',
-  declaration: true,
-  lib: ['es5', 'es2015', 'dom'],
-  sourcemaps: true,
-  experimentalDecorators: true
-});
-
-const esm = tsb.create({
-  outDir: 'esm',
-  module: 'es2015',
-  target: 'es5',
-  declaration: true,
-  lib: ['es5', 'es2015', 'dom'],
-  experimentalDecorators: true
-});
-
-const tst = tsb.create({
-  outDir: 'test/typescript',
-  module: 'commonjs',
-  target: 'es5',
-  allowJs: true,
-  checkJs: true,
-  declaration: true,
-  lib: ['es5', 'es2015', 'dom'],
-  experimentalDecorators: true,
-  baseUrl: '.',
-  paths: {
-    'core-decorators': ['.'],
-    'core-decorators/*': ['./*']
-  },
-  rootDirs: [
-    'src',
-    'test',
-    'lib'
-  ]
-});
+const cjs = tsb.create('tsconfig.json');
+const esm = tsb.create('tsconfig.esm.json');
+const tst = tsb.create('test/tsconfig.json');
 
 // Babel settings (used only for testing)
 const babelSettings = {
@@ -94,9 +62,10 @@ gulp.task('build.esm', function () {
 });
 
 gulp.task('build.test.typescript', ['build.cjs'], function () {
-  return gulp.src(unitTests)
+  return gulp.src(unitTestFiles)
     .pipe(sourcemaps.init())
     .pipe(tst())
+    .pipe(replace(/describe\('(.*)',/g, "describe('$1 (from TypeScript)',"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('test/typescript'));
 });
@@ -104,19 +73,15 @@ gulp.task('build.test.typescript', ['build.cjs'], function () {
 // Build tasks - Babel
 
 gulp.task('build.test.babel', ['build.cjs'], function () {
-  return gulp.src(unitTests)
+  return gulp.src(unitTestFiles)
     .pipe(sourcemaps.init())
     .pipe(babel(babelSettings))
+    .pipe(replace(/describe\('(.*)',/g, "describe('$1 (from Babel)',"))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('test/babel'));
 });
 
 gulp.task('build', ['build.cjs', 'build.esm', 'build.test.typescript', 'build.test.babel', 'symlink']);
-
-gulp.task('test', ['symlink'], function () {
-  gulp.src('test/babel/*.spec.js', {read: false})
-    .pipe(mocha());
-});
 
 gulp.task('clean', function () {
   return del(['lib', 'esm', 'test/typescript', 'test/babel', 'test/node_modules']);
@@ -160,14 +125,15 @@ gulp.task('eslint', function () {
     .pipe(eslint.format());
 });
 
-gulp.task('watch', ['eslint', 'build'], function () {
-  gulp.watch(srcFiles, ['build', 'rebuild.tests']);
-  gulp.watch(jsFiles, ['eslint']);
-  gulp.watch('test/unit/*.spec.js', ['rebuild.tests']);
-  gulp.watch('test/unit/*.spec.js', ['rebuild.tests']);
-  gulp.watch('.eslintrc.js', ['eslint']);
+gulp.task('test', ['symlink'], function () {
+  gulp.src(['test/babel/*.spec.js', 'test/typescript/*.spec.js'], {read: false})
+    .pipe(mocha());
+});
+
+gulp.task('watch', ['default'], function () {
+  gulp.watch(watchFiles, ['eslint', 'build']);
 });
 
 gulp.task('default', function (cb) {
-  runSequence('clean', ['eslint', 'build'], 'test', cb);
+  runSequence('clean', ['eslint', 'build'], cb);
 });

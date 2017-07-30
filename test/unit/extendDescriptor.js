@@ -3,6 +3,7 @@ import {extendDescriptor, enumerable, nonenumerable} from 'core-decorators';
 describe('@extendDescriptor', function () {
   class Base {
     get first () {
+      // @ts-ignore
       return this._first;
     }
 

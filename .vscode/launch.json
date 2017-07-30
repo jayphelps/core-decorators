@@ -7,6 +7,15 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Gulp build.test.typescript",
+            "program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
+            "args": [
+                "build.test.typescript"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Mocha Tests (Babel)",
             "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
             "args": [
