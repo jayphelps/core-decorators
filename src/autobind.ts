@@ -1,5 +1,4 @@
-import { decorate, createDefaultSetter,
-  getOwnPropertyDescriptors, getOwnKeys, bind } from './private/utils';
+import { decorate, createDefaultSetter, getOwnPropertyDescriptors, ownKeys, bind } from './private/utils';
 const { defineProperty, getPrototypeOf } = Object;
 
 let mapStore;
@@ -31,7 +30,7 @@ function getBoundSuper(obj, fn) {
 
 function autobindClass(klass) {
   const descs = getOwnPropertyDescriptors(klass.prototype);
-  const keys = getOwnKeys(descs);
+  const keys = ownKeys(descs);
 
   for (let i = 0, l = keys.length; i < l; i++) {
     const key = keys[i];
@@ -45,23 +44,24 @@ function autobindClass(klass) {
   }
 }
 
-function autobindMethod(target, key, { value: fn, configurable, enumerable }) {
-  if (typeof fn !== 'function') {
-    throw new SyntaxError(`@autobind can only be used on functions, not: ${fn}`);
+function autobindMethod(target: Object, key: PropertyKey, descriptor: TypedPropertyDescriptor<any> )  : TypedPropertyDescriptor<any> {
+
+  if (typeof descriptor.value !== 'function') {
+    throw new SyntaxError(`@autobind can only be used on functions, not: ${descriptor.value}`);
   }
 
   const { constructor } = target;
 
   return {
-    configurable,
-    enumerable,
+    configurable: descriptor.configurable,
+    enumerable: descriptor.enumerable,
 
     get() {
       // Class.prototype.key lookup
       // Someone accesses the property directly on the prototype on which it is
       // actually defined on, i.e. Class.prototype.hasOwnProperty(key)
       if (this === target) {
-        return fn;
+        return descriptor.value;
       }
 
       // Class.prototype.key lookup
@@ -69,15 +69,15 @@ function autobindMethod(target, key, { value: fn, configurable, enumerable }) {
       // up the chain, not defined directly on it
       // i.e. Class.prototype.hasOwnProperty(key) == false && key in Class.prototype
       if (this.constructor !== constructor && getPrototypeOf(this).constructor === constructor) {
-        return fn;
+        return descriptor.value;
       }
 
       // Autobound method calling super.sameMethod() which is also autobound and so on.
       if (this.constructor !== constructor && key in this.constructor.prototype) {
-        return getBoundSuper(this, fn);
+        return getBoundSuper(this, descriptor.value);
       }
 
-      const boundFn = bind(fn, this);
+      const boundFn = bind(descriptor.value, this);
 
       defineProperty(this, key, {
         configurable: true,
@@ -93,20 +93,25 @@ function autobindMethod(target, key, { value: fn, configurable, enumerable }) {
   };
 }
 
-function handle(args) {
-  if (args.length === 1) {
-    return autobindClass(args[0]);
+function handle(...args) {
+  if (arguments.length === 1) {
+    return autobindClass(arguments[0]);
   } else {
-    return autobindMethod(args[0], args[1], args[2]);
+    return autobindMethod(arguments[0], arguments[1], arguments[2]);
   }
 }
 
-export default function autobind(...args) {
-  if (args.length === 0) {
-    return function () {
-      return handle(arguments);
+function autobind(target: Function); // Class decorator
+function autobind(target: any, key: string | symbol, descriptor: TypedPropertyDescriptor<any>): TypedPropertyDescriptor<any>; // Method decorator
+function autobind(); // Invoked with parens
+function autobind(...args) {
+  if (arguments.length === 0) {
+    return function (target: Object, key: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
+      return handle(target, key, descriptor);
     };
-  } else {
-    return handle(args);
   }
-}
+  return handle(...args);
+ }
+
+export { autobind };
+export default autobind;

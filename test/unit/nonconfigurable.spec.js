@@ -1,14 +1,13 @@
-import nonconfigurable from '../../lib/nonconfigurable';
-import readonly from '../../lib/readonly';
+import {nonconfigurable, readonly} from 'core-decorators';
 
 describe('@nonconfigurable', function () {
   class Foo {
     @nonconfigurable
-    first() {}
+    first () {}
 
     @nonconfigurable
     @readonly
-    second() {}
+    second () {}
   }
 
   it('is marked configurable: false', function () {

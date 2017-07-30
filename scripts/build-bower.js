@@ -1,6 +1,6 @@
 import fs from 'fs';
 import globalWrap from 'global-wrap';
- 
+
 globalWrap({
   main: 'lib/core-decorators.js',
   global: 'CoreDecorators',

@@ -6,14 +6,26 @@
         {
             "type": "gulp",
             "task": "watch",
-            "problemMatcher": [
-                "$gulp-tsc"
-            ],
             "isBackground": true,
+            "problemMatcher": [
+                "$gulp-tsc",
+                "$eslint-stylish"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "type": "gulp",
+            "task": "test",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$eslint-stylish"
+            ]
         }
     ]
 }

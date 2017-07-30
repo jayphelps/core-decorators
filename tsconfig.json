@@ -1,11 +1,10 @@
 {
+  "include": ["src/**/*.ts", "test/*.js", "test/unit/*.js"],
   "compilerOptions": {
     "outDir": "lib",
     "target": "es5",
     "module":"commonjs",
-    "sourceMap": true,
-    "allowJs": true,
-    "checkJs": false,
+    "declaration": true,
     "allowUnreachableCode": true,
     "lib": [
       "es5",

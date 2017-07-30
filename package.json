@@ -5,7 +5,7 @@
   "main": "lib/core-decorators.js",
   "module": "esm/core-decorators.js",
   "jsnext:main": "esm/core-decorators.js",
-  "typings": "./index.d.ts",
+  "typings": "lib/core-decorators.d.ts",
   "files": [
     "esm",
     "lib",
@@ -18,8 +18,8 @@
     "prepublish": "gulp clean && npm run build",
     "build-bower": "babel-node scripts/build-bower.js",
     "build": "gulp",
-    "test": "mocha testBabel/**/*.spec.js",
-    "testtsc": "mocha testTsc/**/*.spec.js"
+    "test": "mocha test/babel/*.spec.js",
+    "test.typescript": "mocha test/typescript/*/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -53,6 +53,7 @@
     "@types/node": "^6.0.73",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
+    "babel-eslint": "^7.2.3",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
@@ -64,19 +65,28 @@
     "chai": "^3.5.0",
     "cross-env": "^5.0.0",
     "del": "^3.0.0",
+    "eslint": "^4.3.0",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "glob": "^7.1.1",
     "global-wrap": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
+    "gulp-eslint": "^4.0.0",
+    "gulp-mocha": "^4.3.1",
     "gulp-sourcemaps": "^2.6.0",
-    "gulp-typescript": "^3.2.1",
+    "gulp-tsb": "^2.0.4",
     "interop-require": "1.0.0",
     "lodash": "4.17.4",
-    "merge2": "^1.1.0",
     "mocha": "^3.2.0",
+    "run-sequence": "^2.1.0",
     "sinon": "2.1.0",
     "sinon-chai": "^2.9.0",
-    "typescript": "^2.3.3"
+    "typescript": "^2.3.3",
+    "vinyl-fs": "^2.4.4"
   },
   "dependencies": {}
 }

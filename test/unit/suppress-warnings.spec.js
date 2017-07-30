@@ -1,16 +1,16 @@
 import { spy } from 'sinon';
-import suppressWarnings from '../../lib/suppress-warnings';
+import { suppressWarnings } from 'core-decorators';
 
 const CONSOLE_WARN = console.warn;
 
 describe('@suppressWarnings', function () {
   class Foo {
     @suppressWarnings
-    suppressed(){
+    suppressed () {
       console.warn('a');
     }
 
-    unsuppressed(){
+    unsuppressed () {
       console.warn('b');
     }
   }

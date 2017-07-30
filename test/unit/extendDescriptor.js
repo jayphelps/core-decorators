@@ -1,18 +1,16 @@
-import extendDescriptor from '../../lib/extendDescriptor';
-import enumerable from '../../lib/enumerable';
-import nonenumerable from '../../lib/nonenumerable';
+import {extendDescriptor, enumerable, nonenumerable} from 'core-decorators';
 
 describe('@extendDescriptor', function () {
   class Base {
-    get first() {
+    get first () {
       return this._first;
     }
 
-    set second(value) {
+    set second (value) {
       this._second = value;
     }
 
-    set third(value) {
+    set third (value) {
       throw new Error('should not be called');
     }
 
@@ -20,7 +18,7 @@ describe('@extendDescriptor', function () {
     fourth = 'fourth';
 
     @enumerable
-    fifth() {
+    fifth () {
       throw new Error('should not be called');
     }
   }
@@ -29,21 +27,21 @@ describe('@extendDescriptor', function () {
 
   class Derived extends Middle {
     @extendDescriptor
-    set first(value) {
+    set first (value) {
       this._first = value;
     }
 
     @extendDescriptor
-    get second() {
+    get second () {
       return this._second;
     }
 
     @extendDescriptor
-    get third() {
+    get third () {
       return this._third;
     }
 
-    set third(value) {
+    set third (value) {
       this._third = value;
     }
 
@@ -51,7 +49,7 @@ describe('@extendDescriptor', function () {
     fourth = 'fourth';
 
     @extendDescriptor
-    fifth() {
+    fifth () {
       return 'fifth';
     }
   }

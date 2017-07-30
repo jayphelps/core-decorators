@@ -1,66 +1,60 @@
 import { expect } from 'chai';
-import autobind from '../../lib/autobind';
+import { autobind } from 'core-decorators';
 
 const root = (typeof window !== 'undefined') ? window : global;
 
 describe('@autobind', function () {
-  let Foo;
-  let Bar;
-  let Car;
+  class Foo {
+      @autobind
+    getFoo () {
+      return this;
+    }
+
+    getFooAgain () {
+      return this;
+    }
+
+      @autobind
+    onlyOnFoo () {
+      return this;
+    }
+  }
+
+  class Bar extends Foo {
+    @autobind()
+    getFoo () {
+      const foo = super.getFoo();
+      barCount++;
+      return foo;
+    }
+
+    getSuperMethod_getFoo () {
+      return super.getFoo;
+    }
+
+    getSuperMethod_onlyOnFoo () {
+      return super.onlyOnFoo;
+    }
+
+    @autobind
+    onlyOnBar () {
+      return this;
+    }
+  }
+
+  class Car extends Foo {
+    @autobind()
+    getCarFromFoo () {
+      return super.onlyOnFoo();
+    }
+  }
   let barCount;
 
   beforeEach(function () {
-    Foo = class Foo {
-      @autobind
-      getFoo() {
-        return this;
-      }
-
-      getFooAgain() {
-        return this;
-      }
-
-      @autobind
-      onlyOnFoo() {
-        return this;
-      }
-    }
-
     barCount = 0;
-
-    Bar = class Bar extends Foo {
-      @autobind()
-      getFoo() {
-        const foo = super.getFoo();
-        barCount++;
-        return foo;
-      }
-
-      getSuperMethod_getFoo() {
-        return super.getFoo;
-      }
-
-      getSuperMethod_onlyOnFoo() {
-        return super.onlyOnFoo;
-      }
-
-      @autobind
-      onlyOnBar() {
-        return this;
-      }
-    }
-
-    Car = class Car extends Foo {
-      @autobind()
-      getCarFromFoo() {
-        return super.onlyOnFoo();
-      }
-    }
   });
 
   afterEach(function () {
-    Foo = null;
-    Bar = null;
     barCount = null;
   });
 
@@ -69,14 +63,13 @@ describe('@autobind', function () {
     const { getFoo } = foo;
 
     getFoo().should.equal(foo);
-
   });
 
   it('sets the correct prototype descriptor options', function () {
     const desc = Object.getOwnPropertyDescriptor(Foo.prototype, 'getFoo');
 
     desc.configurable.should.equal(true);
-    desc.enumerable.should.equal(false);
+    desc.enumerable.should.equal(false, 'enumerable property mismatch');
   });
 
   it('sets the correct instance descriptor options when bound', function () {
@@ -93,6 +86,7 @@ describe('@autobind', function () {
   it('sets the correct instance descriptor options when reassigned outside', function () {
     const noop = function () {};
     const foo = new Foo();
+    // @ts-ignore
     const ret = foo.getFoo = noop;
     const desc = Object.getOwnPropertyDescriptor(foo, 'getFoo');
 
@@ -142,16 +136,18 @@ describe('@autobind', function () {
     bar.getFoo().should.equal(bar);
     bar.getFooAgain().should.equal(bar);
     const getSuperMethod_getFoo = bar.getSuperMethod_getFoo();
+    expect(getSuperMethod_getFoo, 'getSuperMethod_getFoo');
     getSuperMethod_getFoo().should.equal(bar);
     const onlyOnFoo = bar.getSuperMethod_onlyOnFoo();
     onlyOnFoo().should.equal(bar);
-
 
     barCount.should.equal(4);
   });
 
   it('throws when it needs WeakMap but it is not available', function () {
+    // @ts-ignore
     const WeakMap = root.WeakMap;
+    // @ts-ignore
     delete root.WeakMap;
 
     const bar = new Bar();
@@ -163,6 +159,7 @@ describe('@autobind', function () {
 
     barCount.should.equal(0);
 
+    // @ts-ignore
     root.WeakMap = WeakMap;
   });
 
@@ -188,38 +185,37 @@ describe('@autobind', function () {
     const onlyOnFoo = foo.onlyOnFoo;
     getFoo1().should.equal(foo);
     onlyOnFoo().should.equal(foo);
-
   });
 
   it('can be used to autobind the entire class at once', function () {
     // do not @autobind, which means start() should return `undefined` if
     // it is detached from the instance
     class Vehicle {
-      start() {
+      start () {
         return this;
       }
     }
 
     @autobind
     class Car extends Vehicle {
-      constructor() {
+      constructor () {
         super();
         this.name = 'amazing';
       }
 
-      get color() {
+      get color () {
         return 'red';
       }
 
-      drive() {
+      drive () {
         return this;
       }
 
-      stop() {
+      stop () {
         return this;
       }
 
-      render() {
+      render () {
         return this;
       }
     }
@@ -248,7 +244,8 @@ describe('@autobind', function () {
   it('correctly binds with multiple class prototype levels', function () {
     @autobind
     class A {
-      method() {
+      method () {
+        // @ts-ignore
         return this.test || 'WRONG ONE';
       }
     }
@@ -260,7 +257,7 @@ describe('@autobind', function () {
     class C extends B {
       test = 'hello';
 
-      method() {
+      method () {
         return super.method();
       }
     }
@@ -281,7 +278,7 @@ describe('@autobind', function () {
 
     @autobind
     class Car {
-      [parkHash]() {
+      [parkHash] () {
         return this;
       }
     }
@@ -289,5 +286,5 @@ describe('@autobind', function () {
     const car = new Car();
     const park = car[parkHash];
     park().should.equal(car);
-  })
+  });
 });

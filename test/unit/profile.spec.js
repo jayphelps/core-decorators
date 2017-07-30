@@ -1,6 +1,5 @@
 import { spy, useFakeTimers } from 'sinon';
-import applyDecorators from '../../lib/applyDecorators';
-import profile, { defaultConsole } from '../../lib/profile';
+import { applyDecorators, profile, defaultConsole } from 'core-decorators';
 
 const CONSOLE_PROFILE = defaultConsole.profile;
 const CONSOLE_PROFILEEND = defaultConsole.profileEnd;
@@ -8,48 +7,47 @@ const CONSOLE_WARN = defaultConsole.warn;
 
 profile.__enabled = true;
 
-describe('@profile', function() {
+describe('@profile', function () {
   class Foo {
     @profile
-    profiled() {
+    profiled () {
       return 'profiled';
     }
 
     @profile('foo')
-    profiledPrefix() {
-      return;
+    profiledPrefix () {
+
     }
 
     @profile(null, true)
-    profileOnce(cb) {
+    profileOnce (cb) {
       return cb();
     }
 
-
     @profile(null, 1000)
-    profileThrottled(cb) {
+    profileThrottled (cb) {
       return cb();
     }
 
     @profile(null, function () { return this.isAwesome; })
-    profileFunctioned(cb) {
+    profileFunctioned (cb) {
       return cb();
     }
 
     @profile(null, function (run) { return run; })
-    profileFunctionedWithParameter(run, cb) {
+    profileFunctionedWithParameter (run, cb) {
       return cb();
     }
 
-    unprofiled() {
-      return;
+    unprofiled () {
+
     }
 
     @profile
-    iThrowAnError() {
+    iThrowAnError () {
       throw 'foobar';
     }
-  };
+  }
 
   let profileSpy;
   let profileEndSpy;
@@ -67,13 +65,13 @@ describe('@profile', function() {
     defaultConsole.warn = CONSOLE_WARN;
   });
 
-  it('calls console.profile and console.profileEnd', function() {
+  it('calls console.profile and console.profileEnd', function () {
     new Foo().profiled();
     profileSpy.called.should.equal(true);
     profileEndSpy.called.should.equal(true);
   });
 
-  it('calls console.profile and console.profileEnd once when flag is on', function() {
+  it('calls console.profile and console.profileEnd once when flag is on', function () {
     const cbSpy = spy();
 
     const foo = new Foo();
@@ -89,7 +87,7 @@ describe('@profile', function() {
     cbSpy.callCount.should.equal(4);
   });
 
-  it('calls console.profileEnd even if the called method throws', function() {
+  it('calls console.profileEnd even if the called method throws', function () {
     try {
       new Foo().iThrowAnError();
     } catch (e) {
@@ -100,7 +98,7 @@ describe('@profile', function() {
     profileEndSpy.called.should.equal(true);
   });
 
-  it('uses class and method names for a default prefix', function() {
+  it('uses class and method names for a default prefix', function () {
     let labelPattern = new RegExp('Foo\\.profiled');
     let label;
     new Foo().profiled();
@@ -108,29 +106,29 @@ describe('@profile', function() {
     label.should.match(labelPattern);
   });
 
-  it('uses a supplied prefix for the label', function() {
+  it('uses a supplied prefix for the label', function () {
     new Foo().profiledPrefix();
     profileSpy.getCall(0).args[0].should.match(/^foo/);
     profileEndSpy.getCall(0).args[0].should.match(/^foo/);
   });
 
-  it('supports a custom profileation object', function() {
+  it('supports a custom profileation object', function () {
     let profileCalled = false;
     let profileEndCalled = false;
 
     let myConsole = {
-      profile(label) {
+      profile (label) {
         profileCalled = true;
       },
-      profileEnd(label) {
+      profileEnd (label) {
         profileEndCalled = true;
       }
-    }
+    };
 
     class Boo {
       @profile('custom', false, myConsole)
-      hoo() {
-        return;
+      hoo () {
+
       }
     }
     new Boo().hoo();
@@ -138,27 +136,27 @@ describe('@profile', function() {
     profileEndCalled.should.equal(true);
   });
 
-  it('returns the value', function() {
+  it('returns the value', function () {
     let foo = new Foo();
     let result = foo.profiled();
     result.should.equal('profiled');
   });
 
-  describe('when throttled', function() {
+  describe('when throttled', function () {
     // I'm not sure, should this section should go as the @throttled decorator is obsolete.
 
     let clock;
     let count = 1;
-    beforeEach(function() {
+    beforeEach(function () {
       clock = useFakeTimers(Date.now());
       count += 1;
     });
 
-    afterEach(function() {
+    afterEach(function () {
       clock.restore();
     });
 
-    it('should always call function', function() {
+    it('should always call function', function () {
       const cbSpy = spy();
       const foo = new Foo();
 
@@ -169,8 +167,8 @@ describe('@profile', function() {
       cbSpy.calledTwice.should.equal(true);
     });
 
-    it('should call profile after throttle time', function() {
-      const noop = function() {};
+    it('should call profile after throttle time', function () {
+      const noop = function () {};
       const foo = new Foo();
 
       foo.profileThrottled(noop);
@@ -186,10 +184,10 @@ describe('@profile', function() {
 
       foo.profileThrottled(noop);
       profileSpy.calledTwice.should.equal(true);
-    })
+    });
   });
 
-  describe('when functioned', function() {
+  describe('when functioned', function () {
     it('should have `this` context', () => {
       const cbSpy = spy();
       const foo = new Foo();
@@ -198,6 +196,7 @@ describe('@profile', function() {
       profileSpy.calledOnce.should.equal(false);
       cbSpy.calledOnce.should.equal(true);
 
+      // @ts-ignore 
       foo.isAwesome = true;
 
       foo.profileFunctioned(cbSpy);
@@ -219,22 +218,22 @@ describe('@profile', function() {
     });
   });
 
-  describe('when disabled', function() {
+  describe('when disabled', function () {
     class Bar {
-      disabledProfile() {
-        return;
+      disabledProfile () {
+
       }
     }
 
-    beforeEach(function() {
+    beforeEach(function () {
       profile.__enabled = false;
     });
 
-    afterEach(function() {
+    afterEach(function () {
       profile.__enabled = true;
     });
 
-    it('should send a warning', function() {
+    it('should send a warning', function () {
       profile.__warned = false;
 
       applyDecorators(Bar, {
@@ -244,7 +243,7 @@ describe('@profile', function() {
       warnSpy.called.should.equal(true);
     });
 
-    it('should leave descriptor alone', function() {
+    it('should leave descriptor alone', function () {
       const oldBarDisabledProfile = Bar.prototype.disabledProfile = spy();
 
       applyDecorators(Bar, {
@@ -254,5 +253,4 @@ describe('@profile', function() {
       Bar.prototype.disabledProfile.should.equal(oldBarDisabledProfile);
     });
   });
-
 });

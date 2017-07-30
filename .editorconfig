@@ -10,10 +10,10 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespaces = true
 
-# JavaScript
+# JavaScript - and the like
 #
 # Two spaces seems to be the standard most common style, at least in
 # Node.js (http://nodeguide.com/style.html#tabs-vs-spaces).
-[*.js]
+[*.{js,json,ts}]
 indent_size = 2
 indent_style = space

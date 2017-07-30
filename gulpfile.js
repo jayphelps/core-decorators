@@ -1,78 +1,173 @@
-const gulp = require('gulp');
-const babel = require('gulp-babel');
-const ts = require('gulp-typescript');
-const sourcemaps = require('gulp-sourcemaps');
 const del = require('del');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+const eslint = require('gulp-eslint');
+const mocha = require('gulp-mocha');
+const sourcemaps = require('gulp-sourcemaps');
+const tsb = require('gulp-tsb');
+const runSequence = require('run-sequence');
+const fs = require('graceful-fs');
+const os = require('os');
+const path = require('path');
 
-const srcFiles = 'src/**/*';
-const testFiles = 'test/**/*';
+const srcFiles = ['src/**/*.ts'];
+const unitTests = 'test/unit/*.js';
+const jsFiles = ['**/*.js', '!**/node_modules/**', '!lib/**', '!esm/**', '!test/babel/**', '!test/typescript/**'];
 
-// Default build uses settings from 'tsconfig.json'
+// Typescript configuration options (tsb caches for speed)
 
-tsProject = ts.createProject('tsconfig.json');
-tsProjectEsm = ts.createProject('tsconfig.json', {module: 'es2015'});
-tsProjectTest = ts.createProject('tsconfig.json', {rootDir: '.'});
- 
+const cjs = tsb.create({
+  outDir: 'lib',
+  module: 'commonjs',
+  target: 'es5',
+  declaration: true,
+  lib: ['es5', 'es2015', 'dom'],
+  sourcemaps: true,
+  experimentalDecorators: true
+});
+
+const esm = tsb.create({
+  outDir: 'esm',
+  module: 'es2015',
+  target: 'es5',
+  declaration: true,
+  lib: ['es5', 'es2015', 'dom'],
+  experimentalDecorators: true
+});
+
+const tst = tsb.create({
+  outDir: 'test/typescript',
+  module: 'commonjs',
+  target: 'es5',
+  allowJs: true,
+  checkJs: true,
+  declaration: true,
+  lib: ['es5', 'es2015', 'dom'],
+  experimentalDecorators: true,
+  baseUrl: '.',
+  paths: {
+    'core-decorators': ['.'],
+    'core-decorators/*': ['./*']
+  },
+  rootDirs: [
+    'src',
+    'test',
+    'lib'
+  ]
+});
+
+// Babel settings (used only for testing)
+const babelSettings = {
+  'presets': [['es2015', { 'modules': false }]],
+  'plugins': [
+    'transform-object-rest-spread',
+    'transform-flow-strip-types',
+    'transform-decorators-legacy',
+    'transform-class-properties'
+  ],
+  'env': {
+    'es': {},
+    'development': {
+      'plugins': [
+        'transform-es2015-modules-commonjs'
+      ]
+    }
+  }
+};
+
+// Build tasks - TypeScript
+
+gulp.task('build.cjs', function () {
+  return gulp.src(srcFiles)
+    .pipe(sourcemaps.init())
+    .pipe(cjs())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('lib'));
+});
+
+gulp.task('build.esm', function () {
+  return gulp.src(srcFiles)
+    .pipe(sourcemaps.init())
+    .pipe(esm())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('esm'));
+});
+
+gulp.task('build.test.typescript', ['build.cjs'], function () {
+  return gulp.src(unitTests)
+    .pipe(sourcemaps.init())
+    .pipe(tst())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('test/typescript'));
+});
+
+// Build tasks - Babel
+
+gulp.task('build.test.babel', ['build.cjs'], function () {
+  return gulp.src(unitTests)
+    .pipe(sourcemaps.init())
+    .pipe(babel(babelSettings))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('test/babel'));
+});
+
+gulp.task('build', ['build.cjs', 'build.esm', 'build.test.typescript', 'build.test.babel', 'symlink']);
+
+gulp.task('test', ['symlink'], function () {
+  gulp.src('test/babel/*.spec.js', {read: false})
+    .pipe(mocha());
+});
+
 gulp.task('clean', function () {
-  return del(['lib', 'esm', 'testBabel', 'testTsc']);
-})
-
-gulp.task('lib', function () {
-    var tsResult = gulp.src(srcFiles) 
-      .pipe(sourcemaps.init())
-      .pipe(tsProject());
-    return tsResult.js
-      .pipe(sourcemaps.write('sourcemaps'))
-      .pipe(gulp.dest('lib'))
+  return del(['lib', 'esm', 'test/typescript', 'test/babel', 'test/node_modules']);
 });
 
-gulp.task('esm', function () {
-    var tsResult = gulp.src(srcFiles) 
-      .pipe(sourcemaps.init())
-      .pipe(tsProjectEsm());
-    return tsResult.js
-      .pipe(sourcemaps.write('sourcemaps'))
-      .pipe(gulp.dest('esm'))
+gulp.task('clean.tests', function () {
+  return del(['test/typescript', 'test/babel']);
 });
 
-gulp.task('tsc.test', ['src'], function () {
-  return gulp.src(testFiles)
-    .pipe(sourcemaps.init())
-    .pipe(tsProjectTest())
-    .pipe(sourcemaps.write('sourcemaps'))
-    .pipe(gulp.dest('testTsc'))
-})
-
-gulp.task('src', ['lib', 'esm']);
-
-gulp.task('babel.test', ['src'], function () {
-  return gulp.src('test/**/*.js')
-    .pipe(sourcemaps.init())
-    .pipe(babel({
-      "presets": [["es2015", { "modules": false }]],
-      "plugins": [
-        "transform-object-rest-spread",
-        "transform-flow-strip-types",
-        "transform-decorators-legacy",
-        "transform-class-properties"
-      ],
-    "env": {
-      "es": {},
-      "development": {
-        "plugins": [
-          "transform-es2015-modules-commonjs"
-        ]
-      }}}))
-    .pipe(sourcemaps.write('sourcemaps'))
-    .pipe(gulp.dest('testBabel'))
-})
-
-
-gulp.task('test', ['babel.test', 'tsc.test'] )
-
-gulp.task('watch', ['src','test'], function () {
-  gulp.watch('src/**/*', ['src'])
-  gulp.watch('test/**/*', ['test'])
+gulp.task('rebuild.tests', function (cb) {
+  runSequence('clean.tests', 'build', cb);
 });
 
-gulp.task('default', ['src', 'test']);
+/**
+ * Install a symlink in test/node_modules/core-decorators to allow tests to run
+ */
+gulp.task('symlink', function (cb) {
+  const target = path.resolve('.');
+  const dirPath = 'test/node_modules';
+  const symlinkPath = 'test/node_modules/core-decorators';
+  const symlinkType = os.platform() === 'win32' ? 'junction' : 'dir';
+
+  fs.mkdir(dirPath, function (err) {
+    if (err && err.code !== 'EEXIST') { cb(err); return; }
+    fs.symlink(target, symlinkPath, symlinkType, function (err) {
+      if (err) {
+        if (err.code !== 'EEXIST') {
+          cb(new Error(`Failed to create ${symlinkType} ${symlinkPath} -> ${target}: ${err}`));
+        }
+      } else {
+        console.log(`Created ${symlinkType} ${symlinkPath} -> ${target} for tests`);
+      }
+      cb();
+    });
+  });
+});
+
+gulp.task('eslint', function () {
+  return gulp.src(jsFiles)
+    .pipe(eslint())
+    .pipe(eslint.format());
+});
+
+gulp.task('watch', ['eslint', 'build'], function () {
+  gulp.watch(srcFiles, ['build', 'rebuild.tests']);
+  gulp.watch(jsFiles, ['eslint']);
+  gulp.watch('test/unit/*.spec.js', ['rebuild.tests']);
+  gulp.watch('test/unit/*.spec.js', ['rebuild.tests']);
+  gulp.watch('.eslintrc.js', ['eslint']);
+});
+
+gulp.task('default', function (cb) {
+  runSequence('clean', ['build'], 'test', cb);
+});

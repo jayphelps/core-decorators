@@ -1,9 +1,9 @@
-import readonly from '../../lib/readonly';
+import {readonly} from 'core-decorators';
 
 describe('@readonly', function () {
   class Foo {
     @readonly
-    first() {}
+    first () {}
 
     @readonly
     second = 'second';
@@ -18,9 +18,10 @@ describe('@readonly', function () {
     const foo = new Foo();
 
     (function () {
+      // @ts-ignore
       foo.first = 'I will error';
     }).should.throw('Cannot assign to read only property \'first\' of object \'#<Foo>\'');
-    
+
     (function () {
       foo.second = 'I will also error';
     }).should.throw('Cannot assign to read only property \'second\' of object \'#<Foo>\'');

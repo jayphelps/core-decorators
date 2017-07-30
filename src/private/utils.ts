@@ -1,4 +1,4 @@
-import lazyInitialize from '../lazy-initialize';
+import { lazyInitialize } from '../lazy-initialize';
 
 const { defineProperty, getOwnPropertyDescriptor,
         getOwnPropertyNames, getOwnPropertySymbols } = Object;
@@ -19,7 +19,7 @@ export function isDescriptor(desc) {
   return false;
 }
 
-export function decorate(handleDescriptor, entryArgs) {
+export function decorate(handleDescriptor, entryArgs: Array<any>) {
   if (isDescriptor(entryArgs[entryArgs.length - 1])) {
     return handleDescriptor(...entryArgs, []);
   } else {
@@ -49,7 +49,7 @@ export function metaFor(obj) {
   return obj[META_KEY];
 }
 
-export const getOwnKeys = 
+export const ownKeys = 
   getOwnPropertySymbols ? function (object) {
         return (getOwnPropertyNames(object) as [string|symbol])
           .concat(getOwnPropertySymbols(object));
@@ -59,7 +59,7 @@ export const getOwnKeys =
 export function getOwnPropertyDescriptors(obj) {
   const descs = {};
 
-  getOwnKeys(obj).forEach(
+  ownKeys(obj).forEach(
     key => (descs[key] = getOwnPropertyDescriptor(obj, key))
   );
 

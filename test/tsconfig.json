@@ -1,0 +1,28 @@
+{
+    "include": [
+        "*.spec.js",
+        "unit/*.spec.js"
+    ],
+    "exclude": [
+        "babel",
+        "typescript"
+    ],
+    "compilerOptions": {
+        "outDir": "typescript",
+        "target": "es5",
+        "module": "commonjs",
+        "sourceMap": true,
+        "allowJs": true,
+        "checkJs": true,
+        "allowUnreachableCode": true,
+        "lib": [
+            "es5",
+            "dom",
+            "es2015",
+            "es2015.core",
+            "es2015.collection"
+        ],
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true
+    }
+}

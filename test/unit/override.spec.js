@@ -1,7 +1,7 @@
-import override from '../../lib/override';
+import { override } from 'core-decorators';
 
 class Parent {
-  speak(first, second) {}
+  speak (first, second) {}
 }
 
 describe('@override', function () {
@@ -9,7 +9,7 @@ describe('@override', function () {
     (function () {
       class Child extends Parent {
         @override
-        speak() {}
+        speak () {}
       }
     }).should.throw('Child#speak() does not properly override Parent#speak(first, second)');
   });
@@ -18,7 +18,7 @@ describe('@override', function () {
     (function () {
       class Child extends Parent {
         @override
-        wow() {}
+        wow () {}
       }
     }).should.throw('No descriptor matching Child#wow() was found on the prototype chain.');
   });
@@ -27,7 +27,7 @@ describe('@override', function () {
     (function () {
       class Child extends Parent {
         @override
-        speaks() {}
+        speaks () {}
       }
     }).should.throw('No descriptor matching Child#speaks() was found on the prototype chain.\n\n  Did you mean "speak"?');
   });
@@ -36,7 +36,7 @@ describe('@override', function () {
     (function () {
       class Child extends Parent {
         @override
-        speak(first, second) {}
+        speak (first, second) {}
       }
     }).should.not.throw();
   });

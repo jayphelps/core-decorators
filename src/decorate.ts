@@ -1,13 +1,17 @@
 import { decorate as _decorate, createDefaultSetter } from './private/utils';
 const { defineProperty } = Object;
 
-function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
+function handleDescriptor(
+    target: object, 
+    key: string | symbol, 
+    descriptor: TypedPropertyDescriptor<any>,
+    [decorator, ...args]) : TypedPropertyDescriptor<any> {
   const { configurable, enumerable, writable } = descriptor;
   const originalGet = descriptor.get;
   const originalSet = descriptor.set;
   const originalValue = descriptor.value;
   const isGetter = !!originalGet;
-
+  
   return {
     configurable,
     enumerable,
