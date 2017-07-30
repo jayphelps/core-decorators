@@ -169,5 +169,5 @@ gulp.task('watch', ['eslint', 'build'], function () {
 });
 
 gulp.task('default', function (cb) {
-  runSequence('clean', ['build'], 'test', cb);
+  runSequence('clean', ['eslint', 'build'], 'test', cb);
 });
