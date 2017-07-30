@@ -1,5 +1,5 @@
 import { decorate } from './private/utils';
-import {defaultConsole} from './defaultConsole';
+import { defaultConsole } from './defaultConsole';
 
 let count = 0;
 

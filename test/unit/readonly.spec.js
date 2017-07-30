@@ -1,4 +1,4 @@
-import {readonly} from 'core-decorators';
+import { readonly } from 'core-decorators';
 
 describe('@readonly', function () {
   class Foo {
