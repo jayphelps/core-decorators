@@ -99,8 +99,8 @@ gulp.task('rebuild.tests', function (cb) {
  * Install a symlink in test/node_modules/core-decorators to allow tests to run
  */
 // Note: [the Yarn package manager](https://yarnpkg.com) has added a feature called workspaces which may be
-// a simpler  way of implementing this.   July 2017, yarn is now at a release-candidate
-// this should be reviewed as yarn hits a supported release.  
+// a simpler  way of implementing this.   July 2017, yarn docs still are lacking info on workspaces, but 
+// this should be reviewed as yarn matures.  
 //
 // CONSIDER:  replacing this with configuration in package.json + yarn 2017-07-31.
 
