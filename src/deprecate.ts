@@ -28,6 +28,6 @@ function deprecate(...args) {
   return decorate(handleDescriptor, args);
 }
 
-export {deprecate, deprecate as deprecated} ;
+export { deprecate, deprecate as deprecated };
 
 export default deprecate;

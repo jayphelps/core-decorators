@@ -1,5 +1,5 @@
 import { decorate, metaFor } from './private/utils';
-import {defaultConsole} from './defaultConsole';
+import { defaultConsole } from './defaultConsole';
 
 
 function handleDescriptor(target, key, descriptor, [prefix  = null, onceThrottleOrFunction = false, console = defaultConsole] ) {

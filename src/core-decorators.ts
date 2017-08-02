@@ -20,7 +20,7 @@ export { default as extendDescriptor } from './extendDescriptor';
 export { default as profile } from './profile';
 
 // Exported for testing purposes
-export  {default as defaultConsole} from './defaultConsole';
+export { default as defaultConsole } from './defaultConsole';
 
 // Helper to apply decorators to a class without transpiler support
 export { default as applyDecorators } from './applyDecorators';

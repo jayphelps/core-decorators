@@ -34,5 +34,5 @@ function lazyInitialize(...args) {
   return decorate(handleDescriptor, args);
 }
 
-export {lazyInitialize};
+export { lazyInitialize };
 export default lazyInitialize;
