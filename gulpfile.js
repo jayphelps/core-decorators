@@ -45,7 +45,7 @@ const babelSettings = {
 
 // Build tasks - TypeScript
 
-gulp.task('build.cjs', function () {
+gulp.task('build.cjs', function() {
   return gulp.src(srcFiles)
     .pipe(sourcemaps.init())
     .pipe(cjs())
@@ -53,7 +53,7 @@ gulp.task('build.cjs', function () {
     .pipe(gulp.dest('lib'));
 });
 
-gulp.task('build.esm', function () {
+gulp.task('build.esm', function() {
   return gulp.src(srcFiles)
     .pipe(sourcemaps.init())
     .pipe(esm())
@@ -61,7 +61,7 @@ gulp.task('build.esm', function () {
     .pipe(gulp.dest('esm'));
 });
 
-gulp.task('build.test.typescript', ['build.cjs'], function () {
+gulp.task('build.test.typescript', ['build.cjs'], function() {
   return gulp.src(unitTestFiles)
     .pipe(sourcemaps.init())
     .pipe(tst())
@@ -72,7 +72,7 @@ gulp.task('build.test.typescript', ['build.cjs'], function () {
 
 // Build tasks - Babel
 
-gulp.task('build.test.babel', ['build.cjs'], function () {
+gulp.task('build.test.babel', ['build.cjs'], function() {
   return gulp.src(unitTestFiles)
     .pipe(sourcemaps.init())
     .pipe(babel(babelSettings))
@@ -83,15 +83,15 @@ gulp.task('build.test.babel', ['build.cjs'], function () {
 
 gulp.task('build', ['build.cjs', 'build.esm', 'build.test.typescript', 'build.test.babel', 'symlink']);
 
-gulp.task('clean', function () {
+gulp.task('clean', function() {
   return del(['lib', 'esm', 'test/typescript', 'test/babel', 'test/node_modules']);
 });
 
-gulp.task('clean.tests', function () {
+gulp.task('clean.tests', function() {
   return del(['test/typescript', 'test/babel']);
 });
 
-gulp.task('rebuild.tests', function (cb) {
+gulp.task('rebuild.tests', function(cb) {
   runSequence('clean.tests', 'build', cb);
 });
 
@@ -104,15 +104,15 @@ gulp.task('rebuild.tests', function (cb) {
 //
 // CONSIDER:  replacing this with configuration in package.json + yarn 2017-07-31.
 
-gulp.task('symlink', function (cb) {
+gulp.task('symlink', function(cb) {
   const target = path.resolve('.');
   const dirPath = 'test/node_modules';
   const symlinkPath = 'test/node_modules/core-decorators';
   const symlinkType = os.platform() === 'win32' ? 'junction' : 'dir';
 
-  fs.mkdir(dirPath, function (err) {
+  fs.mkdir(dirPath, function(err) {
     if (err && err.code !== 'EEXIST') { cb(err); return; }
-    fs.symlink(target, symlinkPath, symlinkType, function (err) {
+    fs.symlink(target, symlinkPath, symlinkType, function(err) {
       if (err) {
         if (err.code !== 'EEXIST') {
           cb(new Error(`Failed to create ${symlinkType} ${symlinkPath} -> ${target}: ${err}`));
@@ -125,21 +125,21 @@ gulp.task('symlink', function (cb) {
   });
 });
 
-gulp.task('eslint', function () {
+gulp.task('eslint', function() {
   return gulp.src(jsFiles)
     .pipe(eslint())
     .pipe(eslint.format());
 });
 
-gulp.task('test', ['symlink'], function () {
+gulp.task('test', ['symlink'], function() {
   gulp.src(['test/babel/*.spec.js', 'test/typescript/*.spec.js'], {read: false})
     .pipe(mocha());
 });
 
-gulp.task('watch', ['default'], function () {
+gulp.task('watch', ['default'], function() {
   gulp.watch(watchFiles, ['eslint', 'build']);
 });
 
-gulp.task('default', function (cb) {
+gulp.task('default', function(cb) {
   runSequence('clean', ['eslint', 'build'], cb);
 });

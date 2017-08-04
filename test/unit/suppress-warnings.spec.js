@@ -3,33 +3,33 @@ import { suppressWarnings } from 'core-decorators';
 
 const CONSOLE_WARN = console.warn;
 
-describe('@suppressWarnings', function () {
+describe('@suppressWarnings', function() {
   class Foo {
     @suppressWarnings
-    suppressed () {
+    suppressed() {
       console.warn('a');
     }
 
-    unsuppressed () {
+    unsuppressed() {
       console.warn('b');
     }
   }
 
   var warnSpy;
-  beforeEach(function () {
+  beforeEach(function() {
     warnSpy = console.warn = spy();
   });
 
-  afterEach(function () {
+  afterEach(function() {
     console.warn = CONSOLE_WARN;
   });
 
-  it('suppresses warns', function () {
+  it('suppresses warns', function() {
     new Foo().suppressed();
     warnSpy.called.should.equal(false);
   });
 
-  it('restores the original console.warn', function () {
+  it('restores the original console.warn', function() {
     new Foo().suppressed();
     new Foo().unsuppressed();
     warnSpy.called.should.equal(true);

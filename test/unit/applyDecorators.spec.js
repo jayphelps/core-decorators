@@ -1,12 +1,12 @@
 import {applyDecorators, autobind, readonly, enumerable} from 'core-decorators';
 
-describe('applyDecorators() helper', function () {
+describe('applyDecorators() helper', function() {
   class Foo {
-    first () {
+    first() {
       return this;
     }
 
-    second () {
+    second() {
       return this;
     }
   }
@@ -16,14 +16,14 @@ describe('applyDecorators() helper', function () {
     second: [readonly, enumerable]
   });
 
-  it('applies the decorators to the provided prop\'s descriptors', function () {
+  it('applies the decorators to the provided prop\'s descriptors', function() {
     const foo = new Foo();
 
     const { first } = foo;
     first().should.equal(foo);
     foo.second().should.equal(foo);
 
-    (function () {
+    (function() {
       // @ts-ignore 
       foo.second = 'I will error';
     }).should.throw('Cannot assign to read only property \'second\' of object \'#<Foo>\'');

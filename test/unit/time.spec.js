@@ -4,24 +4,24 @@ import { time, defaultConsole } from 'core-decorators';
 const CONSOLE_TIME = defaultConsole.time;
 const CONSOLE_TIMEEND = defaultConsole.timeEnd;
 
-describe('@time', function () {
+describe('@time', function() {
   class Foo {
     @time
-    timed () {
+    timed() {
       return 'timed';
     }
 
     @time('foo')
-    timedPrefix () {
+    timedPrefix() {
 
     }
 
-    untimed () {
+    untimed() {
 
     }
 
     @time
-    iThrowAnError () {
+    iThrowAnError() {
       throw 'foobar';
     }
   }
@@ -29,23 +29,23 @@ describe('@time', function () {
   let timeSpy;
   let timeEndSpy;
 
-  beforeEach(function () {
+  beforeEach(function() {
     timeSpy = defaultConsole.time = spy();
     timeEndSpy = defaultConsole.timeEnd = spy();
   });
 
-  afterEach(function () {
+  afterEach(function() {
     defaultConsole.time = CONSOLE_TIME;
     defaultConsole.timeEnd = CONSOLE_TIMEEND;
   });
 
-  it('calls console.time and console.timeEnd', function () {
+  it('calls console.time and console.timeEnd', function() {
     new Foo().timed();
     timeSpy.called.should.equal(true);
     timeEndSpy.called.should.equal(true);
   });
 
-  it('calls console.timeEnd even if the called method throws', function () {
+  it('calls console.timeEnd even if the called method throws', function() {
     try {
       new Foo().iThrowAnError();
     } catch (e) {
@@ -56,7 +56,7 @@ describe('@time', function () {
     timeEndSpy.called.should.equal(true);
   });
 
-  it('uses class and method names for a default prefix', function () {
+  it('uses class and method names for a default prefix', function() {
     let labelPattern = new RegExp('Foo\\.timed-\\d+');
     let label;
     new Foo().timed();
@@ -64,7 +64,7 @@ describe('@time', function () {
     label.should.match(labelPattern);
   });
 
-  it('creates a unique label with a counter', function () {
+  it('creates a unique label with a counter', function() {
     let dashNum = new RegExp('.*-(\\d+)$');
     let firstNum;
     let secondNum;
@@ -75,28 +75,28 @@ describe('@time', function () {
     secondNum.should.equal(firstNum + 1);
   });
 
-  it('uses a supplied prefix for the label', function () {
+  it('uses a supplied prefix for the label', function() {
     new Foo().timedPrefix();
     timeSpy.getCall(0).args[0].should.match(/^foo-/);
     timeEndSpy.getCall(0).args[0].should.match(/^foo-/);
   });
 
-  it('supports a custom timeation object', function () {
+  it('supports a custom timeation object', function() {
     let timeCalled = false;
     let timeEndCalled = false;
 
     let myConsole = {
-      time (label) {
+      time(label) {
         timeCalled = true;
       },
-      timeEnd (label) {
+      timeEnd(label) {
         timeEndCalled = true;
       }
     };
 
     class Boo {
       @time('custom', myConsole)
-      hoo () {
+      hoo() {
 
       }
     }
@@ -105,7 +105,7 @@ describe('@time', function () {
     timeEndCalled.should.equal(true);
   });
 
-  it('returns the value', function () {
+  it('returns the value', function() {
     let foo = new Foo();
     let result = foo.timed();
     result.should.equal('timed');

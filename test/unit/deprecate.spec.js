@@ -4,35 +4,35 @@ import * as utils from 'core-decorators/lib/private/utils';
 
 class Foo {
   @deprecate
-  first () {
+  first() {
     return 'hello world';
   }
 
-  second () {
+  second() {
     return this.first();
   }
 
   @deprecate('asdf')
-  third () {
+  third() {
     return 'hello galaxy';
   }
 
   @deprecate('fdsa', { url: 'http://example.com/' })
-  forth () {
+  forth() {
     return 'hello universe';
   }
 }
 
-describe('@deprecate', function () {
-  beforeEach(function () {
+describe('@deprecate', function() {
+  beforeEach(function() {
     sinon.spy(utils, 'warn');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     utils.warn.restore();
   });
 
-  it('console.warn() is called with default warning when the deprecated function is used', function () {
+  it('console.warn() is called with default warning when the deprecated function is used', function() {
     const foo = new Foo();
 
     foo.first().should.equal('hello world');
@@ -44,7 +44,7 @@ describe('@deprecate', function () {
     utils.warn.should.have.been.calledWith('DEPRECATION Foo#first: This function will be removed in future versions.');
   });
 
-  it('console.warn() is called with the custom message, when provided', function () {
+  it('console.warn() is called with the custom message, when provided', function() {
     return;
     // @ts-ignore
     const foo = new Foo();
@@ -54,7 +54,7 @@ describe('@deprecate', function () {
     utils.warn.should.have.been.calledWith('asdf');
   });
 
-  it('console.warn() is called with the URL, when provided', function () {
+  it('console.warn() is called with the URL, when provided', function() {
     const foo = new Foo();
 
     foo.forth().should.equal('hello universe');

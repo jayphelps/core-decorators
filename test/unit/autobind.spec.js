@@ -1,79 +1,81 @@
 import { expect } from 'chai';
 import { autobind } from 'core-decorators';
 
+/* eslint-disable */
 // @ts-ignore
 const root = (typeof window !== 'undefined') ? window : global;
+/* eslint-enable */
 
-describe('@autobind', function () {
+describe('@autobind', function() {
   class Foo {
       @autobind
-    getFoo () {
+    getFoo() {
       return this;
     }
 
-    getFooAgain () {
+    getFooAgain() {
       return this;
     }
 
       @autobind
-    onlyOnFoo () {
+    onlyOnFoo() {
       return this;
     }
   }
 
   class Bar extends Foo {
     @autobind()
-    getFoo () {
+    getFoo() {
       const foo = super.getFoo();
       barCount++;
       return foo;
     }
 
-    getSuperMethod_getFoo () {
+    getSuperMethod_getFoo() {
       return super.getFoo;
     }
 
-    getSuperMethod_onlyOnFoo () {
+    getSuperMethod_onlyOnFoo() {
       return super.onlyOnFoo;
     }
 
     @autobind
-    onlyOnBar () {
+    onlyOnBar() {
       return this;
     }
   }
 
   class Car extends Foo {
     @autobind()
-    getCarFromFoo () {
+    getCarFromFoo() {
       return super.onlyOnFoo();
     }
   }
   let barCount;
 
-  beforeEach(function () {
+  beforeEach(function() {
     barCount = 0;
   });
 
-  afterEach(function () {
+  afterEach(function() {
     barCount = null;
   });
 
-  it('returns a bound instance for a method', function () {
+  it('returns a bound instance for a method', function() {
     const foo = new Foo();
     const { getFoo } = foo;
 
     getFoo().should.equal(foo);
   });
 
-  it('sets the correct prototype descriptor options', function () {
+  it('sets the correct prototype descriptor options', function() {
     const desc = Object.getOwnPropertyDescriptor(Foo.prototype, 'getFoo');
 
     desc.configurable.should.equal(true);
     desc.enumerable.should.equal(false, 'enumerable property mismatch');
   });
 
-  it('sets the correct instance descriptor options when bound', function () {
+  it('sets the correct instance descriptor options when bound', function() {
     const foo = new Foo();
     const { getFoo } = foo;
     const desc = Object.getOwnPropertyDescriptor(foo, 'getFoo');
@@ -84,8 +86,8 @@ describe('@autobind', function () {
     desc.value.should.equal(getFoo);
   });
 
-  it('sets the correct instance descriptor options when reassigned outside', function () {
-    const noop = function () {};
+  it('sets the correct instance descriptor options when reassigned outside', function() {
+    const noop = function() {};
     const foo = new Foo();
     // @ts-ignore
     const ret = foo.getFoo = noop;
@@ -98,7 +100,7 @@ describe('@autobind', function () {
     desc.value.should.equal(noop);
   });
 
-  it('works with multiple instances of the same class', function () {
+  it('works with multiple instances of the same class', function() {
     const foo1 = new Foo();
     const foo2 = new Foo();
 
@@ -109,7 +111,7 @@ describe('@autobind', function () {
     getFoo2().should.equal(foo2);
   });
 
-  it('returns the same bound function every time', function () {
+  it('returns the same bound function every time', function() {
     const foo = new Foo();
     const bar = new Bar();
 
@@ -119,7 +121,7 @@ describe('@autobind', function () {
     bar.getFooAgain().should.equal(bar.getFooAgain());
   });
 
-  it('works with inheritance, super.method() being autobound as well', function () {
+  it('works with inheritance, super.method() being autobound as well', function() {
     const bar = new Bar();
     const car = new Car();
 
@@ -145,7 +147,7 @@ describe('@autobind', function () {
     barCount.should.equal(4);
   });
 
-  it('throws when it needs WeakMap but it is not available', function () {
+  it('throws when it needs WeakMap but it is not available', function() {
     // @ts-ignore
     const WeakMap = root.WeakMap;
     // @ts-ignore
@@ -153,7 +155,7 @@ describe('@autobind', function () {
 
     const bar = new Bar();
 
-    (function () {
+    (function() {
       bar.getFoo();
     }).should.throw(`Using @autobind on getFoo() requires WeakMap support due to its use of super.getFoo()
       See https://github.com/jayphelps/core-decorators.js/issues/20`);
@@ -164,7 +166,7 @@ describe('@autobind', function () {
     root.WeakMap = WeakMap;
   });
 
-  it('does not override descriptor when accessed on the prototype', function () {
+  it('does not override descriptor when accessed on the prototype', function() {
     Bar.prototype.getFoo;
     Bar.prototype.onlyOnBar;
 
@@ -188,41 +190,41 @@ describe('@autobind', function () {
     onlyOnFoo().should.equal(foo);
   });
 
-  it('can be used to autobind the entire class at once', function () {
+  it('can be used to autobind the entire class at once', function() {
     // do not @autobind, which means start() should return `undefined` if
     // it is detached from the instance
     class Vehicle {
-      start () {
+      start() {
         return this;
       }
     }
 
     @autobind
     class Car extends Vehicle {
-      constructor () {
+      constructor() {
         super();
         this.name = 'amazing';
       }
 
-      get color () {
+      get color() {
         return 'red';
       }
 
-      drive () {
+      drive() {
         return this;
       }
 
-      stop () {
+      stop() {
         return this;
       }
 
-      render () {
+      render() {
         return this;
       }
     }
 
     const originalRender = Car.prototype.render;
-    Car.prototype.render = function () {
+    Car.prototype.render = function() {
       return originalRender.apply(this, arguments);
     };
 
@@ -242,10 +244,10 @@ describe('@autobind', function () {
     expect(start()).to.be.undefined;
   });
 
-  it('correctly binds with multiple class prototype levels', function () {
+  it('correctly binds with multiple class prototype levels', function() {
     @autobind
     class A {
-      method () {
+      method() {
         // @ts-ignore
         return this.test || 'WRONG ONE';
       }
@@ -258,7 +260,7 @@ describe('@autobind', function () {
     class C extends B {
       test = 'hello';
 
-      method () {
+      method() {
         return super.method();
       }
     }
@@ -274,12 +276,12 @@ describe('@autobind', function () {
     method3.call({ test: 'second' }).should.equal('second');
   });
 
-  it('correctly binds class with symbol properties', function () {
+  it('correctly binds class with symbol properties', function() {
     const parkHash = Symbol('park');
 
     @autobind
     class Car {
-      [parkHash] () {
+      [parkHash]() {
         return this;
       }
     }

@@ -11,25 +11,25 @@ const aliases = {
   deprecate: 'deprecated'
 };
 
-describe('Main package exports', function () {
+describe('Main package exports', function() {
   const libPath = path.normalize(`${__dirname}/../lib`);
   let filePaths;
 
-  beforeEach(function () {
+  beforeEach(function() {
     filePaths = glob.sync(`${libPath}/*.js`, {
       ignore: ['**/core-decorators.js', '**/*.spec.js']
     });
   });
 
-  afterEach(function () {
+  afterEach(function() {
     filePaths = null;
   });
 
-  it('exports all defined decorator files inside core-decorators.js', function () {
+  it('exports all defined decorator files inside core-decorators.js', function() {
     const aliasKeys = Object.keys(aliases);
     const unseen = Object.keys(decorators);
 
-    function markAsSeen (name) {
+    function markAsSeen(name) {
       unseen.splice(unseen.indexOf(name), 1);
     }
 
