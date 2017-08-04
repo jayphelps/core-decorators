@@ -30,7 +30,6 @@ export function decorate(handleDescriptor, entryArgs: Array<any>) {
 }
 
 class Meta {
-  // @lazyInitialize
   profileLastRan = null;
 }
 
