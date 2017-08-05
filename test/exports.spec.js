@@ -1,9 +1,10 @@
-const chai = require('chai');
-const path = require('path');
-const glob = require('glob');
-const camelCase = require('camelCase');
-const interopRequire = require('interop-require');
-const decorators = require('core-decorators');
+import * as chai from 'chai';
+import * as glob from 'glob';
+// @ts-ignore
+import * as path from 'path';
+import camelCase  from 'camelCase';
+import interopRequire  from 'interop-require';
+import * as decorators  from 'core-decorators';
 
 const should = chai.should();
 
@@ -12,7 +13,8 @@ const aliases = {
 };
 
 describe('Main package exports', function() {
-  const libPath = path.normalize(`${__dirname}/../lib`);
+  // @ts-ignore
+  const libPath = path.normalize(path.join(__dirname, '../lib'));
   let filePaths;
 
   beforeEach(function() {

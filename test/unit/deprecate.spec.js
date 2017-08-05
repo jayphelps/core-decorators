@@ -1,4 +1,4 @@
-import sinon from 'sinon';
+import * as sinon from 'sinon';
 import {deprecate} from 'core-decorators';
 import * as utils from 'core-decorators/lib/private/utils';
 
@@ -45,13 +45,12 @@ describe('@deprecate', function() {
   });
 
   it('console.warn() is called with the custom message, when provided', function() {
-    return;
-    // @ts-ignore
     const foo = new Foo();
 
     foo.third().should.equal('hello galaxy');
     utils.warn.should.have.been.calledOnce;
-    utils.warn.should.have.been.calledWith('asdf');
+    // Commented out due to escape sequences in message...
+    //utils.warn.should.have.been.calledWith('asdf');
   });
 
   it('console.warn() is called with the URL, when provided', function() {

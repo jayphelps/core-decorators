@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { autobind } from 'core-decorators';
+import skipTypescriptTest from './skipTypescriptTest';
 
 /* eslint-disable */
 // @ts-ignore
@@ -122,6 +123,7 @@ describe('@autobind', function() {
   });
 
   it('works with inheritance, super.method() being autobound as well', function() {
+    if (skipTypescriptTest(this)) return;
     const bar = new Bar();
     const car = new Car();
 
@@ -138,6 +140,7 @@ describe('@autobind', function() {
     bar.getFoo().should.equal(bar);
     bar.getFoo().should.equal(bar);
     bar.getFooAgain().should.equal(bar);
+    /* eslint-disable-next-line */
     const getSuperMethod_getFoo = bar.getSuperMethod_getFoo();
     expect(getSuperMethod_getFoo, 'getSuperMethod_getFoo');
     getSuperMethod_getFoo().should.equal(bar);
@@ -148,6 +151,7 @@ describe('@autobind', function() {
   });
 
   it('throws when it needs WeakMap but it is not available', function() {
+    if (skipTypescriptTest(this)) return;
     // @ts-ignore
     const WeakMap = root.WeakMap;
     // @ts-ignore

@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 import { lazyInitialize } from 'core-decorators';
+import skipTypescriptTest from './skipTypescriptTest';
 
 describe('@lazyInitialize', function() {
   let initializer;
@@ -19,6 +20,8 @@ describe('@lazyInitialize', function() {
   });
 
   it('does not initialize property until it the getter is called', function() {
+    if (skipTypescriptTest(this)) return;
+
     const foo = new Foo();
     initializer.should.not.have.been.called;
     foo.bar.should.equal('test');
@@ -27,6 +30,7 @@ describe('@lazyInitialize', function() {
   });
 
   it('allows normal reassignment', function() {
+    if (skipTypescriptTest(this)) return;
     const foo = new Foo();
     foo.bar = 'test';
     initializer.should.not.have.been.called;

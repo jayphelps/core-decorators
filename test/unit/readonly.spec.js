@@ -1,4 +1,5 @@
 import { readonly } from 'core-decorators';
+import skipTypescriptTest from './skipTypescriptTest';
 
 describe('@readonly', function() {
   class Foo {
@@ -15,6 +16,7 @@ describe('@readonly', function() {
   });
 
   it('makes setting property error', function() {
+    if (skipTypescriptTest(this)) return;
     const foo = new Foo();
 
     (function() {

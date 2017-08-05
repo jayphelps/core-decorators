@@ -14,7 +14,7 @@ function handleDescriptor(
   
   return {
     configurable,
-    enumerable,
+    enumerable: typeof originalValue == 'function' ? false : enumerable,
     get() {
       const fn = isGetter ? originalGet.call(this) : originalValue;
       const value = decorator.call(this, fn, ...args);

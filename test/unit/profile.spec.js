@@ -1,3 +1,5 @@
+/*  eslint-disable no-unused-vars */
+
 import { spy, useFakeTimers } from 'sinon';
 import { applyDecorators, profile, defaultConsole } from 'core-decorators';
 
@@ -45,7 +47,7 @@ describe('@profile', function() {
 
     @profile
     iThrowAnError() {
-      throw 'foobar';
+      throw new Error('foobar');
     }
   }
 
@@ -91,7 +93,7 @@ describe('@profile', function() {
     try {
       new Foo().iThrowAnError();
     } catch (e) {
-      e.should.equal('foobar');
+      e.message.should.equal('foobar');
     }
 
     profileSpy.called.should.equal(true);

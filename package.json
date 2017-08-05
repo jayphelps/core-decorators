@@ -18,7 +18,7 @@
     "prepublish": "gulp clean && npm run build",
     "build-bower": "babel-node scripts/build-bower.js",
     "build": "gulp",
-    "test": "gulp test"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -77,7 +77,6 @@
     "gulp-babel": "^6.1.2",
     "gulp-debug": "^3.1.0",
     "gulp-eslint": "^4.0.0",
-    "gulp-mocha": "^4.3.1",
     "gulp-replace": "^0.6.1",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-tsb": "git+https://github.com/BurtHarris/gulp-tsb.git",

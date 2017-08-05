@@ -2,7 +2,6 @@ const del = require('del');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
 const eslint = require('gulp-eslint');
-const mocha = require('gulp-mocha');
 const sourcemaps = require('gulp-sourcemaps');
 const replace = require('gulp-replace');
 const tsb = require('gulp-tsb');
@@ -87,6 +86,10 @@ gulp.task('clean', function() {
   return del(['lib', 'esm', 'test/typescript', 'test/babel', 'test/node_modules']);
 });
 
+gulp.task('reset', function(cb) {
+  runSequence('clean', 'symlink', cb);
+});
+
 gulp.task('clean.tests', function() {
   return del(['test/typescript', 'test/babel']);
 });
@@ -131,15 +134,10 @@ gulp.task('eslint', function() {
     .pipe(eslint.format());
 });
 
-gulp.task('test', ['symlink'], function() {
-  gulp.src(['test/babel/*.spec.js', 'test/typescript/*.spec.js'], {read: false})
-    .pipe(mocha());
-});
-
 gulp.task('watch', ['default'], function() {
   gulp.watch(watchFiles, ['eslint', 'build']);
 });
 
 gulp.task('default', function(cb) {
-  runSequence('clean', ['eslint', 'build'], cb);
+  runSequence('reset', ['eslint', 'build'], cb);
 });

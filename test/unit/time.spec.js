@@ -1,3 +1,5 @@
+/*  eslint-disable no-unused-vars */
+
 import { spy } from 'sinon';
 import { time, defaultConsole } from 'core-decorators';
 
@@ -22,7 +24,7 @@ describe('@time', function() {
 
     @time
     iThrowAnError() {
-      throw 'foobar';
+      throw new Error('foobar');
     }
   }
 
@@ -49,7 +51,7 @@ describe('@time', function() {
     try {
       new Foo().iThrowAnError();
     } catch (e) {
-      e.should.equal('foobar');
+      e.message.should.equal('foobar');
     }
 
     timeSpy.called.should.equal(true);

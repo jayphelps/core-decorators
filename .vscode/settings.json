@@ -1,27 +1,27 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+  // Mocha: Options to run Mocha
+  "mocha.options": {
+    "opts": "test/mocha.opts"
+  },
+  // Mocha: Glob to search for test files
+  "mocha.files.glob": "test/babel/*.spec.js",
+  // Mocha: Globs to ignore when searching for test files
+  "mocha.files.ignore": [
+    "**/.git/**/*",
+    "**/node_modules/**/*",
+  "**/unit/*.spec.js"
+  ],
+  // Mocha: Environment variables to run your tests
+  "mocha.env": {},
+  // Mocha: Options to pass to node executable
+  "mocha.node_options": [],
+  // Mocha: Subdirectory in the Workspace where run mocha from
+  "mocha.subfolder": "",
+  // Mocha: List of files to require before running mocha
+  "mocha.requires": [
+    "babel-register",
+    "source-map-support/register"
+  ]
 
-// Mocha: Options to run Mocha
-"mocha.options": {},
-
-// Mocha: Glob to search for test files
-"mocha.files.glob": "test/babel/*.spec.js",
-
-// Mocha: Globs to ignore when searching for test files
-"mocha.files.ignore": [
-  "**/.git/**/*",
-  "**/node_modules/**/*"
-],
-
-// Mocha: Environment variables to run your tests
-"mocha.env": {},
-
-// Mocha: Options to pass to node executable
-"mocha.node_options": [],
-
-// Mocha: Subdirectory in the Workspace where run mocha from
-"mocha.subfolder": "",
-
-// Mocha: List of files to require before running mocha
-"mocha.requires": []
 }

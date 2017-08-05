@@ -54,7 +54,7 @@ function autobindMethod(target: Object, key: PropertyKey, descriptor: TypedPrope
 
   return {
     configurable: descriptor.configurable,
-    enumerable: descriptor.enumerable,
+    enumerable: false,
 
     get() {
       // Class.prototype.key lookup

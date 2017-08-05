@@ -1,3 +1,5 @@
+/*  eslint-disable no-unused-vars */
+
 import { override } from 'core-decorators';
 
 class Parent {

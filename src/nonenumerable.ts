@@ -5,9 +5,13 @@ function handleDescriptor(target, key, descriptor) {
   return descriptor;
 }
 
-function nonenumerable(target: object, key: string | symbol, desc?: TypedPropertyDescriptor<any>): any;
-function nonenumerable(...args) {
-  return decorate(handleDescriptor, args);
+function nonenumerable(
+  target: object, 
+  key: string | symbol, 
+  desc?: TypedPropertyDescriptor<any>) 
+: void
+{
+  return decorate(handleDescriptor, [target, key, desc]);
 }
 
 export default nonenumerable;
