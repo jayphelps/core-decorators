@@ -499,3 +499,5 @@ When using multiple decorators on a class, method, or property the order of the 
 @autobind
 class Foo extends Component {}
 ```
+# Development notes
+- If you are having trouble getting `npm install` run successfully, there are a series of open issues tracking the problem.   It seems to be an interaction between npm, vsCode, and the TypeScript language service.   As a workaround, consider using [Yarn](https://yarnpkg.com/en/) instead of npm, it seems to side the issue, and seems substantially faster as a bonus.
