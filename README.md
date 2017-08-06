@@ -14,7 +14,16 @@ npm install core-decorators --save
 
 This can be consumed by any transpiler that supports stage-0 of the decorators spec, like [babel.js](https://babeljs.io/) version 5. *Babel 6 [does not yet support decorators natively](https://phabricator.babeljs.io/T2645), but you can include [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy) or use the [`applyDecorators()` helper](#applydecorators-helper).*
 
-core-decorators does not officially support TypeScript. There are known incompatibilities with the way it transpiles the output. PRs certainly welcome to fix that!
+# Typescript Compatability
+This release includes enhanced support for and testing of the decorators from TypeScript. Of course for this to work the `tsc` command options must include `--experimentalDecorators` to enable support in Typescript files.  
+
+Caution: At this time, due to limitations of the experimental TypeScript property decorator support, __the following decorators do not work__ as intended when invoked from TypeScript:
+
+ - `@lazyIntialize`
+ - `@readonly`
+ - `@nonenmerable` (and probably `@enumerable`)
+
+In addition, testing of the `@autobind` method decorator is only partially complete in Typescript.       
 
 ##### Bower/globals
 
