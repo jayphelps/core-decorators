@@ -2,7 +2,7 @@ import * as chai from 'chai';
 import * as glob from 'glob';
 // @ts-ignore
 import * as path from 'path';
-import camelCase  from 'camelCase';
+import camelCase  from 'camelcase';
 import interopRequire  from 'interop-require';
 import * as decorators  from 'core-decorators';
 
