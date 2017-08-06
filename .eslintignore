@@ -1,0 +1,4 @@
+lib/**/*.js
+esm/**/*.js
+test/babel/**/*.js
+test/typescript/**/*.js

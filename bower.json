@@ -1,6 +1,6 @@
 {
   "name": "core-decorators.js",
-  "description": "Library of ES2016 (ES7) JavaScript decorators inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more! Works great with React/Angular/more!",
+  "description": "Library of ES2016 (ES7) JavaScript decorators inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind and more! Works great with React/Angular/more!",
   "version": "0.11.2",
   "homepage": "https://github.com/jayphelps/core-decorators.js",
   "authors": [
@@ -27,14 +27,12 @@
     "autobind",
     "react",
     "angular",
-    "lodash",
-    "mixin",
-    "mixins"
+    "lodash"
   ],
   "ignore": [
     "**/.*",
     "node_modules",
     "test",
-    "scripts",
+    "scripts"
   ]
 }

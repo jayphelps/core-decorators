@@ -1,5 +1,5 @@
 # core-decorators.js [![Build Status](https://travis-ci.org/jayphelps/core-decorators.js.svg?branch=master)](https://travis-ci.org/jayphelps/core-decorators.js)
-Library of [JavaScript stage-0 decorators](https://github.com/wycats/javascript-decorators) (aka ES2016/ES7 decorators [but that's not accurate](https://medium.com/@jayphelps/please-stop-referring-to-proposed-javascript-features-as-es7-cad29f9dcc4b)) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more. Popular with React/Angular, but is framework agnostic. Similar to [Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html) but unlike Java annotations, decorators are functions which are applied at runtime.
+Library of [JavaScript stage-0 decorators](https://github.com/wycats/javascript-decorators) (aka ES2016/ES7 decorators [but that's not accurate](https://medium.com/@jayphelps/please-stop-referring-to-proposed-javascript-features-as-es7-cad29f9dcc4b)) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind and more. Popular with React/Angular, but is framework agnostic. Similar to [Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html) but unlike Java annotations, decorators are functions which are applied at runtime.
 
 These are stage-0 decorators because while [the decorators spec has changed](http://tc39.github.io/proposal-decorators/) and is now stage-2, no transpiler has yet to implement these changes and until they do, this library won't either. Although the [TypeScript documentation](http://www.typescriptlang.org/docs/handbook/decorators.html) uses the phrase "Decorators are a stage 2 proposal for JavaScript" this is misleading because TypeScript still only implements the **stage-0** version of the spec, which is very incompatible with stage-2 (as of this writing). If you concretely find that a compiler (babel, TS, etc) implement stage-2+, please do link me to the appropriate release notes! :balloon:
 
@@ -14,7 +14,16 @@ npm install core-decorators --save
 
 This can be consumed by any transpiler that supports stage-0 of the decorators spec, like [babel.js](https://babeljs.io/) version 5. *Babel 6 [does not yet support decorators natively](https://phabricator.babeljs.io/T2645), but you can include [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy) or use the [`applyDecorators()` helper](#applydecorators-helper).*
 
-core-decorators does not officially support TypeScript. There are known incompatibilities with the way it transpiles the output. PRs certainly welcome to fix that!
+# Typescript Compatability
+This release includes enhanced support for and testing of the decorators from TypeScript. Of course for this to work the `tsc` command options must include `--experimentalDecorators` to enable support in Typescript files.  
+
+Caution: At this time, due to limitations of the experimental TypeScript property decorator support, __the following decorators do not work__ as intended when invoked from TypeScript:
+
+ - `@lazyIntialize`
+ - `@readonly`
+ - `@nonenmerable` (and probably `@enumerable`)
+
+In addition, testing of the `@autobind` method decorator is only partially complete in Typescript.       
 
 ##### Bower/globals
 
@@ -44,14 +53,11 @@ core-decorators aims to provide decorators that are fundamental to JavaScript it
 * [@suppressWarnings](#suppresswarnings)
 * [@enumerable](#enumerable)
 * [@override](#override)
-* [@debounce](#debounce) :no_entry_sign: DEPRECATED
-* [@throttle](#throttle) :no_entry_sign: DEPRECATED
 * [@time](#time)
 * [@profile](#profile)
 
 ##### For Classes
 * [@autobind](#autobind)
-* [@mixin](#mixin-alias-mixins) :no_entry_sign: DEPRECATED
 
 ## Helpers
 
@@ -189,52 +195,6 @@ person.facepalmHarder();
 //     See http://knowyourmeme.com/memes/facepalm for more details.
 //
 ```
-
-### @debounce :no_entry_sign: DEPRECATED
-
-Creates a new debounced function which will be invoked after `wait` milliseconds since the time it was invoked. Default timeout is 300 ms.
-
-Optional boolean second argument allows to trigger function on the leading instead of the trailing edge of the wait interval. Implementation is inspired by similar method from [UnderscoreJS](http://underscorejs.org/#debounce).
-
-```js
-import { debounce } from 'core-decorators';
-
-class Editor {
-
-  content = '';
-
-  @debounce(500)
-  updateContent(content) {
-    this.content = content;
-  }
-}
-```
-
-### @throttle :no_entry_sign: DEPRECATED
-
-Creates a new throttled function which will be invoked in every `wait` milliseconds. Default timeout is 300 ms.
-
-Second argument is optional options:
-
-- `leading`: default to `true`, allows to trigger function on the leading.
-- `trailing`: default to `true`, allows to trigger function on the trailing edge of the wait interval.
-
-Implementation is inspired by similar method from [UnderscoreJS](http://underscorejs.org/#throttle).
-
-```js
-import { throttle } from 'core-decorators';
-
-class Editor {
-
-  content = '';
-
-  @throttle(500, {leading: false})
-  updateContent(content) {
-    this.content = content;
-  }
-}
-```
-
 ### @suppressWarnings
 
 Suppresses any JavaScript `console.warn()` call while the decorated function is called. (i.e. on the stack)
@@ -382,39 +342,6 @@ editor.hugeBuffer;
 editor.hugeBuffer;
 // already initialized and equals our buffer, so
 // createHugeBuffer() is not called again
-```
-
-### @mixin (alias: @mixins) :no_entry_sign: DEPRECATED
-
-Mixes in all property descriptors from the provided Plain Old JavaScript Objects (aka POJOs) as arguments. Mixins are applied in the order they are passed, but do **not** override descriptors already on the class, including those inherited traditionally.
-
-```js
-import { mixin } from 'core-decorators';
-
-const SingerMixin = {
-  sing(sound) {
-    alert(sound);
-  }
-};
-
-const FlyMixin = {
-  // All types of property descriptors are supported
-  get speed() {},
-  fly() {},
-  land() {}
-};
-
-@mixin(SingerMixin, FlyMixin)
-class Bird {
-  singMatingCall() {
-    this.sing('tweet tweet');
-  }
-}
-
-var bird = new Bird();
-bird.singMatingCall();
-// alerts "tweet tweet"
-
 ```
 
 ### @time
@@ -581,3 +508,5 @@ When using multiple decorators on a class, method, or property the order of the 
 @autobind
 class Foo extends Component {}
 ```
+# Development notes
+- If you are having trouble getting `npm install` run successfully, there are a series of open issues tracking the problem.   It seems to be an interaction between npm, vsCode, and the TypeScript language service.   As a workaround, consider using [Yarn](https://yarnpkg.com/en/) instead of npm, it seems to side the issue, and seems substantially faster as a bonus.

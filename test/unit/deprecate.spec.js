@@ -1,6 +1,6 @@
-import sinon from 'sinon';
-import deprecate from '../../lib/deprecate';
-import * as utils from '../../lib/private/utils';
+import * as sinon from 'sinon';
+import {deprecate} from 'core-decorators';
+import * as utils from 'core-decorators/lib/private/utils';
 
 class Foo {
   @deprecate
@@ -23,18 +23,18 @@ class Foo {
   }
 }
 
-describe('@deprecate', function () {
-  beforeEach(function () {
+describe('@deprecate', function() {
+  beforeEach(function() {
     sinon.spy(utils, 'warn');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     utils.warn.restore();
   });
 
-  it('console.warn() is called with default warning when the deprecated function is used', function () {
+  it('console.warn() is called with default warning when the deprecated function is used', function() {
     const foo = new Foo();
-    
+
     foo.first().should.equal('hello world');
     utils.warn.should.have.been.calledOnce;
     utils.warn.should.have.been.calledWith('DEPRECATION Foo#first: This function will be removed in future versions.');
@@ -44,18 +44,18 @@ describe('@deprecate', function () {
     utils.warn.should.have.been.calledWith('DEPRECATION Foo#first: This function will be removed in future versions.');
   });
 
-  it('console.warn() is called with the custom message, when provided', function () {
-    return;
+  it('console.warn() is called with the custom message, when provided', function() {
     const foo = new Foo();
-    
+
     foo.third().should.equal('hello galaxy');
     utils.warn.should.have.been.calledOnce;
-    utils.warn.should.have.been.calledWith('asdf');
+    // Commented out due to escape sequences in message...
+    //utils.warn.should.have.been.calledWith('asdf');
   });
 
-  it('console.warn() is called with the URL, when provided', function () {
+  it('console.warn() is called with the URL, when provided', function() {
     const foo = new Foo();
-    
+
     foo.forth().should.equal('hello universe');
     utils.warn.should.have.been.calledOnce;
     utils.warn.should.have.been.calledWith('DEPRECATION Foo#forth: fdsa\n\n    See http://example.com/ for more details.\n\n');

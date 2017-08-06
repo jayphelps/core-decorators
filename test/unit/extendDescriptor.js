@@ -1,10 +1,9 @@
-import extendDescriptor from '../../lib/extendDescriptor';
-import enumerable from '../../lib/enumerable';
-import nonenumerable from '../../lib/nonenumerable';
+import {extendDescriptor, enumerable, nonenumerable} from 'core-decorators';
 
-describe('@extendDescriptor', function () {
+describe('@extendDescriptor', function() {
   class Base {
     get first() {
+      // @ts-ignore
       return this._first;
     }
 
@@ -66,7 +65,7 @@ describe('@extendDescriptor', function () {
     derived = null;
   });
 
-  it('extends getters/setters', function () {
+  it('extends getters/setters', function() {
     derived.first = 'first';
     derived.first.should.equal('first');
 
@@ -77,14 +76,14 @@ describe('@extendDescriptor', function () {
     derived.third.should.equal('third');
   });
 
-  it('extends property initializers', function () {
+  it('extends property initializers', function() {
     const descriptor = Object.getOwnPropertyDescriptor(Derived.prototype, 'fourth');
     descriptor.enumerable.should.equal(false);
 
     derived.fourth.should.equal('fourth');
   });
 
-  it('extends property methods', function () {
+  it('extends property methods', function() {
     const descriptor = Object.getOwnPropertyDescriptor(Derived.prototype, 'fifth');
     descriptor.enumerable.should.equal(true);
 

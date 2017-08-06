@@ -1,0 +1,5 @@
+--require babel-register
+--require test/test.spec.js
+test/exports.spec.js
+test/babel/*.spec.js
+test/typescript/*.spec.js

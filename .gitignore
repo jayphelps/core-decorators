@@ -1,5 +1,7 @@
+node_modules
 /lib/
 /es/
-/node_modules/
-/built/
+/esm/
+/test/babel/
+/test/typescript/
 *.log

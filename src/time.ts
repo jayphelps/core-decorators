@@ -1,19 +1,5 @@
 import { decorate } from './private/utils';
-
-const labels = {};
-
-// Exported for mocking in tests
-export const defaultConsole = {
-  time: console.time ? console.time.bind(console) : label => {
-    labels[label] = new Date();
-  },
-  timeEnd: console.timeEnd ? console.timeEnd.bind(console) : label => {
-    const timeNow = new Date();
-    const timeTaken = timeNow - labels[label];
-    delete labels[label];
-    console.log(`${label}: ${timeTaken}ms`);
-  }
-};
+import { defaultConsole } from './defaultConsole';
 
 let count = 0;
 

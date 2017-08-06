@@ -1,47 +1,46 @@
-import decorate from '../../lib/decorate';
+import { decorate } from 'core-decorators';
 import { memoize } from 'lodash';
 
-describe('@decorate', function () {
-  let Foo;
+describe('@decorate', function() {
   let callCount;
 
-  beforeEach(function () {
-    const append = function (fn, suffix) {
-      return function (msg) {
-        return fn.call(this, msg) + suffix;
-      };
+  function append(fn, suffix) {
+    return function(msg) {
+      return fn.call(this, msg) + suffix;
     };
+  }
 
-    callCount = 0;
-
-    Foo = class Foo {
-      @decorate(append, '!')
-      suchWow(something) {
-        return something + 'bro';
-      }
-
-      @decorate(append, '!')
-      @decorate(append, '!')
-      suchWowTwice(something) {
-        return something + 'bro';
-      }
-
-      @decorate(append, '!')
-      @decorate(append, '!')
-      @decorate(append, '!')
-      suchWowThrice(something) {
-        return something + 'bro';
-      }
-
-      @decorate(memoize)
-      getFoo() {
-        callCount++;
-        return this;
-      }
+  class Foo {
+    @decorate(append, '!')
+    suchWow(something) {
+      return something + 'bro';
     }
+
+    @decorate(append, '!')
+    @decorate(append, '!')
+    suchWowTwice(something) {
+      return something + 'bro';
+    }
+
+    @decorate(append, '!')
+    @decorate(append, '!')
+    @decorate(append, '!')
+    suchWowThrice(something) {
+      return something + 'bro';
+    }
+
+    @decorate(memoize)
+    getFoo() {
+      callCount++;
+      return this;
+    }
+  }
+
+  beforeEach(function() {
+    callCount = 0;
   });
 
-  it('correctly applies user provided function to method', function () {
+  it('correctly applies user provided function to method', function() {
     const foo = new Foo();
 
     foo.suchWow('dude').should.equal('dudebro!');
@@ -49,14 +48,14 @@ describe('@decorate', function () {
     foo.suchWowThrice('dude').should.equal('dudebro!!!');
   });
 
-  it('sets the correct prototype descriptor options', function () {
+  it('sets the correct prototype descriptor options', function() {
     const desc = Object.getOwnPropertyDescriptor(Foo.prototype, 'suchWow');
 
     desc.configurable.should.equal(true);
-    desc.enumerable.should.equal(false);
+    desc.enumerable.should.equal(false, 'enumerable');
   });
 
-  it('is tied to the instance, not the prototype', function () {
+  it('is tied to the instance, not the prototype', function() {
     const foo1 = new Foo();
     const foo2 = new Foo();
 

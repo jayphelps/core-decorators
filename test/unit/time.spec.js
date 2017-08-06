@@ -1,5 +1,7 @@
+/*  eslint-disable no-unused-vars */
+
 import { spy } from 'sinon';
-import time, { defaultConsole } from '../../lib/time';
+import { time, defaultConsole } from 'core-decorators';
 
 const CONSOLE_TIME = defaultConsole.time;
 const CONSOLE_TIMEEND = defaultConsole.timeEnd;
@@ -13,28 +15,28 @@ describe('@time', function() {
 
     @time('foo')
     timedPrefix() {
-      return;
+
     }
 
     untimed() {
-      return;
+
     }
 
     @time
     iThrowAnError() {
-      throw 'foobar';
+      throw new Error('foobar');
     }
-  };
+  }
 
   let timeSpy;
   let timeEndSpy;
 
-  beforeEach(function () {
+  beforeEach(function() {
     timeSpy = defaultConsole.time = spy();
     timeEndSpy = defaultConsole.timeEnd = spy();
   });
 
-  afterEach(function () {
+  afterEach(function() {
     defaultConsole.time = CONSOLE_TIME;
     defaultConsole.timeEnd = CONSOLE_TIMEEND;
   });
@@ -49,7 +51,7 @@ describe('@time', function() {
     try {
       new Foo().iThrowAnError();
     } catch (e) {
-      e.should.equal('foobar');
+      e.message.should.equal('foobar');
     }
 
     timeSpy.called.should.equal(true);
@@ -92,12 +94,12 @@ describe('@time', function() {
       timeEnd(label) {
         timeEndCalled = true;
       }
-    }
+    };
 
     class Boo {
       @time('custom', myConsole)
       hoo() {
-        return;
+
       }
     }
     new Boo().hoo();
@@ -110,5 +112,4 @@ describe('@time', function() {
     let result = foo.timed();
     result.should.equal('timed');
   });
-
 });

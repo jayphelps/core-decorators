@@ -1,12 +1,12 @@
-import enumerable from '../../lib/enumerable';
+import {enumerable} from 'core-decorators';
 
-describe('@enumerable', function () {
+describe('@enumerable', function() {
   class Foo {
     @enumerable
-    bar(){}
+    bar() {}
   }
 
-  it('is enumerable', function () {
+  it('is enumerable', function() {
     Object.getOwnPropertyDescriptor(Foo.prototype, 'bar')
       .enumerable.should.equal(true);
   });

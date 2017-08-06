@@ -1,16 +1,20 @@
 import { decorate as _decorate, createDefaultSetter } from './private/utils';
 const { defineProperty } = Object;
 
-function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
+function handleDescriptor(
+    target: object, 
+    key: string | symbol, 
+    descriptor: TypedPropertyDescriptor<any>,
+    [decorator, ...args]) : TypedPropertyDescriptor<any> {
   const { configurable, enumerable, writable } = descriptor;
   const originalGet = descriptor.get;
   const originalSet = descriptor.set;
   const originalValue = descriptor.value;
   const isGetter = !!originalGet;
-
+  
   return {
     configurable,
-    enumerable,
+    enumerable: typeof originalValue == 'function' ? false : enumerable,
     get() {
       const fn = isGetter ? originalGet.call(this) : originalValue;
       const value = decorator.call(this, fn, ...args);
@@ -18,7 +22,7 @@ function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
       if (isGetter) {
         return value;
       } else {
-        const desc = {
+        const desc: PropertyDescriptor  = {
           configurable,
           enumerable
         };
@@ -31,7 +35,7 @@ function handleDescriptor(target, key, descriptor, [decorator, ...args]) {
         return value;
       }
     },
-    set: isGetter ? originalSet : createDefaultSetter()
+    set: isGetter ? originalSet : createDefaultSetter(key)
   };
 }
 

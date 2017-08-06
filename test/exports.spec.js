@@ -1,32 +1,33 @@
-import * as chai from 'chai'
-import * as path from 'path';
+import * as chai from 'chai';
 import * as glob from 'glob';
-import toCamelCase from 'camelcase';
-import interopRequire from 'interop-require';
-import * as decorators from '../';
+// @ts-ignore
+import * as path from 'path';
+import camelCase  from 'camelcase';
+import interopRequire  from 'interop-require';
+import * as decorators  from 'core-decorators';
 
 const should = chai.should();
 
 const aliases = {
-  deprecate: 'deprecated',
-  mixin: 'mixins'
+  deprecate: 'deprecated'
 };
 
-describe('Main package exports', function () {
-  const libPath = path.normalize(`${__dirname}/../lib`);
+describe('Main package exports', function() {
+  // @ts-ignore
+  const libPath = path.normalize(path.join(__dirname, '../lib'));
   let filePaths;
 
-  beforeEach(function () {
+  beforeEach(function() {
     filePaths = glob.sync(`${libPath}/*.js`, {
       ignore: ['**/core-decorators.js', '**/*.spec.js']
     });
   });
 
-  afterEach(function () {
+  afterEach(function() {
     filePaths = null;
   });
 
-  it('exports all defined decorator files inside core-decorators.js', function () {
+  it('exports all defined decorator files inside core-decorators.js', function() {
     const aliasKeys = Object.keys(aliases);
     const unseen = Object.keys(decorators);
 
@@ -35,12 +36,13 @@ describe('Main package exports', function () {
     }
 
     filePaths.forEach(filePath => {
-      const name = toCamelCase(
+      const name = camelCase(
         path.basename(filePath, '.js')
       );
       const decorator = interopRequire(filePath);
+      should.exist(decorator, `interopRequire should return somethig for ${name}`);
       should.exist(decorators[name], `@${name} should be exported`);
-      decorators[name].should.equal(decorator, `export @${name} is the expected function`);
+      decorators[name].toString().should.equal(decorator.toString(), `export @${name} is the expected function`);
 
       markAsSeen(name);
       if (aliasKeys.indexOf(name) !== -1) {

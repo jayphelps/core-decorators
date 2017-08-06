@@ -1,6 +1,7 @@
+/*  eslint-disable no-unused-vars */
+
 import { spy, useFakeTimers } from 'sinon';
-import applyDecorators from '../../lib/applyDecorators';
-import profile, { defaultConsole } from '../../lib/profile';
+import { applyDecorators, profile, defaultConsole } from 'core-decorators';
 
 const CONSOLE_PROFILE = defaultConsole.profile;
 const CONSOLE_PROFILEEND = defaultConsole.profileEnd;
@@ -17,7 +18,7 @@ describe('@profile', function() {
 
     @profile('foo')
     profiledPrefix() {
-      return;
+
     }
 
     @profile(null, true)
@@ -25,43 +26,42 @@ describe('@profile', function() {
       return cb();
     }
 
-
     @profile(null, 1000)
     profileThrottled(cb) {
       return cb();
     }
 
-    @profile(null, function () { return this.isAwesome; })
+    @profile(null, function() { return this.isAwesome; })
     profileFunctioned(cb) {
       return cb();
     }
 
-    @profile(null, function (run) { return run; })
+    @profile(null, function(run) { return run; })
     profileFunctionedWithParameter(run, cb) {
       return cb();
     }
 
     unprofiled() {
-      return;
+
     }
 
     @profile
     iThrowAnError() {
-      throw 'foobar';
+      throw new Error('foobar');
     }
-  };
+  }
 
   let profileSpy;
   let profileEndSpy;
   let warnSpy;
 
-  beforeEach(function () {
+  beforeEach(function() {
     profileSpy = defaultConsole.profile = spy();
     profileEndSpy = defaultConsole.profileEnd = spy();
     warnSpy = defaultConsole.warn = spy();
   });
 
-  afterEach(function () {
+  afterEach(function() {
     defaultConsole.profile = CONSOLE_PROFILE;
     defaultConsole.profileEnd = CONSOLE_PROFILEEND;
     defaultConsole.warn = CONSOLE_WARN;
@@ -93,7 +93,7 @@ describe('@profile', function() {
     try {
       new Foo().iThrowAnError();
     } catch (e) {
-      e.should.equal('foobar');
+      e.message.should.equal('foobar');
     }
 
     profileSpy.called.should.equal(true);
@@ -125,12 +125,12 @@ describe('@profile', function() {
       profileEnd(label) {
         profileEndCalled = true;
       }
-    }
+    };
 
     class Boo {
       @profile('custom', false, myConsole)
       hoo() {
-        return;
+
       }
     }
     new Boo().hoo();
@@ -145,6 +145,8 @@ describe('@profile', function() {
   });
 
   describe('when throttled', function() {
+    // I'm not sure, should this section should go as the @throttled decorator is obsolete.
+
     let clock;
     let count = 1;
     beforeEach(function() {
@@ -184,7 +186,7 @@ describe('@profile', function() {
 
       foo.profileThrottled(noop);
       profileSpy.calledTwice.should.equal(true);
-    })
+    });
   });
 
   describe('when functioned', function() {
@@ -196,6 +198,7 @@ describe('@profile', function() {
       profileSpy.calledOnce.should.equal(false);
       cbSpy.calledOnce.should.equal(true);
 
+      // @ts-ignore 
       foo.isAwesome = true;
 
       foo.profileFunctioned(cbSpy);
@@ -220,7 +223,7 @@ describe('@profile', function() {
   describe('when disabled', function() {
     class Bar {
       disabledProfile() {
-        return;
+
       }
     }
 
@@ -252,5 +255,4 @@ describe('@profile', function() {
       Bar.prototype.disabledProfile.should.equal(oldBarDisabledProfile);
     });
   });
-
 });

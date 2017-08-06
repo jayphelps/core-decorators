@@ -1,0 +1,24 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "camelcase": "off",
+    "no-unreachable": "warn",
+    "no-unused-vars": "warn",
+    "no-throw-literal": "warn",
+    "no-unused-expressions": "off",
+    "no-console": "off",
+    "indent": ["error", 2],
+    "semi": ["error", "always"],
+    "space-before-function-paren": ["error", "never"]
+  }
+}

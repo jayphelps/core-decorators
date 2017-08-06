@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import lazyInitialize from '../../lib/lazy-initialize';
+import { lazyInitialize } from 'core-decorators';
+import skipTypescriptTest from './skipTypescriptTest';
 
-describe('@lazyInitialize', function () {
+describe('@lazyInitialize', function() {
   let initializer;
 
   class Foo {
@@ -10,15 +11,17 @@ describe('@lazyInitialize', function () {
     bar = initializer();
   }
 
-  beforeEach(function () {
+  beforeEach(function() {
     initializer = spy(() => 'test');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     initializer = null;
   });
 
-  it('does not initialize property until it the getter is called', function () {
+  it('does not initialize property until it the getter is called', function() {
+    if (skipTypescriptTest(this)) return;
+
     const foo = new Foo();
     initializer.should.not.have.been.called;
     foo.bar.should.equal('test');
@@ -26,14 +29,15 @@ describe('@lazyInitialize', function () {
     initializer.should.have.been.called.once;
   });
 
-  it('allows normal reassignment', function () {
+  it('allows normal reassignment', function() {
+    if (skipTypescriptTest(this)) return;
     const foo = new Foo();
     foo.bar = 'test';
     initializer.should.not.have.been.called;
     foo.bar.should.equal('test');
   });
 
-  it('does not initialize property when looked up on the prototype directly', function () {
+  it('does not initialize property when looked up on the prototype directly', function() {
     const value = Foo.prototype.bar;
     initializer.should.not.have.been.called;
     expect(value).to.be.undefined;

@@ -1,6 +1,7 @@
-import readonly from '../../lib/readonly';
+import { readonly } from 'core-decorators';
+import skipTypescriptTest from './skipTypescriptTest';
 
-describe('@readonly', function () {
+describe('@readonly', function() {
   class Foo {
     @readonly
     first() {}
@@ -9,19 +10,21 @@ describe('@readonly', function () {
     second = 'second';
   }
 
-  it('marks descriptor as writable === false', function () {
+  it('marks descriptor as writable === false', function() {
     Object.getOwnPropertyDescriptor(Foo.prototype, 'first')
       .writable.should.equal(false);
   });
 
-  it('makes setting property error', function () {
+  it('makes setting property error', function() {
+    if (skipTypescriptTest(this)) return;
     const foo = new Foo();
 
-    (function () {
+    (function() {
+      // @ts-ignore
       foo.first = 'I will error';
     }).should.throw('Cannot assign to read only property \'first\' of object \'#<Foo>\'');
-    
-    (function () {
+
+    (function() {
       foo.second = 'I will also error';
     }).should.throw('Cannot assign to read only property \'second\' of object \'#<Foo>\'');
   });

@@ -1,0 +1,25 @@
+{
+    "extends": "../tsconfig.json",
+    "include": [
+        "*.spec.js",
+        "unit/*.js"
+    ],
+    "compilerOptions": {
+        "outDir": "typescript",
+        "allowJs": true,
+        "checkJs": true,
+        "types": [
+            "mocha",
+            "chai"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "core-decorators": [
+                "."
+            ],
+            "core-decorators/*": [
+                "./*"
+            ]
+        }
+    }
+}

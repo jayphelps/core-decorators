@@ -1,15 +1,9 @@
-import { decorate, metaFor, warn, bind } from './private/utils';
+import { decorate, metaFor } from './private/utils';
+import { defaultConsole } from './defaultConsole';
 
-const oc = console;
 
-// Exported for mocking in tests
-export const defaultConsole = {
-  profile: console.profile ? bind(console.profile, console) : () => {},
-  profileEnd: console.profileEnd ? bind(console.profileEnd, console) : () => {},
-  warn
-};
-
-function handleDescriptor(target, key, descriptor, [prefix = null, onceThrottleOrFunction = false, console = defaultConsole]) {
+function handleDescriptor(target, key, descriptor, [prefix  = null, onceThrottleOrFunction = false, console = defaultConsole] ) {
+  
   if (!profile.__enabled) {
     if (!profile.__warned) {
       console.warn('console.profile is not supported. All @profile decorators are disabled.');
@@ -37,7 +31,7 @@ function handleDescriptor(target, key, descriptor, [prefix = null, onceThrottleO
         (onceThrottleOrFunction === true && !meta.profileLastRan) ||
         (onceThrottleOrFunction === false) ||
         (typeof onceThrottleOrFunction === 'number' && (now - meta.profileLastRan) > onceThrottleOrFunction) ||
-        (typeof onceThrottleOrFunction === 'function' && onceThrottleOrFunction.apply(this, arguments))
+        (typeof onceThrottleOrFunction === 'function' && (onceThrottleOrFunction as Function).apply(this, arguments))
       ) {
         console.profile(prefix);
         meta.profileLastRan = now;
@@ -52,11 +46,17 @@ function handleDescriptor(target, key, descriptor, [prefix = null, onceThrottleO
   }
 }
 
-export default function profile(...args) {
+function profile(...args) {
   return decorate(handleDescriptor, args);
 }
 
 // Only Chrome, Firefox, and Edge support profile.
 // Exposing properties for testing.
-profile.__enabled = !!console.profile;
-profile.__warned = false;
+
+namespace profile {
+  export var __enabled = !!console.profile;
+  export var __warned = false;
+}
+
+export { profile };
+export default profile;
