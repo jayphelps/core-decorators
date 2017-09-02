@@ -581,3 +581,4 @@ When using multiple decorators on a class, method, or property the order of the 
 @autobind
 class Foo extends Component {}
 ```
+<a href="https://app.codesponsor.io/link/zs7vWiDv2F99bX6Ay7PJa5WE/jayphelps/core-decorators" rel="nofollow"><img src="https://app.codesponsor.io/embed/zs7vWiDv2F99bX6Ay7PJa5WE/jayphelps/core-decorators.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
