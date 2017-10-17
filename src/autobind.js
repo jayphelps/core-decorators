@@ -104,7 +104,7 @@ function handle(args) {
 export default function autobind(...args) {
   if (args.length === 0) {
     return function () {
-      return handle(arguments);
+      return handle(args);
     };
   } else {
     return handle(args);
