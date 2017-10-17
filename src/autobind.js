@@ -103,8 +103,8 @@ function handle(args) {
 
 export default function autobind(...args) {
   if (args.length === 0) {
-    return function () {
-      return handle(args);
+    return function (...argsClass) {
+      return handle(argsClass);
     };
   } else {
     return handle(args);
