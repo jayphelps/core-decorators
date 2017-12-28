@@ -1,5 +1,4 @@
 # core-decorators.js [![Build Status](https://travis-ci.org/jayphelps/core-decorators.js.svg?branch=master)](https://travis-ci.org/jayphelps/core-decorators.js)
-<a href="https://app.codesponsor.io/link/zs7vWiDv2F99bX6Ay7PJa5WE/jayphelps/core-decorators" rel="nofollow"><img src="https://app.codesponsor.io/embed/zs7vWiDv2F99bX6Ay7PJa5WE/jayphelps/core-decorators.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
 
 Library of [JavaScript stage-0 decorators](https://github.com/wycats/javascript-decorators) (aka ES2016/ES7 decorators [but that's not accurate](https://medium.com/@jayphelps/please-stop-referring-to-proposed-javascript-features-as-es7-cad29f9dcc4b)) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more. Popular with React/Angular, but is framework agnostic. Similar to [Annotations in Java](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html) but unlike Java annotations, decorators are functions which are applied at runtime.
 
