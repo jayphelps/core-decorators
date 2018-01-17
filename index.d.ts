@@ -17,18 +17,41 @@ export interface DeprecateOption {
 }
 
 /**
- * Forces invocations of this function to always have this refer to the class instance,
- * even if the function is passed around or would otherwise lose its this context. e.g. var fn = context.method;
- */
-export const autobind: Function;
-/**
  * Marks a property or method as not being writable.
  */
 export const readonly: PropertyOrMethodDecorator;
 /**
- * Checks that the marked method indeed overrides a function with the same signature somewhere on the prototype chain.
+ * Marks a property or method as not being writable.
  */
-export const override: MethodDecorator;
+export const nonconfigurable: PropertyOrMethodDecorator;
+/**
+ * Immediately applies the provided function and arguments to the method, allowing you to wrap methods with arbitrary helpers like those provided by lodash.
+ * The first argument is the function to apply, all further arguments will be passed to that decorating function.
+ */
+export function decorate(func: Function, ...args: any[]): MethodDecorator;
+/**
+ * Marks a property or method as not being writable.
+ */
+export const extendDescriptor: PropertyOrMethodDecorator;
+
+
+/**
+ * Marks a property or method as not being enumerable.
+ */
+export const nonenumerable: PropertyOrMethodDecorator;
+/**
+ * Prevents a property initializer from running until the decorated property is actually looked up.
+ * Useful to prevent excess allocations that might otherwise not be used, but be careful not to over-optimize things.
+ */
+export const lazyInitialize: PropertyDecorator;
+
+
+
+/**
+ * Forces invocations of this function to always have this refer to the class instance,
+ * even if the function is passed around or would otherwise lose its this context. e.g. var fn = context.method;
+ */
+export const autobind: Function;
 /**
  * Calls console.warn() with a deprecation message. Provide a custom message to override the default one. You can also provide an options hash with a url, for further reading.
  */
@@ -42,28 +65,23 @@ export const deprecated: Deprecate;
  */
 export const suppressWarnings: MethodDecorator;
 /**
- * Marks a property or method as not being enumerable.
+ * Marks a property or method as being enumerable.
  */
-export const nonenumerable: PropertyOrMethodDecorator;
+export const enumerable: MethodDecorator;
 /**
- * Marks a property or method as not being writable.
+ * Checks that the marked method indeed overrides a function with the same signature somewhere on the prototype chain.
  */
-export const nonconfigurable: PropertyOrMethodDecorator;
-/**
- * Initial implementation included, likely slow. WIP.
- */
-export const memoize: MethodDecorator;
-/**
- * Immediately applies the provided function and arguments to the method, allowing you to wrap methods with arbitrary helpers like those provided by lodash.
- * The first argument is the function to apply, all further arguments will be passed to that decorating function.
- */
-export function decorate(func: Function, ...args: any[]): MethodDecorator;
-/**
- * Prevents a property initializer from running until the decorated property is actually looked up.
- * Useful to prevent excess allocations that might otherwise not be used, but be careful not to over-optimize things.
- */
-export const lazyInitialize: PropertyDecorator;
+export const override: MethodDecorator;
 /**
  * Uses console.time and console.timeEnd to provide function timings with a unique label whose default prefix is ClassName.method. Supply a first argument to override the prefix:
  */
 export function time(label: string, console?: Console): MethodDecorator;
+/**
+ * Checks that the marked method indeed overrides a function with the same signature somewhere on the prototype chain.
+ */
+export const profile: MethodDecorator;
+
+/**
+ * Initial implementation included, likely slow. WIP.
+ */
+export const memoize: MethodDecorator;
