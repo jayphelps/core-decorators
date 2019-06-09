@@ -1,7 +1,10 @@
-import lazyInitialize from '../lazy-initialize';
+const { getOwnPropertyDescriptor, getOwnPropertyNames, getOwnPropertySymbols } = Object;
 
-const { defineProperty, getOwnPropertyDescriptor,
-        getOwnPropertyNames, getOwnPropertySymbols } = Object;
+const DEFAULT_DESCRIPTOR = {
+  writable: true,
+  enumerable: true,
+  configurable: true
+};
 
 export function isDescriptor(desc) {
   if (!desc || !desc.hasOwnProperty) {
@@ -19,46 +22,48 @@ export function isDescriptor(desc) {
   return false;
 }
 
+/** Check if decorator call is a factory */
+export const isDecoratorFactory = (arg) => (arg.length !== 3) || (typeof arg[0] !== 'object') || ((typeof arg[1] !== 'string') && (typeof arg[1] !== 'symbol'));
+
 export function decorate(handleDescriptor, entryArgs) {
-  if (isDescriptor(entryArgs[entryArgs.length - 1])) {
-    return handleDescriptor(...entryArgs, []);
-  } else {
+  function handle (handleDescriptor, target, key, descriptor, params = []) {
+    // Attempt to get new descriptor information from provided handleDescriptor callback
+    const provided_desc = handleDescriptor(target, key, (isDescriptor(descriptor) ? descriptor : DEFAULT_DESCRIPTOR), params);
+    descriptor = isDescriptor(provided_desc) ? provided_desc : DEFAULT_DESCRIPTOR;
+
+    // Compensate for the following typescript issues/differences: (as of typescript v3.5.1)
+    //  - For non-method Class properties, some descriptor properties (like enumerable) are overwritten at instance creation
+    //  - Also, setting initial writable = false prevents constructor and ESnext class fields from assigning initial value.
+    if (!(target.hasOwnProperty(key))) {
+      // Copy provided descriptor
+      let final_descriptor = Object.assign({}, descriptor);
+      // Compensate for typescript compiler read only issue
+      delete descriptor['writable'];
+
+      // Setup initial descriptor
+      descriptor = {
+        get: function () {
+          return undefined;
+        },
+        set: function (val) {
+          // Set final property
+          Object.defineProperty(this, key, {value: val, ...final_descriptor})
+        },
+        ...descriptor
+      };
+    }
+
+    return descriptor;
+  }
+
+  // Wrap if factory
+  if (isDecoratorFactory(entryArgs)) {
     return function () {
-      return handleDescriptor(...Array.prototype.slice.call(arguments), entryArgs);
-    };
+      return handle(handleDescriptor, ...Array.prototype.slice.call(arguments), entryArgs);
+    }
+  } else {
+    return handle(handleDescriptor, ...entryArgs, []);
   }
-}
-
-class Meta {
-  @lazyInitialize
-  debounceTimeoutIds = {};
-
-  @lazyInitialize
-  throttleTimeoutIds = {};
-
-  @lazyInitialize
-  throttlePreviousTimestamps = {};
-
-  @lazyInitialize
-  throttleTrailingArgs = null;
-
-  @lazyInitialize
-  profileLastRan = null;
-}
-
-const META_KEY = (typeof Symbol === 'function')
-  ? Symbol('__core_decorators__')
-  : '__core_decorators__';
-
-export function metaFor(obj) {
-  if (obj.hasOwnProperty(META_KEY) === false) {
-    defineProperty(obj, META_KEY, {
-      // Defaults: NOT enumerable, configurable, or writable
-      value: new Meta()
-    });
-  }
-
-  return obj[META_KEY];
 }
 
 export const getOwnKeys = getOwnPropertySymbols

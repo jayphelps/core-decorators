@@ -15,13 +15,17 @@ npm install core-decorators --save
 
 This can be consumed by any transpiler that supports stage-0 of the decorators spec, like [babel.js](https://babeljs.io/) version 5. *Babel 6 [does not yet support decorators natively](https://phabricator.babeljs.io/T2645), but you can include [babel-plugin-transform-decorators-legacy](https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy) or use the [`applyDecorators()` helper](#applydecorators-helper).*
 
-core-decorators does not officially support TypeScript. There are known incompatibilities with the way it transpiles the output. PRs certainly welcome to fix that!
-
 ##### Bower/globals
 
 A globals version is available [here in the artifact repo](https://github.com/jayphelps/core-decorators-artifacts), or via `$ bower install core-decorators`. It defines a global variable `CoreDecorators`, which can then be used as you might expect: `@CoreDecorators.autobind()`, etc.
 
 I *highly* recommend against using that globals build as it's quite strange you're using decorators (a proposed future feature of JavaScript) while not using ES2015 modules, a spec ratified feature used by nearly every modern framework. Also--[bower is on its deathbed](https://github.com/bower/bower/pull/1748) and IMO for very good reasons.
+
+### TypeScript Support
+
+Full TypeScript support has been added. Although there are differences in the way compilers like Babel and TypeScript compile output, this library has been updated to work _almost_ uniformly across both (see caveat in [@lazyInitialize](#lazyinitalize)). It should be noted, though, that because of the experimental nature of the features we are working with, compiler functionality may change in future versions.
+
+Everything seems to work as of TypeScript 3.5.1 & ts-node 8.2.0. If you are concerned, try cloning the repo and running tests with your desired compiler version.
 
 ## Need lodash utilities as decorators?
 
@@ -357,7 +361,7 @@ count === 1;
 // true
 ```
 
-### @lazyInitialize
+### @lazyInitialize 
 
 Prevents a property initializer from running until the decorated property is actually looked up. Useful to prevent excess allocations that might otherwise not be used, but be careful not to over-optimize things.
 
@@ -384,6 +388,28 @@ editor.hugeBuffer;
 // already initialized and equals our buffer, so
 // createHugeBuffer() is not called again
 ```
+
+#### TypeScript Caveat
+Babel's compiler supports 'initalizer' in property descriptor, which allows for the above syntax to work. If using TypeScript / non-babel compiler, you can accomplish the same by passing an initializer function to the decorator as a parameter.
+
+The first argument is the function, all further arguments will be passed to that initializer function.
+
+```typescript
+import { lazyInitialize } from 'core-decorators';
+
+const createHugeBuffer = () => new Array(1000000);
+
+const addNumbers = (...numbers) => numbers.reduce((p,c)=>p+c);
+
+class Editor {
+    @lazyInitialize(createHugeBuffer)
+    hugeBuffer:ArrayBuffer;
+    
+    @lazyInitialize(addNumbers,2,5,8) // = 15
+    myCount:number;
+}
+```
+
 
 ### @mixin (alias: @mixins) :no_entry_sign: DEPRECATED
 

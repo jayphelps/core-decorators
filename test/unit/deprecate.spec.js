@@ -1,5 +1,5 @@
-import sinon from 'sinon';
-import deprecate from '../../lib/deprecate';
+import * as sinon from 'sinon';
+import { deprecate } from '../..';
 import * as utils from '../../lib/private/utils';
 
 class Foo {

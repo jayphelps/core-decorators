@@ -1,4 +1,4 @@
-import mixin from '../../lib/mixin';
+import { mixin } from '../..';
 
 const BarMixin = {
   stuff1: 'stuff1',
@@ -48,7 +48,9 @@ describe('@mixin', function () {
   it('correctly adds a single mixin\'s descriptors', function () {
     const foo = new (applyMixins(BarMixin));
 
+    // @ts-ignore
     foo.stuff1.should.equal('stuff1');
+    // @ts-ignore
     foo.getStuff2().should.equal('stuff2');
     foo.getStuff3().should.equal('stuff3');
     foo.getStuff4().should.equal('stuff4');
@@ -57,10 +59,13 @@ describe('@mixin', function () {
   it('correctly adds multiple mixins descriptors', function () {
     const foo = new (applyMixins(BarMixin, OverrideMixin));
 
+    // @ts-ignore
     foo.stuff1.should.equal('stuff1');
+    // @ts-ignore
     foo.getStuff2().should.equal('stuff2');
     foo.getStuff3().should.equal('stuff3');
     foo.getStuff4().should.equal('stuff4');
+    // @ts-ignore
     foo.stuff5.should.equal('stuff5');
   });
 

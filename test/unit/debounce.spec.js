@@ -1,5 +1,11 @@
 import { useFakeTimers } from 'sinon';
-import debounce from '../../lib/debounce';
+import { debounce } from '../..';
+
+import * as chai from 'chai';
+const sinonChai = require('sinon-chai');
+
+chai.should();
+chai.use(sinonChai);
 
 class Editor {
   counter = 0;

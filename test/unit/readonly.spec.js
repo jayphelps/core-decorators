@@ -1,4 +1,4 @@
-import readonly from '../../lib/readonly';
+import { readonly } from '../..';
 
 describe('@readonly', function () {
   class Foo {
@@ -18,6 +18,7 @@ describe('@readonly', function () {
     const foo = new Foo();
 
     (function () {
+      // @ts-ignore
       foo.first = 'I will error';
     }).should.throw('Cannot assign to read only property \'first\' of object \'#<Foo>\'');
     

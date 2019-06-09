@@ -1,4 +1,5 @@
-import { decorate, metaFor, warn, bind } from './private/utils';
+import { decorate, warn, bind } from './private/utils';
+import {metaFor} from "./private/meta";
 
 const oc = console;
 

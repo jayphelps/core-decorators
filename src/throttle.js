@@ -1,4 +1,5 @@
-import { decorate, metaFor, internalDeprecation } from './private/utils';
+import { decorate, internalDeprecation } from './private/utils';
+import {metaFor} from "./private/meta";
 
 const DEFAULT_TIMEOUT = 300;
 

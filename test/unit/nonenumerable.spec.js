@@ -1,4 +1,4 @@
-import nonenumerable from '../../lib/nonenumerable';
+import { nonenumerable } from '../..';
 
 describe('@nonenumerable', function () {
   class Foo {

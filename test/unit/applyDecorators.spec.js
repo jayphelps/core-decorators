@@ -1,7 +1,4 @@
-import applyDecorators from '../../lib/applyDecorators';
-import autobind from '../../lib/autobind';
-import readonly from '../../lib/readonly';
-import enumerable from '../../lib/enumerable';
+import { applyDecorators, autobind, readonly, enumerable } from '../..';
 
 describe('applyDecorators() helper', function () {
   class Foo {
@@ -27,6 +24,7 @@ describe('applyDecorators() helper', function () {
     foo.second().should.equal(foo);
 
     (function () {
+      // @ts-ignore
       foo.second = 'I will error';
     }).should.throw('Cannot assign to read only property \'second\' of object \'#<Foo>\'');
 

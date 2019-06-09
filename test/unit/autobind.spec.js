@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import autobind from '../../lib/autobind';
+import { autobind } from '../..';
 
 const root = (typeof window !== 'undefined') ? window : global;
 
@@ -10,7 +10,7 @@ describe('@autobind', function () {
   let barCount;
 
   beforeEach(function () {
-    Foo = class Foo {
+    class CFoo {
       @autobind
       getFoo() {
         return this;
@@ -25,10 +25,11 @@ describe('@autobind', function () {
         return this;
       }
     }
+    Foo = CFoo;
 
     barCount = 0;
 
-    Bar = class Bar extends Foo {
+    class CBar extends Foo {
       @autobind()
       getFoo() {
         const foo = super.getFoo();
@@ -49,13 +50,15 @@ describe('@autobind', function () {
         return this;
       }
     }
+    Bar = CBar;
 
-    Car = class Car extends Foo {
+    class CCar extends Foo {
       @autobind()
       getCarFromFoo() {
         return super.onlyOnFoo();
       }
     }
+    Car = CCar
   });
 
   afterEach(function () {
@@ -151,7 +154,9 @@ describe('@autobind', function () {
   });
 
   it('throws when it needs WeakMap but it is not available', function () {
+    // @ts-ignore
     const WeakMap = root.WeakMap;
+    // @ts-ignore
     delete root.WeakMap;
 
     const bar = new Bar();
@@ -163,6 +168,7 @@ describe('@autobind', function () {
 
     barCount.should.equal(0);
 
+    // @ts-ignore
     root.WeakMap = WeakMap;
   });
 
@@ -202,6 +208,7 @@ describe('@autobind', function () {
 
     @autobind
     class Car extends Vehicle {
+      name;
       constructor() {
         super();
         this.name = 'amazing';
@@ -248,6 +255,7 @@ describe('@autobind', function () {
   it('correctly binds with multiple class prototype levels', function () {
     @autobind
     class A {
+      test;
       method() {
         return this.test || 'WRONG ONE';
       }
