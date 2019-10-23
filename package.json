@@ -70,7 +70,7 @@
     "glob": "^7.1.1",
     "global-wrap": "^2.0.0",
     "interop-require": "1.0.0",
-    "lodash": "4.17.5",
+    "lodash": "4.17.15",
     "mocha": "^3.2.0",
     "rimraf": "^2.6.1",
     "sinon": "2.1.0",
