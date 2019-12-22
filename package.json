@@ -1,6 +1,6 @@
 {
   "name": "core-decorators",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "description": "Library of JavaScript stage-0 decorators (aka ES2016/ES7 decorators but that's not accurate!) inspired by languages that come with built-ins like @​override, @​deprecate, @​autobind, @​mixin and more! Works great with React/Angular/more!",
   "main": "lib/core-decorators.js",
   "module": "es/core-decorators.js",
@@ -21,7 +21,9 @@
     "prebuild-tsc": "rimraf built",
     "build-tsc": "tsc --outDir lib",
     "clean": "rimraf lib es built",
-    "test": "mocha --compilers js:babel-core/register --require babel-polyfill \"test/**/*.spec.js\""
+    "test:babel": "cross-env TEST_MODE=babel mocha --require babel-core/register --require babel-polyfill \"test/**/*.spec.js\"",
+    "test:ts": "cross-env TEST_MODE=typescript mocha --require ts-node/register \"test/**/*.spec.js\"",
+    "test": "npm run test:babel && npm run test:ts"
   },
   "repository": {
     "type": "git",
@@ -55,6 +57,7 @@
     "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.41",
     "@types/node": "^6.0.73",
+    "@types/sinon": "^7.0.12",
     "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
@@ -66,15 +69,16 @@
     "babel-preset-es2015": "^6.24.0",
     "camelcase": "^4.1.0",
     "chai": "^3.5.0",
-    "cross-env": "^5.0.0",
+    "cross-env": "^5.2.0",
     "glob": "^7.1.1",
     "global-wrap": "^2.0.0",
     "interop-require": "1.0.0",
-    "lodash": "4.17.5",
-    "mocha": "^3.2.0",
+    "lodash": "^4.17.11",
+    "mocha": "^6.1.4",
     "rimraf": "^2.6.1",
-    "sinon": "2.1.0",
-    "sinon-chai": "^2.9.0",
-    "typescript": "^2.3.3"
+    "sinon": "7.3.2",
+    "sinon-chai": "^3.3.0",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.5.1"
   }
 }

@@ -1,6 +1,6 @@
 import { spy, useFakeTimers } from 'sinon';
-import applyDecorators from '../../lib/applyDecorators';
-import profile, { defaultConsole } from '../../lib/profile';
+import { applyDecorators, profile } from '../..';
+import { defaultConsole } from '../../lib/profile';
 
 const CONSOLE_PROFILE = defaultConsole.profile;
 const CONSOLE_PROFILEEND = defaultConsole.profileEnd;
@@ -196,6 +196,7 @@ describe('@profile', function() {
       profileSpy.calledOnce.should.equal(false);
       cbSpy.calledOnce.should.equal(true);
 
+      // @ts-ignore
       foo.isAwesome = true;
 
       foo.profileFunctioned(cbSpy);

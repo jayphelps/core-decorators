@@ -1,4 +1,4 @@
-import decorate from '../../lib/decorate';
+import { decorate } from '../..';
 import { memoize } from 'lodash';
 
 describe('@decorate', function () {
@@ -14,7 +14,7 @@ describe('@decorate', function () {
 
     callCount = 0;
 
-    Foo = class Foo {
+    class CFoo {
       @decorate(append, '!')
       suchWow(something) {
         return something + 'bro';
@@ -39,6 +39,7 @@ describe('@decorate', function () {
         return this;
       }
     }
+    Foo = CFoo;
   });
 
   it('correctly applies user provided function to method', function () {

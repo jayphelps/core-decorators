@@ -1,4 +1,4 @@
-import enumerable from '../../lib/enumerable';
+import { enumerable } from '../..'
 
 describe('@enumerable', function () {
   class Foo {

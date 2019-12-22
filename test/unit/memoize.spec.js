@@ -1,17 +1,18 @@
 import { stub } from 'sinon';
-import memoize from '../../lib/memoize';
+import { memoize } from '../..';
 
 describe('@memoize', function () {
   var Foo, work, run;
 
   beforeEach(function () {
     work = null;
-    Foo = class Foo {
+    class CFoo {
       @memoize
       bar(...args){
         return work(...args);
       }
     };
+    Foo = CFoo;
 
     run = function (id, shouldCall, shouldReturn, args) {
       var inst = new Foo();

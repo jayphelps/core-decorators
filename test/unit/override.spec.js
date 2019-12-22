@@ -1,4 +1,4 @@
-import override from '../../lib/override';
+import { override } from '../..';
 
 class Parent {
   speak(first, second) {}
@@ -11,7 +11,7 @@ describe('@override', function () {
         @override
         speak() {}
       }
-    }).should.throw('Child#speak() does not properly override Parent#speak(first, second)');
+    }).should.throw(/Child#speak\(\)( { })? does not properly override Parent#speak\(first, second\)/);
   });
 
   it('throws error when no is matching name is found', function () {
@@ -20,7 +20,7 @@ describe('@override', function () {
         @override
         wow() {}
       }
-    }).should.throw('No descriptor matching Child#wow() was found on the prototype chain.');
+    }).should.throw(/No descriptor matching Child#wow\(\)( { })? was found on the prototype chain./);
   });
 
   it('throws error when no is matching name is found but suggests a closely named method if exists', function () {
@@ -29,7 +29,7 @@ describe('@override', function () {
         @override
         speaks() {}
       }
-    }).should.throw('No descriptor matching Child#speaks() was found on the prototype chain.\n\n  Did you mean "speak"?');
+    }).should.throw(/No descriptor matching Child#speaks()\(\)( { })? was found on the prototype chain\.\n\n {2}Did you mean "speak"\?/);
   });
 
   it('does not throw an error when signatures match', function () {

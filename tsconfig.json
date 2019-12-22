@@ -1,11 +1,11 @@
 {
   "include": ["src"],
-  "exclude": ["scripts", "lib/**", "es", "node_modules", "built" ],
+  "exclude": ["scripts", "lib/**", "es", "node_modules", "built", "test" ],
   "compilerOptions": {
     "outDir": "built",
-    "target": "es5",
+    "target": "es2015",
     "module":"commonjs",
-    "sourceMap": true,
+    "inlineSourceMap": true,
     "allowJs": true,
     "checkJs": false,
     "allowUnreachableCode": true,

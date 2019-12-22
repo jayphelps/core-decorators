@@ -1,5 +1,5 @@
 import { spy } from 'sinon';
-import suppressWarnings from '../../lib/suppress-warnings';
+import { suppressWarnings } from '../..';
 
 const CONSOLE_WARN = console.warn;
 

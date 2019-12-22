@@ -1,5 +1,4 @@
-import nonconfigurable from '../../lib/nonconfigurable';
-import readonly from '../../lib/readonly';
+import { readonly, nonconfigurable } from '../..';
 
 describe('@nonconfigurable', function () {
   class Foo {
